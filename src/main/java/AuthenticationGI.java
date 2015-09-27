@@ -192,10 +192,11 @@ public class AuthenticationGI extends JFrame {
                 }
                 if (userSet.add(new User(nameField.getText(),
                                         surnameField.getText(),
-                        usernameField.getText(),
-                        firstPasswordField.getPassword(),
+                                        usernameField.getText(),
+                                        firstPasswordField.getPassword(),
                                         UsersRights.SIMPLE_USER))){
                     messageLabel.setText(ADD_USER);
+                    IOFileHandling.saveUsersSet(userSet);
                 } else {
                     messageLabel.setText(EXIST_USER);
                 }

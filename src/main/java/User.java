@@ -8,6 +8,8 @@ public class User implements Serializable {
     private String userName;
     private char[] password;
     private int rights;
+    private String telephoneNum;
+    private String mailAddress;
 
     public User(String name, String surname, String userName, String password, int rights) {
         this.name = name;
@@ -63,6 +65,22 @@ public class User implements Serializable {
 
     public void setRights(int rights) {
         this.rights = rights;
+    }
+
+    public String getTelephoneNum() {
+        return telephoneNum;
+    }
+
+    public void setTelephoneNum(String telephoneNum) {
+        this.telephoneNum = telephoneNum;
+    }
+
+    public String getMailAddress() {
+        return mailAddress;
+    }
+
+    public void setMailAddress(String mailAddress) {
+        this.mailAddress = mailAddress;
     }
 
     public boolean isMatches(String login, char[] password) {
