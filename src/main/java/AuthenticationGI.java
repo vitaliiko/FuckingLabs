@@ -1,4 +1,6 @@
 import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -9,7 +11,7 @@ import java.util.Set;
 
 public class AuthenticationGI extends JFrame {
 
-    private static final int COLUMNS_COUNT = 15;
+    private static final int COLUMNS_COUNT = 25;
     private static final String WRONG_USER = "Wrong login or password";
     private static final String EXIST_USER = "A user with that login or name already exists";
     private static final String ADD_USER = "Your account created successfully!";
@@ -44,7 +46,7 @@ public class AuthenticationGI extends JFrame {
         getContentPane().add(centerPanel, BorderLayout.CENTER);
 
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        setSize(new Dimension(400, 200));
+        setSize(new Dimension(400, 220));
         setResizable(false);
         setLocationRelativeTo(null);
         setVisible(true);
@@ -68,25 +70,34 @@ public class AuthenticationGI extends JFrame {
         prepareSighUpPanel();
         centerPanel.add(signUpPanel);
         prepareMessageLabel();
-        centerPanel.add(messageLabel);
+        JPanel messagePanel = new JPanel();
+        messagePanel.add(new JSeparator());
+        messagePanel.add(messageLabel);
+        centerPanel.add(messagePanel);
     }
 
     public void prepareLoginPanel() {
         loginPanel = new JPanel();
-        loginPanel.setLayout(new BoxLayout(loginPanel, BoxLayout.Y_AXIS));
+        loginPanel.setLayout(new BorderLayout());
+        JPanel fieldsPanel = new JPanel();
+        fieldsPanel.setLayout(new BoxLayout(fieldsPanel, BoxLayout.Y_AXIS));
 
         loginBox = new JComboBox<>(userNameList.toArray());
         loginBox.setSelectedIndex(-1);
         loginBox.setEditable(true);
-        loginPanel.add(new LabelComponentPanel(loginBox));
+        fieldsPanel.add(new LabelComponentPanel("Username: ", loginBox), BorderLayout.EAST);
 
         passwordField = new JPasswordField(COLUMNS_COUNT);
-        loginPanel.add(new LabelComponentPanel(passwordField));
+        fieldsPanel.add(new LabelComponentPanel("Password: ", passwordField));
 
+        loginPanel.add(fieldsPanel, BorderLayout.EAST);
+
+        JPanel buttonsPanel = new JPanel();
         prepareLoginButton();
-        loginPanel.add(loginButton);
+        buttonsPanel.add(loginButton);
         prepareCreateNewButton();
-        loginPanel.add(createNewButton);
+        buttonsPanel.add(createNewButton);
+        loginPanel.add(buttonsPanel, BorderLayout.SOUTH);
     }
 
     public void prepareMessageLabel() {
@@ -136,9 +147,9 @@ public class AuthenticationGI extends JFrame {
         signUpPanel.setVisible(false);
 
         prepareFieldsPanel();
-        signUpPanel.add(fieldsPanel, BorderLayout.CENTER);
-        //prepareLabelsPanel();
-        //signUpPanel.add(labelsPanel, BorderLayout.WEST);
+        signUpPanel.add(fieldsPanel, BorderLayout.EAST);
+//        prepareLabelsPanel();
+//        signUpPanel.add(labelsPanel, BorderLayout.WEST);
 
         JPanel buttonsPanel = new JPanel();
         prepareSignUpButton();
@@ -153,19 +164,19 @@ public class AuthenticationGI extends JFrame {
         fieldsPanel.setLayout(new BoxLayout(fieldsPanel, BoxLayout.Y_AXIS));
 
         nameField = new JTextField(COLUMNS_COUNT);
-        fieldsPanel.add(new LabelComponentPanel("Your name:", nameField));
+        fieldsPanel.add(new LabelComponentPanel("Your name: ", nameField));
 
         surnameField = new JTextField(COLUMNS_COUNT);
-        fieldsPanel.add(new LabelComponentPanel("Your surname:", surnameField));
+        fieldsPanel.add(new LabelComponentPanel("Your surname: ", surnameField));
 
         usernameField = new JTextField(COLUMNS_COUNT);
-        fieldsPanel.add(new LabelComponentPanel("Username:", usernameField));
+        fieldsPanel.add(new LabelComponentPanel("Username: ", usernameField));
 
         firstPasswordField = new JPasswordField(COLUMNS_COUNT);
-        fieldsPanel.add(new LabelComponentPanel("Password:", firstPasswordField));
+        fieldsPanel.add(new LabelComponentPanel("Password: ", firstPasswordField));
 
         secondPasswordField = new JPasswordField(COLUMNS_COUNT);
-        fieldsPanel.add(new LabelComponentPanel("Repeat password:", secondPasswordField));
+        fieldsPanel.add(new LabelComponentPanel("Repeat password: ", secondPasswordField));
     }
 
     public void prepareLabelsPanel() {
@@ -173,8 +184,8 @@ public class AuthenticationGI extends JFrame {
         labelsPanel.setLayout(new BoxLayout(labelsPanel, BoxLayout.Y_AXIS));
 
         ArrayList<JLabel> labelsList = new ArrayList<>();
-        labelsList.add(new JLabel());
-        labelsList.add(new JLabel());
+        labelsList.add(new JLabel("Your name:"));
+        labelsList.add(new JLabel("Your surname:"));
         labelsList.add(new JLabel("Username:"));
         labelsList.add(new JLabel("Password:"));
         labelsList.add(new JLabel("Repeat password:"));
@@ -186,7 +197,7 @@ public class AuthenticationGI extends JFrame {
 
     public void prepareSignUpButton() {
         signUpButton = new JButton("Sign Up");
-        signUpButton.setEnabled(false);
+//        signUpButton.setEnabled(false);
         signUpButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -225,13 +236,14 @@ public class AuthenticationGI extends JFrame {
 
     public class LabelComponentPanel extends JPanel {
 
-        public LabelComponentPanel(String labelText, JComponent component) {
-            add(new JLabel(labelText));
-            add(component);
-            this.setAlignmentX(RIGHT_ALIGNMENT);
-        }
+        JLabel label;
 
-        public LabelComponentPanel(JComponent component) {
+        public LabelComponentPanel(String labelText, JComponent component) {
+            this.setLayout(new GridLayout(1, 2));
+            this.setBorder(new EmptyBorder(8, 1, 1, 8));
+            label = new JLabel(labelText);
+            label.setHorizontalAlignment(JLabel.RIGHT);
+            add(label);
             add(component);
         }
     }
