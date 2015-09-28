@@ -78,10 +78,10 @@ public class AuthenticationGI extends JFrame {
         loginBox = new JComboBox<>(userNameList.toArray());
         loginBox.setSelectedIndex(-1);
         loginBox.setEditable(true);
-        loginPanel.add(loginBox);
+        loginPanel.add(new LabelComponentPanel(loginBox));
 
         passwordField = new JPasswordField(COLUMNS_COUNT);
-        loginPanel.add(passwordField);
+        loginPanel.add(new LabelComponentPanel(passwordField));
 
         prepareLoginButton();
         loginPanel.add(loginButton);
@@ -137,8 +137,8 @@ public class AuthenticationGI extends JFrame {
 
         prepareFieldsPanel();
         signUpPanel.add(fieldsPanel, BorderLayout.CENTER);
-        prepareLabelsPanel();
-        signUpPanel.add(labelsPanel, BorderLayout.WEST);
+        //prepareLabelsPanel();
+        //signUpPanel.add(labelsPanel, BorderLayout.WEST);
 
         JPanel buttonsPanel = new JPanel();
         prepareSignUpButton();
@@ -153,15 +153,19 @@ public class AuthenticationGI extends JFrame {
         fieldsPanel.setLayout(new BoxLayout(fieldsPanel, BoxLayout.Y_AXIS));
 
         nameField = new JTextField(COLUMNS_COUNT);
-        fieldsPanel.add(nameField);
+        fieldsPanel.add(new LabelComponentPanel("Your name:", nameField));
+
         surnameField = new JTextField(COLUMNS_COUNT);
-        fieldsPanel.add(surnameField);
+        fieldsPanel.add(new LabelComponentPanel("Your surname:", surnameField));
+
         usernameField = new JTextField(COLUMNS_COUNT);
-        fieldsPanel.add(usernameField);
+        fieldsPanel.add(new LabelComponentPanel("Username:", usernameField));
+
         firstPasswordField = new JPasswordField(COLUMNS_COUNT);
-        fieldsPanel.add(firstPasswordField);
+        fieldsPanel.add(new LabelComponentPanel("Password:", firstPasswordField));
+
         secondPasswordField = new JPasswordField(COLUMNS_COUNT);
-        fieldsPanel.add(secondPasswordField);
+        fieldsPanel.add(new LabelComponentPanel("Repeat password:", secondPasswordField));
     }
 
     public void prepareLabelsPanel() {
@@ -169,8 +173,8 @@ public class AuthenticationGI extends JFrame {
         labelsPanel.setLayout(new BoxLayout(labelsPanel, BoxLayout.Y_AXIS));
 
         ArrayList<JLabel> labelsList = new ArrayList<>();
-        labelsList.add(new JLabel("Your name:"));
-        labelsList.add(new JLabel("Your surname:"));
+        labelsList.add(new JLabel());
+        labelsList.add(new JLabel());
         labelsList.add(new JLabel("Username:"));
         labelsList.add(new JLabel("Password:"));
         labelsList.add(new JLabel("Repeat password:"));
@@ -223,6 +227,11 @@ public class AuthenticationGI extends JFrame {
 
         public LabelComponentPanel(String labelText, JComponent component) {
             add(new JLabel(labelText));
+            add(component);
+            this.setAlignmentX(RIGHT_ALIGNMENT);
+        }
+
+        public LabelComponentPanel(JComponent component) {
             add(component);
         }
     }
