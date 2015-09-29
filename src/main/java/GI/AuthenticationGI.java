@@ -13,10 +13,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Locale;
 
 public class AuthenticationGI extends JFrame {
 
-    private static final int COLUMNS_COUNT = 25;
+    private static final int COLUMNS_COUNT = 35;
 
     private JPanel loginPanel;
     private JPanel signUpPanel;
@@ -40,8 +41,10 @@ public class AuthenticationGI extends JFrame {
     private ImageIcon warningImage = new ImageIcon("resources/warning.png");
     private Controller controller;
 
-    public AuthenticationGI() throws HeadlessException {
+    public AuthenticationGI() throws Exception {
         super("Log in");
+
+        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 
         controller = new Controller();
         prepareCenterPanel();
