@@ -1,19 +1,17 @@
 package GI;
 
-import GI.WorkspaceGI;
-import support.IOFileHandling;
+import support.Controller;
 import support.User;
 import support.UsersRights;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
 
 public class AuthenticationGI extends JFrame {
 
@@ -25,6 +23,7 @@ public class AuthenticationGI extends JFrame {
     private static final String FORBIDDEN_CHAR = "Password contains forbidden characters";
     private static final String LOGIN = "Log in your account";
     private static final String CREATE = "Creating new account";
+
 
     private JPanel loginPanel;
     private JPanel signUpPanel;
@@ -43,15 +42,15 @@ public class AuthenticationGI extends JFrame {
     private JButton createNewButton;
     private JLabel messageLabel;
 
-    private Set<User> userSet = new HashSet<>();
-    private ArrayList<String> userNameList = new ArrayList<>();
     private Dimension loginDimension = new Dimension(400, 170);
-    private Dimension signUpDimension = new Dimension(400, 250);
+    private Dimension signUpDimension = new Dimension(400, 270);
+    private ImageIcon warningImage = new ImageIcon("resources/warning.png");
+    private Controller controller;
 
     public AuthenticationGI() throws HeadlessException {
-        super("Login in");
+        super("Log in");
 
-        initUsersSet();
+        controller = new Controller();
         prepareCenterPanel();
         getContentPane().add(centerPanel, BorderLayout.CENTER);
         prepareMessageLabel();
@@ -59,19 +58,10 @@ public class AuthenticationGI extends JFrame {
 
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setSize(loginDimension);
+        setIconImage(new ImageIcon("resources/icon.png").getImage());
         setResizable(false);
         setLocationRelativeTo(null);
         setVisible(true);
-    }
-
-    private void initUsersSet() {
-        userSet.add(new User("Vova", "Ivanov", "vovan", "qwerty", UsersRights.SIMPLE_USER));
-        userSet.add(new User("Vitaliy", "Kobrin", "vetal", "CthdktnL;fdf", UsersRights.ADMIN));
-        userSet.add(new User("Mihail", "Kuznetsov", "mishania", "CjltydbRjv", UsersRights.SIMPLE_USER));
-        userSet.add(new User("Maksim", "Davidenko", "makson3/4", "SPS-1466", UsersRights.SIMPLE_USER));
-        for (User user : userSet) {
-            userNameList.add(user.getUserName());
-        }
     }
 
     public void prepareCenterPanel() {
@@ -89,7 +79,7 @@ public class AuthenticationGI extends JFrame {
         JPanel fieldsPanel = new JPanel();
         fieldsPanel.setLayout(new BoxLayout(fieldsPanel, BoxLayout.Y_AXIS));
 
-        loginBox = new JComboBox<>(userNameList.toArray());
+        loginBox = new JComboBox<>(controller.getUserNameList().toArray());
         loginBox.setSelectedIndex(-1);
         loginBox.setEditable(true);
         fieldsPanel.add(new LabelComponentPanel("Username: ", loginBox), BorderLayout.EAST);
@@ -111,7 +101,7 @@ public class AuthenticationGI extends JFrame {
         messageLabel = new JLabel(LOGIN);
         messageLabel.setHorizontalAlignment(JLabel.CENTER);
         messageLabel.setBorder(new EmptyBorder(8, 0, 8, 0));
-        messageLabel.setFont(new Font("times new roman", Font.PLAIN, 14));
+        messageLabel.setFont(new Font("times new roman", Font.PLAIN, 15));
     }
 
     public void prepareLoginButton() {
@@ -120,19 +110,14 @@ public class AuthenticationGI extends JFrame {
         loginButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                for (User user : userSet) {
-                    if (user.isMatches(usernameField.getText(), passwordField.getPassword())) {
-                        setVisible(false);
-                        new WorkspaceGI(user);
-                        return;
-                    }
+                User user = controller.authorizedUsers(usernameField.getText(), passwordField.getPassword());
+                if (user != null) {
+                    setVisible(false);
+                    new WorkspaceGI(user);
+                } else {
+                    messageLabel.setIcon(warningImage);
+                    messageLabel.setText(WRONG_USER);
                 }
-                messageLabel.setText(WRONG_USER);
-                messageLabel.setVisible(true);
-                loginPanel.setVisible(true);
-                signUpPanel.setVisible(false);
-                userNameList.add(usernameField.getText());
-                passwordField.setText(Arrays.toString(passwordField.getPassword()));
             }
         });
     }
@@ -163,18 +148,23 @@ public class AuthenticationGI extends JFrame {
         fieldsPanel.setLayout(new BoxLayout(fieldsPanel, BoxLayout.Y_AXIS));
 
         nameField = new JTextField(COLUMNS_COUNT);
+        nameField.getDocument().addDocumentListener(new TypeListener());
         fieldsPanel.add(new LabelComponentPanel("Your name: ", nameField));
 
         surnameField = new JTextField(COLUMNS_COUNT);
+        surnameField.getDocument().addDocumentListener(new TypeListener());
         fieldsPanel.add(new LabelComponentPanel("Your surname: ", surnameField));
 
         usernameField = new JTextField(COLUMNS_COUNT);
+        usernameField.getDocument().addDocumentListener(new TypeListener());
         fieldsPanel.add(new LabelComponentPanel("Username: ", usernameField));
 
         firstPasswordField = new JPasswordField(COLUMNS_COUNT);
+        firstPasswordField.getDocument().addDocumentListener(new TypeListener());
         fieldsPanel.add(new LabelComponentPanel("Password: ", firstPasswordField));
 
         secondPasswordField = new JPasswordField(COLUMNS_COUNT);
+        secondPasswordField.getDocument().addDocumentListener(new TypeListener());
         fieldsPanel.add(new LabelComponentPanel("Repeat password: ", secondPasswordField));
     }
 
@@ -185,16 +175,18 @@ public class AuthenticationGI extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (!Arrays.equals(firstPasswordField.getPassword(), secondPasswordField.getPassword())) {
+                    messageLabel.setIcon(warningImage);
                     messageLabel.setText(DOES_NOT_MATCH);
                 }
-                if (userSet.add(new User(nameField.getText(),
-                                        surnameField.getText(),
-                                        usernameField.getText(),
-                                        firstPasswordField.getPassword(),
-                                        UsersRights.SIMPLE_USER))){
+                if (controller.addUser(new User(nameField.getText(),
+                        surnameField.getText(),
+                        usernameField.getText(),
+                        firstPasswordField.getPassword(),
+                        UsersRights.SIMPLE_USER))){
+                    messageLabel.setIcon(null);
                     messageLabel.setText(ADD_USER);
-                    IOFileHandling.saveUsersSet(userSet);
                 } else {
+                    messageLabel.setIcon(warningImage);
                     messageLabel.setText(EXIST_USER);
                 }
             }
@@ -220,6 +212,16 @@ public class AuthenticationGI extends JFrame {
         }
     }
 
+    public void clearFields() {
+        loginBox.setSelectedIndex(-1);
+        passwordField.setText("");
+        nameField.setText("");
+        surnameField.setText("");
+        usernameField.setText("");
+        firstPasswordField.setText("");
+        secondPasswordField.setText("");
+    }
+
     public class CreateNewListener implements ActionListener {
 
         JFrame frame;
@@ -232,8 +234,11 @@ public class AuthenticationGI extends JFrame {
         public void actionPerformed(ActionEvent e) {
             loginPanel.setVisible(false);
             signUpPanel.setVisible(true);
+            clearFields();
+            messageLabel.setIcon(null);
             messageLabel.setText(CREATE);
             frame.setSize(signUpDimension);
+            frame.setTitle("Sign up");
         }
     }
 
@@ -249,10 +254,33 @@ public class AuthenticationGI extends JFrame {
         public void actionPerformed(ActionEvent e) {
             signUpPanel.setVisible(false);
             loginPanel.setVisible(true);
-            loginBox.setSelectedIndex(-1);
-            passwordField.setText("");
+            clearFields();
+            messageLabel.setIcon(null);
             messageLabel.setText(LOGIN);
             frame.setSize(loginDimension);
+            frame.setTitle("Log in");
+        }
+    }
+
+    public class TypeListener implements DocumentListener {
+
+        @Override
+        public void insertUpdate(DocumentEvent e) {
+            signUpButton.setEnabled(!nameField.getText().isEmpty() &&
+                    !surnameField.getText().isEmpty() &&
+                    !usernameField.getText().isEmpty() &&
+                    firstPasswordField.getPassword().length != 0 &&
+                    secondPasswordField.getPassword().length != 0);
+        }
+
+        @Override
+        public void removeUpdate(DocumentEvent e) {
+            insertUpdate(e);
+        }
+
+        @Override
+        public void changedUpdate(DocumentEvent e) {
+            insertUpdate(e);
         }
     }
 }

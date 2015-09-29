@@ -85,8 +85,8 @@ public class User implements Serializable {
         this.mailAddress = mailAddress;
     }
 
-    public boolean isMatches(String login, char[] password) {
-        return this.userName.equals(login) && Arrays.equals(this.password, password);
+    public boolean isMatches(String userName, char[] password) {
+        return this.userName.equals(userName) && Arrays.equals(this.password, password);
     }
 
     @Override
