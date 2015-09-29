@@ -1,3 +1,7 @@
+package GI;
+
+import support.User;
+
 import javax.swing.*;
 import java.awt.*;
 

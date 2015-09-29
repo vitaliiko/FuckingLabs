@@ -1,5 +1,11 @@
+package GI;
+
+import GI.WorkspaceGI;
+import support.IOFileHandling;
+import support.User;
+import support.UsersRights;
+
 import javax.swing.*;
-import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -16,10 +22,12 @@ public class AuthenticationGI extends JFrame {
     private static final String EXIST_USER = "A user with that login or name already exists";
     private static final String ADD_USER = "Your account created successfully!";
     private static final String DOES_NOT_MATCH = "Passwords does not match";
+    private static final String FORBIDDEN_CHAR = "Password contains forbidden characters";
+    private static final String LOGIN = "Log in your account";
+    private static final String CREATE = "Creating new account";
 
     private JPanel loginPanel;
     private JPanel signUpPanel;
-    private JPanel labelsPanel;
     private JPanel fieldsPanel;
     private JPanel centerPanel;
     private JComboBox<Object> loginBox;
@@ -37,6 +45,8 @@ public class AuthenticationGI extends JFrame {
 
     private Set<User> userSet = new HashSet<>();
     private ArrayList<String> userNameList = new ArrayList<>();
+    private Dimension loginDimension = new Dimension(400, 170);
+    private Dimension signUpDimension = new Dimension(400, 250);
 
     public AuthenticationGI() throws HeadlessException {
         super("Login in");
@@ -44,9 +54,11 @@ public class AuthenticationGI extends JFrame {
         initUsersSet();
         prepareCenterPanel();
         getContentPane().add(centerPanel, BorderLayout.CENTER);
+        prepareMessageLabel();
+        getContentPane().add(messageLabel, BorderLayout.NORTH);
 
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        setSize(new Dimension(400, 220));
+        setSize(loginDimension);
         setResizable(false);
         setLocationRelativeTo(null);
         setVisible(true);
@@ -69,11 +81,6 @@ public class AuthenticationGI extends JFrame {
         centerPanel.add(loginPanel);
         prepareSighUpPanel();
         centerPanel.add(signUpPanel);
-        prepareMessageLabel();
-        JPanel messagePanel = new JPanel();
-        messagePanel.add(new JSeparator());
-        messagePanel.add(messageLabel);
-        centerPanel.add(messagePanel);
     }
 
     public void prepareLoginPanel() {
@@ -101,9 +108,10 @@ public class AuthenticationGI extends JFrame {
     }
 
     public void prepareMessageLabel() {
-        messageLabel = new JLabel();
-        messageLabel.setForeground(Color.red);
-        messageLabel.setVisible(false);
+        messageLabel = new JLabel(LOGIN);
+        messageLabel.setHorizontalAlignment(JLabel.CENTER);
+        messageLabel.setBorder(new EmptyBorder(8, 0, 8, 0));
+        messageLabel.setFont(new Font("times new roman", Font.PLAIN, 14));
     }
 
     public void prepareLoginButton() {
@@ -131,14 +139,7 @@ public class AuthenticationGI extends JFrame {
 
     public void prepareCreateNewButton() {
         createNewButton = new JButton("New Account");
-        createNewButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                loginPanel.setVisible(false);
-                signUpPanel.setVisible(true);
-                messageLabel.setVisible(false);
-            }
-        });
+        createNewButton.addActionListener(new CreateNewListener(this));
     }
 
     public void prepareSighUpPanel() {
@@ -148,8 +149,6 @@ public class AuthenticationGI extends JFrame {
 
         prepareFieldsPanel();
         signUpPanel.add(fieldsPanel, BorderLayout.EAST);
-//        prepareLabelsPanel();
-//        signUpPanel.add(labelsPanel, BorderLayout.WEST);
 
         JPanel buttonsPanel = new JPanel();
         prepareSignUpButton();
@@ -179,31 +178,14 @@ public class AuthenticationGI extends JFrame {
         fieldsPanel.add(new LabelComponentPanel("Repeat password: ", secondPasswordField));
     }
 
-    public void prepareLabelsPanel() {
-        labelsPanel = new JPanel();
-        labelsPanel.setLayout(new BoxLayout(labelsPanel, BoxLayout.Y_AXIS));
-
-        ArrayList<JLabel> labelsList = new ArrayList<>();
-        labelsList.add(new JLabel("Your name:"));
-        labelsList.add(new JLabel("Your surname:"));
-        labelsList.add(new JLabel("Username:"));
-        labelsList.add(new JLabel("Password:"));
-        labelsList.add(new JLabel("Repeat password:"));
-        for (JLabel label : labelsList) {
-            label.setAlignmentX(RIGHT_ALIGNMENT);
-            labelsPanel.add(label);
-        }
-    }
-
     public void prepareSignUpButton() {
         signUpButton = new JButton("Sign Up");
-//        signUpButton.setEnabled(false);
+        signUpButton.setEnabled(false);
         signUpButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (!Arrays.equals(firstPasswordField.getPassword(), secondPasswordField.getPassword())) {
                     messageLabel.setText(DOES_NOT_MATCH);
-                    messageLabel.setVisible(true);
                 }
                 if (userSet.add(new User(nameField.getText(),
                                         surnameField.getText(),
@@ -215,23 +197,13 @@ public class AuthenticationGI extends JFrame {
                 } else {
                     messageLabel.setText(EXIST_USER);
                 }
-                messageLabel.setVisible(true);
             }
         });
     }
 
     public void prepareCancelButton() {
         cancelButton = new JButton("Cancel");
-        cancelButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                signUpPanel.setVisible(false);
-                loginPanel.setVisible(true);
-                loginBox.setSelectedIndex(-1);
-                passwordField.setText("");
-                messageLabel.setVisible(false);
-            }
-        });
+        cancelButton.addActionListener(new CancelListener(this));
     }
 
     public class LabelComponentPanel extends JPanel {
@@ -245,6 +217,42 @@ public class AuthenticationGI extends JFrame {
             label.setHorizontalAlignment(JLabel.RIGHT);
             add(label);
             add(component);
+        }
+    }
+
+    public class CreateNewListener implements ActionListener {
+
+        JFrame frame;
+
+        public CreateNewListener(JFrame frame) {
+            this.frame = frame;
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            loginPanel.setVisible(false);
+            signUpPanel.setVisible(true);
+            messageLabel.setText(CREATE);
+            frame.setSize(signUpDimension);
+        }
+    }
+
+    public class CancelListener implements ActionListener {
+
+        JFrame frame;
+
+        public CancelListener(JFrame frame) {
+            this.frame = frame;
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            signUpPanel.setVisible(false);
+            loginPanel.setVisible(true);
+            loginBox.setSelectedIndex(-1);
+            passwordField.setText("");
+            messageLabel.setText(LOGIN);
+            frame.setSize(loginDimension);
         }
     }
 }

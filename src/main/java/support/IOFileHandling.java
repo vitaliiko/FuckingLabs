@@ -1,3 +1,7 @@
+package support;
+
+import support.User;
+
 import javax.swing.*;
 import java.io.*;
 import java.util.Set;

@@ -1,3 +1,5 @@
+package support;
+
 public class UsersRights {
 
     public static final int ADMIN = 0;
