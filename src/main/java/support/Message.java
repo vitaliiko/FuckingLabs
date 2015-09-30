@@ -19,6 +19,7 @@ public class Message {
     public static final String WRONG_NAME = "Name or surname ...";
     public static final String LOGIN = "Log in your account";
     public static final String CREATE = "Creating new account";
+    public static final String ADD_INFO = "Add information to account";
 
     public static final String SETTINGS = "Set your account";
     public static final String WRONG_TEL = "Wrong telephone number";

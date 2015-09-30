@@ -15,7 +15,6 @@ public class UsersRights {
             case 0: return "Administrator";
             case 1: return "Simple user with complex password";
             case 2: return "Simple user with plain password";
-            case 3: return "Locked user";
             case 4: return "Simple user with locked username";
             default: return null;
         }

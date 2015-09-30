@@ -3,13 +3,13 @@ package GI;
 import support.Controller;
 import support.Message;
 import support.User;
+import support.UsersRights;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.awt.*;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.awt.event.*;
 import java.io.IOException;
 import java.util.Arrays;
 
@@ -72,17 +72,11 @@ public class AuthenticationGI extends JFrame {
         JPanel fieldsPanel = new JPanel();
         fieldsPanel.setLayout(new BoxLayout(fieldsPanel, BoxLayout.Y_AXIS));
 
-        LoginTypeListener loginTypeListener = new LoginTypeListener();
-
-        usernameBox = new JComboBox<>(controller.getUserNameList().toArray());
-        usernameBox.setSelectedIndex(-1);
-        usernameBox.setEditable(true);
-        ((JTextField) usernameBox.getEditor().getEditorComponent()).getDocument().
-                addDocumentListener(loginTypeListener);
+        prepareUsernameBox();
         fieldsPanel.add(new LabelComponentPanel("Username: ", usernameBox), BorderLayout.EAST);
 
         passwordField = new JPasswordField(COLUMNS_COUNT);
-        passwordField.getDocument().addDocumentListener(loginTypeListener);
+        passwordField.getDocument().addDocumentListener(new LoginTypeListener());
         fieldsPanel.add(new LabelComponentPanel("Password: ", passwordField));
 
         loginPanel.add(fieldsPanel, BorderLayout.EAST);
@@ -93,6 +87,21 @@ public class AuthenticationGI extends JFrame {
         prepareCreateNewButton();
         buttonsPanel.add(createNewButton);
         loginPanel.add(buttonsPanel, BorderLayout.SOUTH);
+    }
+
+    public void prepareUsernameBox() {
+        usernameBox = new JComboBox<>(controller.getUserNameMap().keySet().toArray());
+        usernameBox.setSelectedIndex(-1);
+        usernameBox.setEditable(true);
+        usernameBox.addItemListener(e -> checkUsersRights());
+        usernameBox.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusLost(FocusEvent e) {
+                checkUsersRights();
+            }
+        });
+        ((JTextField) usernameBox.getEditor().getEditorComponent()).getDocument().
+                addDocumentListener(new LoginTypeListener());
     }
 
     public void prepareLoginButton() {
@@ -181,7 +190,8 @@ public class AuthenticationGI extends JFrame {
             try {
                 if (Arrays.equals(firstPasswordField.getPassword(), secondPasswordField.getPassword())) {
                     controller.createUser(nameField.getText(),
-                            surnameField.getText(), usernameField.getText(), firstPasswordField.getPassword());
+                            surnameField.getText(), usernameField.getText(), firstPasswordField.getPassword(),
+                            usernameField.isEnabled() ? UsersRights.SIMPLE_USER : UsersRights.LOCK_USERNAME);
                 } else {
                     throw new IOException(Message.PASSWORDS_DOES_NOT_MATCH);
                 }
@@ -216,6 +226,7 @@ public class AuthenticationGI extends JFrame {
     public void clearFields() {
         usernameBox.setSelectedIndex(-1);
         passwordField.setText("");
+        passwordField.setEnabled(true);
         nameField.setText("");
         surnameField.setText("");
         usernameField.setText("");
@@ -261,6 +272,32 @@ public class AuthenticationGI extends JFrame {
         @Override
         public void changedUpdate(DocumentEvent e) {
             insertUpdate(e);
+        }
+    }
+
+    public void checkUsersRights() {
+        if (usernameBox.getSelectedIndex() == -1) {
+            return;
+        }
+        String username = (String) usernameBox.getSelectedItem();
+        int rights = controller.getUserNameMap().get(username);
+        switch (rights) {
+            case UsersRights.LOCKED_USER: {
+                passwordField.setEnabled(false);
+                break;
+            }
+            case UsersRights.LOCK_USERNAME_WITHOUT_PASS: {
+                usernameField.setEnabled(false);
+            }
+            case UsersRights.WITHOUT_PASSWORD: {
+                createNewButton.doClick();
+                usernameField.setText(username);
+                messageLabel.setText(Message.ADD_INFO);
+                break;
+            }
+            default: {
+                passwordField.setEnabled(true);
+            }
         }
     }
 }

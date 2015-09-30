@@ -1,9 +1,7 @@
 package support;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -18,18 +16,14 @@ public class Controller {
     private static final String MAIL_REG = "([a-z0-9]([-a-z0-9]{0,61}[a-z0-9])?\\.)*[a-z]{2,4}";
 
     private Set<User> userSet;
-    private ArrayList<String> userNameList;
+    private Map<String, Integer> userNameMap;
 
     public Controller() {
         initUsersSet();
     }
 
-    public Set<User> getUserSet() {
-        return userSet;
-    }
-
-    public ArrayList<String> getUserNameList() {
-        return userNameList;
+    public Map<String, Integer> getUserNameMap() {
+        return userNameMap;
     }
 
     private void initUsersSet() {
@@ -38,17 +32,21 @@ public class Controller {
         userSet.add(new User("Vova", "Ivanov", "vovan", "qwerty", UsersRights.SIMPLE_USER));
         userSet.add(new User("Vitaliy", "Kobrin", "vetal", "CthdktnL;fdf", UsersRights.ADMIN));
         userSet.add(new User("Mihail", "Kuznetsov", "mishania", "CjltydbRjv", UsersRights.SIMPLE_USER));
-        userSet.add(new User("Maksim", "Davidenko", "makson3/4", "SPS-1466", UsersRights.SIMPLE_USER));
-        userNameList = new ArrayList<>();
-        userNameList.addAll(userSet.stream().map(User::getUserName).collect(Collectors.toList()));
+        userSet.add(new User("Maksim", "Davidenko", "makson3/4", "SPS-1466", UsersRights.LOCKED_USER));
+        userSet.add(new User("qwerty", UsersRights.WITHOUT_PASSWORD));
+        userSet.add(new User("qwerty2", UsersRights.LOCK_USERNAME_WITHOUT_PASS));
+        userNameMap = new HashMap<>();
+        for (User user : userSet) {
+            userNameMap.put(user.getUserName(), user.getRights());
+        }
     }
 
-    public void createUser(String name, String surname, String userName, char[] password) throws IOException {
+    public void createUser(String name, String surname, String userName, char[] password, int rights) throws IOException {
         validateName(name, surname);
         validateUsername(userName);
         validatePassword(password);
 
-        User user = new User(name, surname, userName, password, UsersRights.SIMPLE_USER);
+        User user = new User(name, surname, userName, password, rights);
         if (!userSet.add(user)) {
             throw new IOException(Message.EXIST_USER);
         }

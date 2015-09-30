@@ -139,7 +139,7 @@ public class SettingsGI extends JDialog {
                 String username = usernameField.getText();
                 if (!user.getUserName().equals(username)) {
                     if (controller.validateUsername(username)) {
-                        for (String s : controller.getUserNameList()) {
+                        for (String s : controller.getUserNameMap().keySet()) {
                             if (s.equals(username)) {
                                 throw new IOException(Message.EXIST_USER);
                             }
