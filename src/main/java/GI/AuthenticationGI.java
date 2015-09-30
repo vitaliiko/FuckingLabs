@@ -9,8 +9,6 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
@@ -39,7 +37,6 @@ public class AuthenticationGI extends JFrame {
 
     private Dimension loginDimension = new Dimension(400, 170);
     private Dimension signUpDimension = new Dimension(400, 270);
-    private ImageIcon warningImage = new ImageIcon("resources/warning.png");
     private Controller controller;
 
     public AuthenticationGI() throws Exception {
@@ -107,43 +104,37 @@ public class AuthenticationGI extends JFrame {
     public void prepareLoginButton() {
         loginButton = new JButton("Login");
         loginButton.setEnabled(false);
-        loginButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                User user = controller.authorizedUsers(
-                        ((JTextField) usernameBox.getEditor().getEditorComponent()).getText(),
-                        passwordField.getPassword());
-                if (user == null) {
-                    messageLabel.setIcon(warningImage);
-                    messageLabel.setText(Message.WRONG_USER);
-                } else {
-                    setVisible(false);
-                    clearFields();
-                    WorkspaceGI workspaceGI = new WorkspaceGI(user, controller);
-                    workspaceGI.addWindowListener(new WindowAdapter() {
-                        @Override
-                        public void windowClosed(WindowEvent e) {
-                            setVisible(true);
-                        }
-                    });
-                }
+        loginButton.addActionListener(e -> {
+            User user = controller.authorizedUsers(
+                    ((JTextField) usernameBox.getEditor().getEditorComponent()).getText(),
+                    passwordField.getPassword());
+            if (user == null) {
+                messageLabel.setIcon(Message.WARNING_IMAGE);
+                messageLabel.setText(Message.WRONG_USER);
+            } else {
+                setVisible(false);
+                clearFields();
+                WorkspaceGI workspaceGI = new WorkspaceGI(user, controller);
+                workspaceGI.addWindowListener(new WindowAdapter() {
+                    @Override
+                    public void windowClosed(WindowEvent e) {
+                        setVisible(true);
+                    }
+                });
             }
         });
     }
 
     public void prepareCreateNewButton() {
         createNewButton = new JButton("New Account");
-        createNewButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                loginPanel.setVisible(false);
-                signUpPanel.setVisible(true);
-                clearFields();
-                messageLabel.setIcon(null);
-                messageLabel.setText(Message.CREATE);
-                setSize(signUpDimension);
-                setTitle("Sign up");
-            }
+        createNewButton.addActionListener(e -> {
+            loginPanel.setVisible(false);
+            signUpPanel.setVisible(true);
+            clearFields();
+            messageLabel.setIcon(null);
+            messageLabel.setText(Message.CREATE);
+            setSize(signUpDimension);
+            setTitle("Sign up");
         });
     }
 
@@ -191,60 +182,40 @@ public class AuthenticationGI extends JFrame {
     public void prepareSignUpButton() {
         signUpButton = new JButton("Sign Up");
         signUpButton.setEnabled(false);
-        signUpButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    if (Arrays.equals(firstPasswordField.getPassword(), secondPasswordField.getPassword())) {
-                        controller.createUser(nameField.getText(),
-                                surnameField.getText(), usernameField.getText(), firstPasswordField.getPassword());
-                    } else {
-                        throw new IOException(Message.DOES_NOT_MATCH);
-                    }
-                    loginPanel.setVisible(true);
-                    signUpPanel.setVisible(false);
-                    messageLabel.setIcon(null);
-                    messageLabel.setText(Message.ADD_USER);
-                    usernameBox.getEditor().setItem(usernameField.getText());
-                    passwordField.setText(String.valueOf(firstPasswordField.getPassword()));
-                    loginButton.setEnabled(true);
-                    setSize(loginDimension);
-                } catch (IOException exception) {
-                    messageLabel.setIcon(warningImage);
-                    messageLabel.setText(exception.getMessage());
+        signUpButton.addActionListener(e -> {
+            try {
+                if (Arrays.equals(firstPasswordField.getPassword(), secondPasswordField.getPassword())) {
+                    controller.createUser(nameField.getText(),
+                            surnameField.getText(), usernameField.getText(), firstPasswordField.getPassword());
+                } else {
+                    throw new IOException(Message.DOES_NOT_MATCH);
                 }
+                loginPanel.setVisible(true);
+                signUpPanel.setVisible(false);
+                messageLabel.setIcon(null);
+                messageLabel.setText(Message.ADD_USER);
+                usernameBox.getEditor().setItem(usernameField.getText());
+                passwordField.setText(String.valueOf(firstPasswordField.getPassword()));
+                loginButton.setEnabled(true);
+                setSize(loginDimension);
+            } catch (IOException exception) {
+                messageLabel.setIcon(Message.WARNING_IMAGE);
+                messageLabel.setText(exception.getMessage());
             }
         });
     }
 
     public void prepareCancelButton() {
         cancelButton = new JButton("Cancel");
-        cancelButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                signUpPanel.setVisible(false);
-                loginPanel.setVisible(true);
-                clearFields();
-                messageLabel.setIcon(null);
-                messageLabel.setText(Message.LOGIN);
-                setSize(loginDimension);
-                setTitle("Log in");
-            }
+        cancelButton.addActionListener(e -> {
+            signUpPanel.setVisible(false);
+            loginPanel.setVisible(true);
+            clearFields();
+            messageLabel.setIcon(null);
+            messageLabel.setText(Message.LOGIN);
+            setSize(loginDimension);
+            setTitle("Log in");
         });
-    }
-
-    public class LabelComponentPanel extends JPanel {
-
-        JLabel label;
-
-        public LabelComponentPanel(String labelText, JComponent component) {
-            this.setLayout(new GridLayout(1, 2));
-            this.setBorder(new EmptyBorder(8, 1, 1, 8));
-            label = new JLabel(labelText);
-            label.setHorizontalAlignment(JLabel.RIGHT);
-            add(label);
-            add(component);
-        }
     }
 
     public void clearFields() {

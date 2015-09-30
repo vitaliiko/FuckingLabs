@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 public class Controller {
 
@@ -37,9 +38,7 @@ public class Controller {
         userSet.add(new User("Mihail", "Kuznetsov", "mishania", "CjltydbRjv", UsersRights.SIMPLE_USER));
         userSet.add(new User("Maksim", "Davidenko", "makson3/4", "SPS-1466", UsersRights.SIMPLE_USER));
         userNameList = new ArrayList<>();
-        for (User user : userSet) {
-            userNameList.add(user.getUserName());
-        }
+        userNameList.addAll(userSet.stream().map(User::getUserName).collect(Collectors.toList()));
     }
 
     public void createUser(String name, String surname, String userName, char[] password) throws IOException {

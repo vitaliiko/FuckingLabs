@@ -1,6 +1,10 @@
 package support;
 
+import javax.swing.*;
+
 public class Message {
+
+    public static final ImageIcon WARNING_IMAGE = new ImageIcon("resources/warning.png");
 
     public static final String WRONG_USER = "Wrong username or password";
     public static final String EXIST_USER = "A user with that login or name already exists";
@@ -13,4 +17,6 @@ public class Message {
     public static final String WRONG_NAME = "Name or surname ...";
     public static final String LOGIN = "Log in your account";
     public static final String CREATE = "Creating new account";
+
+    public static final String SETTINGS = "Set your account";
 }
