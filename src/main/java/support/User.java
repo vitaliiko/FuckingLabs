@@ -96,7 +96,7 @@ public class User implements Serializable {
 
         User user = (User) o;
 
-        return userName.equals(user.userName);
+        return userName.toLowerCase().equals(user.userName.toLowerCase());
     }
 
     @Override

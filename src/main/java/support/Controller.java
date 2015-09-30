@@ -1,7 +1,5 @@
 package support;
 
-import GI.WorkspaceGI;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -11,10 +9,10 @@ import java.util.regex.Pattern;
 
 public class Controller {
 
-    private static final String NAME_REG = "^[a-zA-Zà-ÿÀ-ß][a-zA-Zà-ÿÀ-ß-]{2,}$";
+    private static final String NAME_REG = "^[A-ZÀ-ß][a-zA-Zà-ÿÀ-ß-]{2,}$";
     private static final String USERNAME_REG = "^[a-zA-Z][a-zA-Z0-9_-]{6,15}$";
-    private static final String PASSWORD_REG = "((?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%]).{6,20})";
-    private static final String PLAIN_PASSWORD_REG = "^[\\w\\W]{6,15}$";
+    private static final String PASSWORD_REG = "((?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%]).{8,24})";
+    private static final String PLAIN_PASSWORD_REG = "^[\\w\\W]{6,24}$";
 
     private Set<User> userSet;
     private ArrayList<String> userNameList;
@@ -33,6 +31,7 @@ public class Controller {
 
     private void initUsersSet() {
         userSet = new HashSet<>();
+        userSet.add(new User("admin", "admin", "admin", "111111", UsersRights.ADMIN));
         userSet.add(new User("Vova", "Ivanov", "vovan", "qwerty", UsersRights.SIMPLE_USER));
         userSet.add(new User("Vitaliy", "Kobrin", "vetal", "CthdktnL;fdf", UsersRights.ADMIN));
         userSet.add(new User("Mihail", "Kuznetsov", "mishania", "CjltydbRjv", UsersRights.SIMPLE_USER));
@@ -43,18 +42,16 @@ public class Controller {
         }
     }
 
-    public boolean addUser(User user) {
-        return userSet.add(user);
-    }
-
     public void createUser(String name, String surname, String userName, char[] password) throws IOException {
         if (!validate(name, NAME_REG) && !validate(surname, NAME_REG)) {
             throw new IOException(Message.WRONG_NAME);
         }
+        if (userName.toLowerCase().contains("admin")) {
+            throw new IOException(Message.NON_ADMIN_USER);
+        }
         if (!validate(userName, USERNAME_REG)) {
             throw new IOException(Message.WRONG_USERNAME);
         }
-        System.out.println(String.valueOf(password));
         if (!validate(String.valueOf(password), PASSWORD_REG)) {
             throw new IOException(Message.WRONG_PASSWORD);
         }

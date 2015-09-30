@@ -8,6 +8,7 @@ public class Message {
     public static final String DOES_NOT_MATCH = "Passwords does not match";
     public static final String FORBIDDEN_CHAR = "Password contains forbidden characters";
     public static final String WRONG_USERNAME = "Username must contain ...";
+    public static final String NON_ADMIN_USER = "You can\'t create account with such username";
     public static final String WRONG_PASSWORD = "Password must contains ... ";
     public static final String WRONG_NAME = "Name or surname ...";
     public static final String LOGIN = "Log in your account";
