@@ -29,6 +29,11 @@ public class User implements Serializable {
         this.rights = rights;
     }
 
+    public User(String userName, int rights) {
+        this.userName = userName;
+        this.rights = rights;
+    }
+
     public String getName() {
         return name;
     }

@@ -8,7 +8,7 @@ public class UsersRights {
     public static final int LOCKED_USER = 3;
     public static final int LOCK_USERNAME = 4;
     public static final int WITHOUT_PASSWORD = 5;
-    public static final int LOCK_USER_NAME_WITHOUT_PASS = 6;
+    public static final int LOCK_USERNAME_WITHOUT_PASS = 6;
 
     public static String accountType(int rights) {
         switch (rights) {

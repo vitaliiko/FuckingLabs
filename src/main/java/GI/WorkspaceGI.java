@@ -76,9 +76,7 @@ public class WorkspaceGI extends JFrame {
         if (user.getRights() != UsersRights.ADMIN) {
             addUsersItem.setVisible(false);
         }
-        addUsersItem.addActionListener(e -> {
-
-        });
+        addUsersItem.addActionListener(e -> new AddEmptyUserGI(this, controller));
         fileMenu.add(addUsersItem);
 
         fileMenu.addSeparator();
