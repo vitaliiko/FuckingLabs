@@ -41,7 +41,12 @@ public class AuthenticationGI extends JFrame {
     public AuthenticationGI() throws Exception {
         super("Login");
 
-        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (ClassNotFoundException | InstantiationException |
+                UnsupportedLookAndFeelException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
 
         controller = new Controller();
         prepareCenterPanel();
@@ -122,6 +127,7 @@ public class AuthenticationGI extends JFrame {
                     @Override
                     public void windowClosed(WindowEvent e) {
                         setVisible(true);
+                        usernameBox = new JComboBox<>(controller.getUserNameMap().keySet().toArray());
                     }
                 });
             }
@@ -199,7 +205,8 @@ public class AuthenticationGI extends JFrame {
                 signUpPanel.setVisible(false);
                 messageLabel.setIcon(null);
                 messageLabel.setText(Message.ADD_USER_SUCC);
-                usernameBox.getEditor().setItem(usernameField.getText());
+                usernameBox.addItem(usernameField.getText());
+                usernameBox.setSelectedItem(usernameField.getText());
                 passwordField.setText(String.valueOf(firstPasswordField.getPassword()));
                 loginButton.setEnabled(true);
                 setSize(loginDimension);
@@ -286,10 +293,10 @@ public class AuthenticationGI extends JFrame {
                 passwordField.setEnabled(false);
                 break;
             }
-            case UsersRights.LOCK_USERNAME_WITHOUT_PASS: {
+            case UsersRights.EMPTY_LOCK_USERNAME: {
                 usernameField.setEnabled(false);
             }
-            case UsersRights.WITHOUT_PASSWORD: {
+            case UsersRights.EMPTY: {
                 createNewButton.doClick();
                 usernameField.setText(username);
                 messageLabel.setText(Message.ADD_INFO);

@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 public class Controller {
 
@@ -22,34 +21,39 @@ public class Controller {
         initUsersSet();
     }
 
+    public Set<User> getUserSet() {
+        return userSet;
+    }
+
     public Map<String, Integer> getUserNameMap() {
         return userNameMap;
     }
 
     private void initUsersSet() {
         userSet = new HashSet<>();
-        userSet.add(new User("admin", "admin", "admin", "111111", UsersRights.ADMIN));
+        userSet.add(new User("admin", "admin", "ADMIN", "111111", UsersRights.ADMIN));
         userSet.add(new User("Vova", "Ivanov", "vovan", "qwerty", UsersRights.SIMPLE_USER));
         userSet.add(new User("Vitaliy", "Kobrin", "vetal", "CthdktnL;fdf", UsersRights.ADMIN));
         userSet.add(new User("Mihail", "Kuznetsov", "mishania", "CjltydbRjv", UsersRights.SIMPLE_USER));
         userSet.add(new User("Maksim", "Davidenko", "makson3/4", "SPS-1466", UsersRights.LOCKED_USER));
-        userSet.add(new User("qwerty", UsersRights.WITHOUT_PASSWORD));
-        userSet.add(new User("qwerty2", UsersRights.LOCK_USERNAME_WITHOUT_PASS));
-        userNameMap = new HashMap<>();
+        userSet.add(new User("qwerty", UsersRights.EMPTY));
+        userSet.add(new User("qwerty2", UsersRights.EMPTY_LOCK_USERNAME));
+        userNameMap = new TreeMap<>();
         for (User user : userSet) {
             userNameMap.put(user.getUserName(), user.getRights());
         }
     }
 
-    public void createUser(String name, String surname, String userName, char[] password, int rights) throws IOException {
+    public void createUser(String name, String surname, String userName, char[] password, int rights)
+            throws IOException {
         validateName(name, surname);
         validateUsername(userName);
         validatePassword(password);
 
-        User user = new User(name, surname, userName, password, rights);
-        if (!userSet.add(user)) {
+        if (!userSet.add(new User(name, surname, userName, password, rights))) {
             throw new IOException(Message.EXIST_USER);
         }
+        userNameMap.put(userName, rights);
     }
 
     public void updateUsersInfo(User user, String name, String surname, String telephone, String mail)
@@ -70,10 +74,15 @@ public class Controller {
     public void addEmptyUser(String userName, int rights) throws IOException {
         validateUsername(userName);
 
-        User user = new User(userName, rights);
-        if (!userSet.add(user)) {
+        if (!userSet.add(new User(userName, rights))) {
             throw new IOException(Message.EXIST_USER);
         }
+        userNameMap.put(userName, rights);
+    }
+
+    public void removeUser(User user) {
+        userSet.remove(user);
+        userNameMap.remove(user.getUserName());
     }
 
     public boolean validateName(String name, String surname) throws IOException{
@@ -114,6 +123,12 @@ public class Controller {
         return true;
     }
 
+    private boolean validate(String text, String regExp) {
+        Pattern pattern = Pattern.compile(regExp);
+        Matcher matcher = pattern.matcher(text);
+        return matcher.matches();
+    }
+
     public User authorizedUsers(String userName, char[] password) {
         for (User user : userSet) {
             if (user.isMatches(userName, password)) {
@@ -121,11 +136,5 @@ public class Controller {
             }
         }
         return null;
-    }
-
-    private boolean validate(String text, String regExp) {
-        Pattern pattern = Pattern.compile(regExp);
-        Matcher matcher = pattern.matcher(text);
-        return matcher.matches();
     }
 }

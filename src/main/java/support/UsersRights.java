@@ -7,16 +7,24 @@ public class UsersRights {
     public static final int USER_WITH_PLAIN_PASSWORD = 2;
     public static final int LOCKED_USER = 3;
     public static final int LOCK_USERNAME = 4;
-    public static final int WITHOUT_PASSWORD = 5;
-    public static final int LOCK_USERNAME_WITHOUT_PASS = 6;
+    public static final int EMPTY = 5;
+    public static final int EMPTY_LOCK_USERNAME = 6;
+
+    private static String[] items = {
+            "Administrator",
+            "Simple user with complex password",
+            "Simple user with plain password",
+            "Locked user",
+            "Simple user with locked username",
+            "Empty user",
+            "Empty user with locked username",
+        };
+
+    public static String[] getItems() {
+        return items;
+    }
 
     public static String accountType(int rights) {
-        switch (rights) {
-            case 0: return "Administrator";
-            case 1: return "Simple user with complex password";
-            case 2: return "Simple user with plain password";
-            case 4: return "Simple user with locked username";
-            default: return null;
-        }
+        return items[rights];
     }
 }

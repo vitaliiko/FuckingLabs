@@ -19,6 +19,7 @@ public class SettingsGI extends JDialog {
 
     private User user;
     private Controller controller;
+    private JFrame frame;
 
     private JPanel fieldsPanel;
     private JPanel passwordPanel;
@@ -32,11 +33,13 @@ public class SettingsGI extends JDialog {
     private JPasswordField repeatPasswordField;
     private JButton saveButton;
     private JButton cancelButton;
+    private JButton removeButton;
     private JLabel messageLabel;
     private TypeListener typeListener;
 
-    public SettingsGI(Frame owner, User user, Controller controller) {
-        super(owner);
+    public SettingsGI(Frame frame, User user, Controller controller) {
+        super(frame);
+        this.frame = (JFrame) frame;
         this.user = user;
         this.controller = controller;
         typeListener = new TypeListener();
@@ -61,7 +64,7 @@ public class SettingsGI extends JDialog {
         getContentPane().add(buttonsPanel, BorderLayout.SOUTH);
 
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        setSize(new Dimension(335, 400));
+        setSize(new Dimension(335, 430));
         setIconImage(new ImageIcon("resources/settings.png").getImage());
         setTitle("Settings");
         setModal(true);
@@ -89,9 +92,7 @@ public class SettingsGI extends JDialog {
 
         usernameField = new JTextField(user.getUserName(), COLUMNS_COUNT);
         usernameField.getDocument().addDocumentListener(typeListener);
-        if (user.getRights() == UsersRights.LOCK_USERNAME) {
-            usernameField.setEnabled(false);
-        }
+        usernameField.setEnabled(user.getRights() != UsersRights.LOCK_USERNAME);
         fieldsPanel.add(new LabelComponentPanel("Username: ", usernameField));
 
         telephoneField = new JTextField(user.getTelephoneNum(), COLUMNS_COUNT);
@@ -102,8 +103,21 @@ public class SettingsGI extends JDialog {
         mailField.getDocument().addDocumentListener(typeListener);
         fieldsPanel.add(new LabelComponentPanel("Your e-mail: ", mailField));
 
+        prepareRemoveButton();
+        fieldsPanel.add(removeButton);
+
         preparePasswordPanel();
         fieldsPanel.add(passwordPanel);
+    }
+
+    public void prepareRemoveButton(){
+        removeButton = new JButton("Remove account");
+        removeButton.setEnabled(user.getRights() != UsersRights.ADMIN);
+        removeButton.addActionListener(e -> {
+            controller.removeUser(user);
+            dispose();
+            frame.dispose();
+        });
     }
 
     public void preparePasswordPanel() {

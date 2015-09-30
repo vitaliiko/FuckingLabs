@@ -90,9 +90,9 @@ public class AddEmptyUserGI extends JDialog {
         addButton.addActionListener(e -> {
             try {
                 if (checkBox.isSelected()) {
-                    controller.addEmptyUser(usernameField.getText(), UsersRights.LOCK_USERNAME_WITHOUT_PASS);
+                    controller.addEmptyUser(usernameField.getText(), UsersRights.EMPTY_LOCK_USERNAME);
                 } else {
-                    controller.addEmptyUser(usernameField.getText(), UsersRights.WITHOUT_PASSWORD);
+                    controller.addEmptyUser(usernameField.getText(), UsersRights.EMPTY);
                 }
                 messageLabel.setIcon(null);
                 messageLabel.setText(Message.ADD_USER_SUCC);
