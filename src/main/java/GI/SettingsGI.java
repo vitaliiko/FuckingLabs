@@ -92,7 +92,8 @@ public class SettingsGI extends JDialog {
 
         usernameField = new JTextField(user.getUserName(), COLUMNS_COUNT);
         usernameField.getDocument().addDocumentListener(typeListener);
-        usernameField.setEnabled(user.getRights() != UsersRights.LOCK_USERNAME);
+        usernameField.setEnabled(user.getRights() != UsersRights.LOCK_USERNAME &&
+                user.getRights() != UsersRights.ADMIN);
         fieldsPanel.add(new LabelComponentPanel("Username: ", usernameField));
 
         telephoneField = new JTextField(user.getTelephoneNum(), COLUMNS_COUNT);
@@ -168,8 +169,12 @@ public class SettingsGI extends JDialog {
                     if (!Arrays.equals(newPasswordField.getPassword(), repeatPasswordField.getPassword())) {
                         throw new IOException(Message.PASSWORDS_DOES_NOT_MATCH);
                     }
-                    if (controller.validatePassword(newPasswordField.getPassword())) {
+                    if (user.getRights() == UsersRights.USER_WITH_PLAIN_PASSWORD) {
                         user.setPassword(newPasswordField.getPassword());
+                    } else {
+                        if (controller.validatePassword(newPasswordField.getPassword())) {
+                            user.setPassword(newPasswordField.getPassword());
+                        }
                     }
                 }
                 messageLabel.setIcon(null);

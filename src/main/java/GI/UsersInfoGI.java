@@ -8,14 +8,18 @@ import support.UsersRights;
 import javax.swing.*;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
-public class UsersGI extends JFrame {
+public class UsersInfoGI extends JFrame {
 
     private Controller controller;
     private ArrayList<User> usersList;
-    private int index;
+    private int usersIndex;
+    private int usersRights;
 
     private JPanel tablePanel;
     private JPanel userInfoPanel;
@@ -33,12 +37,12 @@ public class UsersGI extends JFrame {
     private JButton nextButton;
     private JButton backButton;
     private JButton addButton;
-    private JButton showButton;
+    private JButton showInfoButton;
     private JLabel messageLabel;
     private JTable usersTable;
 
 
-    public UsersGI(Controller controller) throws HeadlessException {
+    public UsersInfoGI(Controller controller) throws HeadlessException {
         super("Users");
         this.controller = controller;
         usersList = new ArrayList<>(controller.getUserSet());
@@ -77,23 +81,37 @@ public class UsersGI extends JFrame {
         tablePanel = new JPanel();
         tablePanel.setLayout(new BoxLayout(tablePanel, BoxLayout.Y_AXIS));
         prepareShowButton();
-        tablePanel.add(showButton);
+        tablePanel.add(showInfoButton);
         prepareUsersTable();
         tablePanel.add(new JScrollPane(usersTable, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
                 ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER));
     }
 
     public void prepareUsersTable() {
-        usersTable = new JTable(new UsersTableModel());
+        TableModel tableModel = new UsersTableModel();
+        usersTable = new JTable(tableModel);
+        usersTable.setRowSorter(new TableRowSorter<>(tableModel));
+        usersTable.getTableHeader().setReorderingAllowed(false);
         usersTable.setShowHorizontalLines(false);
         usersTable.setShowVerticalLines(false);
-        usersTable.getSelectionModel().addListSelectionListener(e -> showButton.setEnabled(true));
+        usersTable.setSize(new Dimension(450, 300));
+        usersTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        usersTable.getSelectionModel().addListSelectionListener(e -> showInfoButton.setEnabled(true));
+        usersTable.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (e.getClickCount() == 2) {
+                    showInfoButton.doClick();
+                }
+            }
+        });
     }
 
-    public void changeInfo(int index) {
+    public void userInfo(int index) {
         User user = usersList.get(index);
 
-        rightsBox.setSelectedItem(user.getRights());
+        rightsBox.setSelectedItem(UsersRights.accountType(user.getRights()));
+        rightsBox.setEnabled(user.getRights() != UsersRights.ADMIN);
         nameLabel.setText(user.getName());
         surnameLabel.setText(user.getSurname());
         usernameLabel.setText(user.getUserName());
@@ -105,10 +123,10 @@ public class UsersGI extends JFrame {
     }
 
     public void prepareShowButton() {
-        showButton = new JButton("Show info");
-        showButton.setEnabled(false);
-        showButton.addActionListener(e -> {
-            changeInfo(index = usersTable.getSelectedRow());
+        showInfoButton = new JButton("Show info");
+        showInfoButton.setEnabled(false);
+        showInfoButton.addActionListener(e -> {
+            userInfo(usersIndex = usersTable.getSelectedRow());
             tablePanel.setVisible(false);
             userInfoPanel.setVisible(true);
             messageLabel.setText(Message.USER_INFO);
@@ -141,7 +159,7 @@ public class UsersGI extends JFrame {
         prevButton= new JButton("Prev");
         prevButton.setIcon(new ImageIcon("resources/prev.png"));
         prevButton.setHorizontalAlignment(JButton.LEFT);
-        prevButton.addActionListener(e -> changeInfo(--index));
+        prevButton.addActionListener(e -> userInfo(--usersIndex));
         buttonsPanel.add(prevButton);
 
         backButton = new JButton("Back");
@@ -150,7 +168,7 @@ public class UsersGI extends JFrame {
             userInfoPanel.setVisible(false);
             tablePanel.setVisible(true);
             messageLabel.setText(Message.USER_LIST);
-            index = 0;
+            usersIndex = 0;
         });
         buttonsPanel.add(backButton);
 
@@ -158,7 +176,7 @@ public class UsersGI extends JFrame {
         nextButton.setIcon(new ImageIcon("resources/next.png"));
         nextButton.setHorizontalTextPosition(SwingConstants.LEFT);
         nextButton.setHorizontalAlignment(JButton.RIGHT);
-        nextButton.addActionListener(e -> changeInfo(++index));
+        nextButton.addActionListener(e -> userInfo(++usersIndex));
         buttonsPanel.add(nextButton);
     }
 
@@ -189,6 +207,7 @@ public class UsersGI extends JFrame {
     public void prepareRightsBox() {
         String[] items = UsersRights.getItems();
         rightsBox = new JComboBox<>(items);
+        rightsBox.addItemListener(e -> usersRights = rightsBox.getSelectedIndex());
     }
 
     public class UsersTableModel implements TableModel {

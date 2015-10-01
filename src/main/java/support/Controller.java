@@ -10,7 +10,6 @@ public class Controller {
     private static final String NAME_REG = "^[A-Z][a-zA-Z-]{2,}$";
     private static final String USERNAME_REG = "^[a-zA-Z][a-zA-Z0-9_-]{6,15}$";
     private static final String PASSWORD_REG = "((?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%]).{8,24})";
-    private static final String PLAIN_PASSWORD_REG = "^[\\w\\W]{6,24}$";
     private static final String TEL_NUM_REG = "^[\\d]{10}$";
     private static final String MAIL_REG = "([a-z0-9]([-a-z0-9]{0,61}[a-z0-9])?\\.)*[a-z]{2,4}";
 

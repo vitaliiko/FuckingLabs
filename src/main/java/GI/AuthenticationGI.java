@@ -204,7 +204,7 @@ public class AuthenticationGI extends JFrame {
                 loginPanel.setVisible(true);
                 signUpPanel.setVisible(false);
                 messageLabel.setIcon(null);
-                messageLabel.setText(Message.ADD_USER_SUCC);
+                messageLabel.setText(Message.ADD_USER_SUC);
                 usernameBox.addItem(usernameField.getText());
                 usernameBox.setSelectedItem(usernameField.getText());
                 passwordField.setText(String.valueOf(firstPasswordField.getPassword()));

@@ -95,7 +95,7 @@ public class AddEmptyUserGI extends JDialog {
                     controller.addEmptyUser(usernameField.getText(), UsersRights.EMPTY);
                 }
                 messageLabel.setIcon(null);
-                messageLabel.setText(Message.ADD_USER_SUCC);
+                messageLabel.setText(Message.ADD_USER_SUC);
                 addButton.setEnabled(false);
             } catch (IOException e1) {
                 messageLabel.setIcon(Message.WARNING_IMAGE);
