@@ -84,7 +84,7 @@ public class Controller {
         userNameMap.remove(user.getUserName());
     }
 
-    public boolean validateName(String name, String surname) throws IOException{
+    public boolean validateName(String name, String surname) throws IOException {
         if (!validate(name, NAME_REG) || !validate(surname, NAME_REG)) {
             throw new IOException(Message.WRONG_NAME);
         }
@@ -102,20 +102,26 @@ public class Controller {
     }
 
     public boolean validatePassword(char[] password) throws IOException {
+        if (password.length < 8) {
+            throw new IOException(Message.SHORT_PASSWORD);
+        }
+        if (password.length > 24) {
+            throw new IOException(Message.LONG_PASSWORD);
+        }
         if (!validate(String.valueOf(password), PASSWORD_REG)) {
             throw new IOException(Message.WRONG_PASSWORD);
         }
         return true;
     }
 
-    public boolean validateTelephone(String telephone) throws IOException{
+    public boolean validateTelephone(String telephone) throws IOException {
         if (!validate(telephone, TEL_NUM_REG)) {
             throw new IOException(Message.WRONG_TEL);
         }
         return true;
     }
 
-    public boolean validateMail(String mail) throws IOException{
+    public boolean validateMail(String mail) throws IOException {
         if (!validate(mail, MAIL_REG)) {
             throw new IOException(Message.WRONG_MAIL);
         }
