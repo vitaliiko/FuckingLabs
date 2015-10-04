@@ -10,6 +10,8 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.awt.*;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 
 public class AddEmptyUserGI extends JDialog {
@@ -88,26 +90,34 @@ public class AddEmptyUserGI extends JDialog {
     public void prepareAddButton() {
         addButton = new JButton("Add");
         addButton.setEnabled(false);
-        addButton.addActionListener(e -> {
-            try {
-                if (checkBox.isSelected()) {
-                    controller.addEmptyUser(usernameField.getText(), UsersRights.EMPTY_SIMPLE_PASSWORD);
-                } else {
-                    controller.addEmptyUser(usernameField.getText(), UsersRights.EMPTY);
+        addButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    if (checkBox.isSelected()) {
+                        controller.addEmptyUser(usernameField.getText(), UsersRights.EMPTY_SIMPLE_PASSWORD);
+                    } else {
+                        controller.addEmptyUser(usernameField.getText(), UsersRights.EMPTY);
+                    }
+                    messageLabel.setIcon(null);
+                    messageLabel.setText(Message.ADD_USER_SUC);
+                    addButton.setEnabled(false);
+                    IOFileHandling.saveUsersSet(controller.getUserSet());
+                } catch (IOException e1) {
+                    messageLabel.setIcon(Message.WARNING_IMAGE);
+                    messageLabel.setText(e1.getMessage());
                 }
-                messageLabel.setIcon(null);
-                messageLabel.setText(Message.ADD_USER_SUC);
-                addButton.setEnabled(false);
-                IOFileHandling.saveUsersSet(controller.getUserSet());
-            } catch (IOException e1) {
-                messageLabel.setIcon(Message.WARNING_IMAGE);
-                messageLabel.setText(e1.getMessage());
             }
         });
     }
 
     public void prepareCancelButton() {
         cancelButton = new JButton("Cancel");
-        cancelButton.addActionListener(e -> dispose());
+        cancelButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+            }
+        });
     }
 }

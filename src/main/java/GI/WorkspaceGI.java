@@ -6,6 +6,8 @@ import support.UsersRights;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class WorkspaceGI extends JFrame {
 
@@ -53,12 +55,17 @@ public class WorkspaceGI extends JFrame {
 
         JMenuItem logoutItem = new JMenuItem("Log out");
         logoutItem.setIcon(new ImageIcon("resources/logout.png"));
-        logoutItem.addActionListener(e -> dispose());
+        logoutItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+            }
+        });
         fileMenu.add(logoutItem);
 
         JMenuItem settingsItem = new JMenuItem("Settings");
         settingsItem.setIcon(new ImageIcon("resources/settings.png"));
-        settingsItem.addActionListener(e -> new SettingsGI(this, user, controller));
+        settingsItem.addActionListener(new SettingsListener(this));
         fileMenu.add(settingsItem);
 
         JMenuItem usersItem = new JMenuItem("Users");
@@ -66,7 +73,12 @@ public class WorkspaceGI extends JFrame {
         if (user.getRights() != UsersRights.ADMIN) {
             usersItem.setVisible(false);
         }
-        usersItem.addActionListener(e -> new UsersInfoGI(controller));
+        usersItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new UsersInfoGI(controller);
+            }
+        });
         fileMenu.add(usersItem);
 
         JMenuItem addUsersItem = new JMenuItem("Add user");
@@ -74,13 +86,37 @@ public class WorkspaceGI extends JFrame {
         if (user.getRights() != UsersRights.ADMIN) {
             addUsersItem.setVisible(false);
         }
-        addUsersItem.addActionListener(e -> new AddEmptyUserGI(this, controller));
+        addUsersItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new AddEmptyUserGI(null, controller);
+            }
+        });
         fileMenu.add(addUsersItem);
 
         fileMenu.addSeparator();
 
         JMenuItem closeItem = new JMenuItem("Close");
-        closeItem.addActionListener(e -> System.exit(0));
+        closeItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.exit(0);
+            }
+        });
         fileMenu.add(closeItem);
+    }
+
+    public class SettingsListener implements ActionListener {
+
+        JFrame frame;
+
+        public SettingsListener(JFrame frame) {
+            this.frame = frame;
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            new SettingsGI(frame, user, controller);
+        }
     }
 }
