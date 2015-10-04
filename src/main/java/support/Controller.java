@@ -8,16 +8,20 @@ import java.util.regex.Pattern;
 public class Controller {
 
     private static final String NAME_REG = "^[A-Z][a-zA-Z-]{2,}$";
-    private static final String USERNAME_REG = "^[a-zA-Z][a-zA-Z0-9_-]{6,15}$";
-    private static final String PASSWORD_REG = "((?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%]).{8,24})";
+    private static final String USERNAME_REG = "^[-a-zA-Z0-9_]{5,15}$";
+    private static final String PASSWORD_REG = "((?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%&*-_]).{8,24})";
     private static final String TEL_NUM_REG = "^[\\d]{10}$";
     private static final String MAIL_REG = "([a-z0-9]([-a-z0-9]{0,61}[a-z0-9])?\\.)*[a-z]{2,4}";
 
     private Set<User> userSet;
     private Map<String, Integer> userNameMap;
 
-    public Controller() {
-        initUsersSet();
+    public Controller(Set<User> userSet) {
+        this.userSet = userSet;
+        userNameMap = new TreeMap<>();
+        for (User user : userSet) {
+            userNameMap.put(user.getUserName(), user.getRights());
+        }
     }
 
     public Set<User> getUserSet() {
@@ -28,28 +32,10 @@ public class Controller {
         return userNameMap;
     }
 
-    private void initUsersSet() {
-        userSet = new HashSet<>();
-        userSet.add(new User("admin", "admin", "ADMIN", "111111", UsersRights.ADMIN));
-        userSet.add(new User("Vova", "Ivanov", "vovan", "qwerty", UsersRights.SIMPLE_USER));
-        userSet.add(new User("Vitaliy", "Kobrin", "vetal", "CthdktnL;fdf", UsersRights.ADMIN));
-        userSet.add(new User("Mihail", "Kuznetsov", "mishania", "CjltydbRjv", UsersRights.LOCK_USERNAME));
-        userSet.add(new User("Maksim", "Davidenko", "makson3/4", "SPS-1466", UsersRights.BLOCKED_USER));
-        userSet.add(new User("Maksim", "Davidenko", "kachok", "SPS-1466", UsersRights.USER_WITH_SIMPLE_PASSWORD));
-        userSet.add(new User("qwerty", UsersRights.EMPTY));
-        userSet.add(new User("qwerty2", UsersRights.EMPTY_SIMPLE_PASSWORD));
-        userSet.add(new User("Vova", "Ivanov", "vovochka", "qwerty", UsersRights.LOCK_USERNAME_WITH_SIMPLE_PASSWORD));
-        userNameMap = new TreeMap<>();
-        for (User user : userSet) {
-            userNameMap.put(user.getUserName(), user.getRights());
-        }
-    }
-
     public void createUser(String name, String surname, String userName, char[] password, int rights)
             throws IOException {
         validateName(name, surname);
         if (rights != UsersRights.LOCK_USERNAME && rights != UsersRights.LOCK_USERNAME_WITH_SIMPLE_PASSWORD) {
-            System.out.println("Oops!");
             validateUsername(userName);
         }
         if (rights != UsersRights.LOCK_USERNAME_WITH_SIMPLE_PASSWORD) {

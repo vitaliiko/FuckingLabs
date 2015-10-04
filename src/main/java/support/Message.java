@@ -12,7 +12,7 @@ public class Message {
     public static final String EXIST_USER = "This username already exists";
     public static final String ADD_USER_SUC = "Your account created successfully!";
     public static final String PASSWORDS_DOES_NOT_MATCH = "Passwords does not match";
-    public static final String WRONG_USERNAME = "Username contains forbidden characters";
+    public static final String WRONG_USERNAME = "Wrong username";
     public static final String NON_ADMIN_USER = "You can\'t create account with such username";
     public static final String SHORT_PASSWORD = "Password is too short";
     public static final String LONG_PASSWORD = "Password is too long";

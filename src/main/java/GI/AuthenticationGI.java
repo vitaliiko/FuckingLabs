@@ -39,8 +39,9 @@ public class AuthenticationGI extends JFrame {
     private Controller controller;
     private int rights;
 
-    public AuthenticationGI() throws Exception {
+    public AuthenticationGI(Controller controller) throws Exception {
         super("Login");
+        this.controller = controller;
 
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -49,7 +50,6 @@ public class AuthenticationGI extends JFrame {
             e.printStackTrace();
         }
 
-        controller = new Controller();
         prepareCenterPanel();
         getContentPane().add(centerPanel, BorderLayout.CENTER);
         messageLabel = Message.prepareMessageLabel(Message.LOGIN);
