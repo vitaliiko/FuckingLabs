@@ -33,10 +33,12 @@ public class Controller {
         userSet.add(new User("admin", "admin", "ADMIN", "111111", UsersRights.ADMIN));
         userSet.add(new User("Vova", "Ivanov", "vovan", "qwerty", UsersRights.SIMPLE_USER));
         userSet.add(new User("Vitaliy", "Kobrin", "vetal", "CthdktnL;fdf", UsersRights.ADMIN));
-        userSet.add(new User("Mihail", "Kuznetsov", "mishania", "CjltydbRjv", UsersRights.SIMPLE_USER));
-        userSet.add(new User("Maksim", "Davidenko", "makson3/4", "SPS-1466", UsersRights.LOCKED_USER));
+        userSet.add(new User("Mihail", "Kuznetsov", "mishania", "CjltydbRjv", UsersRights.LOCK_USERNAME));
+        userSet.add(new User("Maksim", "Davidenko", "makson3/4", "SPS-1466", UsersRights.BLOCKED_USER));
+        userSet.add(new User("Maksim", "Davidenko", "kachok", "SPS-1466", UsersRights.USER_WITH_SIMPLE_PASSWORD));
         userSet.add(new User("qwerty", UsersRights.EMPTY));
-        userSet.add(new User("qwerty2", UsersRights.EMPTY_LOCK_USERNAME));
+        userSet.add(new User("qwerty2", UsersRights.EMPTY_SIMPLE_PASSWORD));
+        userSet.add(new User("Vova", "Ivanov", "vovochka", "qwerty", UsersRights.LOCK_USERNAME_WITH_SIMPLE_PASSWORD));
         userNameMap = new TreeMap<>();
         for (User user : userSet) {
             userNameMap.put(user.getUserName(), user.getRights());
@@ -46,9 +48,16 @@ public class Controller {
     public void createUser(String name, String surname, String userName, char[] password, int rights)
             throws IOException {
         validateName(name, surname);
-        validateUsername(userName);
-        validatePassword(password);
-
+        if (rights != UsersRights.LOCK_USERNAME && rights != UsersRights.LOCK_USERNAME_WITH_SIMPLE_PASSWORD) {
+            System.out.println("Oops!");
+            validateUsername(userName);
+        }
+        if (rights != UsersRights.LOCK_USERNAME_WITH_SIMPLE_PASSWORD) {
+            validatePassword(password);
+        }
+        if (rights == UsersRights.LOCK_USERNAME || rights == UsersRights.LOCK_USERNAME_WITH_SIMPLE_PASSWORD) {
+            removeUser(new User(userName, rights));
+        }
         if (!userSet.add(new User(name, surname, userName, password, rights))) {
             throw new IOException(Message.EXIST_USER);
         }

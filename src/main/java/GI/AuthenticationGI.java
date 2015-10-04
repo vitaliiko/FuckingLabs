@@ -37,6 +37,7 @@ public class AuthenticationGI extends JFrame {
     private Dimension loginDimension = new Dimension(400, 170);
     private Dimension signUpDimension = new Dimension(400, 270);
     private Controller controller;
+    private int rights;
 
     public AuthenticationGI() throws Exception {
         super("Login");
@@ -122,6 +123,7 @@ public class AuthenticationGI extends JFrame {
             } else {
                 setVisible(false);
                 clearFields();
+                rights = -1;
                 WorkspaceGI workspaceGI = new WorkspaceGI(user, controller);
                 workspaceGI.addWindowListener(new WindowAdapter() {
                     @Override
@@ -194,10 +196,19 @@ public class AuthenticationGI extends JFrame {
         signUpButton.setEnabled(false);
         signUpButton.addActionListener(e -> {
             try {
+                if (rights == UsersRights.EMPTY || rights == UsersRights.LOCK_USERNAME) {
+                    rights = UsersRights.LOCK_USERNAME;
+                } else {
+                    if (rights == UsersRights.EMPTY_SIMPLE_PASSWORD ||
+                            rights == UsersRights.LOCK_USERNAME_WITH_SIMPLE_PASSWORD) {
+                        rights = UsersRights.LOCK_USERNAME_WITH_SIMPLE_PASSWORD;
+                    } else {
+                        rights = UsersRights.SIMPLE_USER;
+                    }
+                }
                 if (Arrays.equals(firstPasswordField.getPassword(), secondPasswordField.getPassword())) {
-                    controller.createUser(nameField.getText(),
-                            surnameField.getText(), usernameField.getText(), firstPasswordField.getPassword(),
-                            usernameField.isEnabled() ? UsersRights.SIMPLE_USER : UsersRights.LOCK_USERNAME);
+                    controller.createUser(nameField.getText(), surnameField.getText(), usernameField.getText(),
+                            firstPasswordField.getPassword(), rights);
                 } else {
                     throw new IOException(Message.PASSWORDS_DOES_NOT_MATCH);
                 }
@@ -231,14 +242,20 @@ public class AuthenticationGI extends JFrame {
     }
 
     public void clearFields() {
+        nameField.setText("");
+        surnameField.setText("");
+        if (messageLabel.getText().equals(Message.USER_IS_EMPTY)) {
+            usernameField.setText((String) usernameBox.getSelectedItem());
+            usernameField.setEnabled(false);
+        } else {
+            usernameField.setText("");
+            usernameField.setEnabled(true);
+        }
+        firstPasswordField.setText("");
+        secondPasswordField.setText("");
         usernameBox.setSelectedIndex(-1);
         passwordField.setText("");
         passwordField.setEnabled(true);
-        nameField.setText("");
-        surnameField.setText("");
-        usernameField.setText("");
-        firstPasswordField.setText("");
-        secondPasswordField.setText("");
     }
 
     public class SignUpTypeListener implements DocumentListener {
@@ -287,23 +304,25 @@ public class AuthenticationGI extends JFrame {
             return;
         }
         String username = (String) usernameBox.getSelectedItem();
-        int rights = controller.getUserNameMap().get(username);
+        rights = controller.getUserNameMap().get(username);
         switch (rights) {
-            case UsersRights.LOCKED_USER: {
+            case UsersRights.EMPTY_SIMPLE_PASSWORD:
+            case UsersRights.EMPTY: {
                 passwordField.setEnabled(false);
+                messageLabel.setIcon(Message.WARNING_IMAGE);
+                messageLabel.setText(Message.USER_IS_EMPTY);
                 break;
             }
-            case UsersRights.EMPTY_LOCK_USERNAME: {
-                usernameField.setEnabled(false);
-            }
-            case UsersRights.EMPTY: {
-                createNewButton.doClick();
-                usernameField.setText(username);
-                messageLabel.setText(Message.ADD_INFO);
+            case UsersRights.BLOCKED_USER: {
+                passwordField.setEnabled(false);
+                messageLabel.setIcon(Message.WARNING_IMAGE);
+                messageLabel.setText(Message.USER_IS_LOCKED);
                 break;
             }
             default: {
                 passwordField.setEnabled(true);
+                messageLabel.setIcon(null);
+                messageLabel.setText(Message.LOGIN);
             }
         }
     }

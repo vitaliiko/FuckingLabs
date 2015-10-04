@@ -78,9 +78,8 @@ public class SettingsGI extends JDialog {
         fieldsPanel.setLayout(new BoxLayout(fieldsPanel, BoxLayout.Y_AXIS));
 
         fieldsPanel.add(
-                new LabelComponentPanel("Account type: ",
-                        new JLabel(UsersRights.accountType(user.getRights()))
-                ));
+                new LabelComponentPanel("Account type: ", new JLabel(UsersRights.accountType(user.getRights())))
+        );
 
         nameField = new JTextField(user.getName(), COLUMNS_COUNT);
         nameField.getDocument().addDocumentListener(typeListener);
@@ -93,7 +92,8 @@ public class SettingsGI extends JDialog {
         usernameField = new JTextField(user.getUserName(), COLUMNS_COUNT);
         usernameField.getDocument().addDocumentListener(typeListener);
         usernameField.setEnabled(user.getRights() != UsersRights.LOCK_USERNAME &&
-                user.getRights() != UsersRights.ADMIN);
+                user.getRights() != UsersRights.ADMIN &&
+                user.getRights() != UsersRights.LOCK_USERNAME_WITH_SIMPLE_PASSWORD);
         fieldsPanel.add(new LabelComponentPanel("Username: ", usernameField));
 
         telephoneField = new JTextField(user.getTelephoneNum(), COLUMNS_COUNT);
@@ -169,7 +169,8 @@ public class SettingsGI extends JDialog {
                     if (!Arrays.equals(newPasswordField.getPassword(), repeatPasswordField.getPassword())) {
                         throw new IOException(Message.PASSWORDS_DOES_NOT_MATCH);
                     }
-                    if (user.getRights() == UsersRights.USER_WITH_PLAIN_PASSWORD) {
+                    if (user.getRights() == UsersRights.USER_WITH_SIMPLE_PASSWORD ||
+                            user.getRights() == UsersRights.LOCK_USERNAME_WITH_SIMPLE_PASSWORD) {
                         user.setPassword(newPasswordField.getPassword());
                     } else {
                         if (controller.validatePassword(newPasswordField.getPassword())) {

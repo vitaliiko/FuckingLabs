@@ -72,7 +72,7 @@ public class AddEmptyUserGI extends JDialog {
         });
         fieldPanel.add(new LabelComponentPanel("Username: ", usernameField));
 
-        checkBox = new JCheckBox("Block username");
+        checkBox = new JCheckBox("Authorize to use a simple password");
         checkBox.setAlignmentX(Component.RIGHT_ALIGNMENT);
         fieldPanel.add(checkBox);
 
@@ -90,7 +90,7 @@ public class AddEmptyUserGI extends JDialog {
         addButton.addActionListener(e -> {
             try {
                 if (checkBox.isSelected()) {
-                    controller.addEmptyUser(usernameField.getText(), UsersRights.EMPTY_LOCK_USERNAME);
+                    controller.addEmptyUser(usernameField.getText(), UsersRights.EMPTY_SIMPLE_PASSWORD);
                 } else {
                     controller.addEmptyUser(usernameField.getText(), UsersRights.EMPTY);
                 }

@@ -8,31 +8,24 @@ import support.UsersRights;
 import javax.swing.*;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
-import javax.swing.table.TableRowSorter;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 public class UsersInfoGI extends JFrame {
 
     private Controller controller;
     private ArrayList<User> usersList;
+    private ArrayList<JPanel> userInfoPanelsList;
     private int usersIndex;
-    private int usersRights;
 
     private JPanel tablePanel;
-    private JPanel userInfoPanel;
-    private JPanel labelsPanel;
+    private JPanel viewUserInfoPanel;
     private JPanel centerPanel;
     private JPanel cancelPanel;
     private JPanel buttonsPanel;
-    private JComboBox<Object> rightsBox;
-    private JLabel nameLabel;
-    private JLabel surnameLabel;
-    private JLabel usernameLabel;
-    private JLabel telephoneLabel;
-    private JLabel mailLabel;
     private JButton prevButton;
     private JButton nextButton;
     private JButton backButton;
@@ -41,11 +34,12 @@ public class UsersInfoGI extends JFrame {
     private JLabel messageLabel;
     private JTable usersTable;
 
-
     public UsersInfoGI(Controller controller) throws HeadlessException {
         super("Users");
         this.controller = controller;
         usersList = new ArrayList<>(controller.getUserSet());
+        userInfoPanelsList = new ArrayList<>();
+        userInfoPanelsList.addAll(usersList.stream().map(UserInfoPanel::new).collect(Collectors.toList()));
 
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -74,7 +68,7 @@ public class UsersInfoGI extends JFrame {
         prepareTablePanel();
         centerPanel.add(tablePanel);
         prepareUserInfoPanel();
-        centerPanel.add(userInfoPanel);
+        centerPanel.add(viewUserInfoPanel);
     }
 
     public void prepareTablePanel() {
@@ -90,7 +84,6 @@ public class UsersInfoGI extends JFrame {
     public void prepareUsersTable() {
         TableModel tableModel = new UsersTableModel();
         usersTable = new JTable(tableModel);
-        usersTable.setRowSorter(new TableRowSorter<>(tableModel));
         usersTable.getTableHeader().setReorderingAllowed(false);
         usersTable.setShowHorizontalLines(false);
         usersTable.setShowVerticalLines(false);
@@ -107,28 +100,15 @@ public class UsersInfoGI extends JFrame {
         });
     }
 
-    public void userInfo(int index) {
-        User user = usersList.get(index);
-
-        rightsBox.setSelectedItem(UsersRights.accountType(user.getRights()));
-        rightsBox.setEnabled(user.getRights() != UsersRights.ADMIN);
-        nameLabel.setText(user.getName());
-        surnameLabel.setText(user.getSurname());
-        usernameLabel.setText(user.getUserName());
-        telephoneLabel.setText(user.getTelephoneNum());
-        mailLabel.setText(user.getMailAddress());
-
-        prevButton.setEnabled(index != 0);
-        nextButton.setEnabled(index != usersList.size() - 1);
-    }
-
     public void prepareShowButton() {
         showInfoButton = new JButton("Show info");
         showInfoButton.setEnabled(false);
         showInfoButton.addActionListener(e -> {
-            userInfo(usersIndex = usersTable.getSelectedRow());
+            usersIndex = usersTable.getSelectedRow();
             tablePanel.setVisible(false);
-            userInfoPanel.setVisible(true);
+            viewUserInfoPanel.setVisible(true);
+            userInfoPanelsList.get(usersIndex).setVisible(true);
+            checkButtonsEnabled();
             messageLabel.setText(Message.USER_INFO);
         });
     }
@@ -143,14 +123,14 @@ public class UsersInfoGI extends JFrame {
     }
 
     public void prepareUserInfoPanel() {
-        userInfoPanel = new JPanel();
-        userInfoPanel.setVisible(false);
-        userInfoPanel.setLayout(new BoxLayout(userInfoPanel, BoxLayout.Y_AXIS));
+        viewUserInfoPanel = new JPanel();
+        viewUserInfoPanel.setVisible(false);
+        viewUserInfoPanel.setLayout(new BoxLayout(viewUserInfoPanel, BoxLayout.Y_AXIS));
 
         prepareButtonsPanel();
-        userInfoPanel.add(buttonsPanel);
-        prepareLabelsPanel();
-        userInfoPanel.add(labelsPanel);
+        viewUserInfoPanel.add(buttonsPanel);
+
+        userInfoPanelsList.forEach(viewUserInfoPanel::add);
     }
 
     public void prepareButtonsPanel() {
@@ -159,16 +139,22 @@ public class UsersInfoGI extends JFrame {
         prevButton= new JButton("Prev");
         prevButton.setIcon(new ImageIcon("resources/prev.png"));
         prevButton.setHorizontalAlignment(JButton.LEFT);
-        prevButton.addActionListener(e -> userInfo(--usersIndex));
+        prevButton.addActionListener(e -> {
+            userInfoPanelsList.get(usersIndex).setVisible(false);
+            userInfoPanelsList.get(--usersIndex).setVisible(true);
+            checkButtonsEnabled();
+        });
         buttonsPanel.add(prevButton);
 
         backButton = new JButton("Back");
         backButton.setHorizontalAlignment(JButton.CENTER);
         backButton.addActionListener(e -> {
-            userInfoPanel.setVisible(false);
+            viewUserInfoPanel.setVisible(false);
+            userInfoPanelsList.get(usersIndex).setVisible(false);
             tablePanel.setVisible(true);
             messageLabel.setText(Message.USER_LIST);
             usersIndex = 0;
+
         });
         buttonsPanel.add(backButton);
 
@@ -176,38 +162,17 @@ public class UsersInfoGI extends JFrame {
         nextButton.setIcon(new ImageIcon("resources/next.png"));
         nextButton.setHorizontalTextPosition(SwingConstants.LEFT);
         nextButton.setHorizontalAlignment(JButton.RIGHT);
-        nextButton.addActionListener(e -> userInfo(++usersIndex));
+        nextButton.addActionListener(e -> {
+            userInfoPanelsList.get(usersIndex).setVisible(false);
+            userInfoPanelsList.get(++usersIndex).setVisible(true);
+            checkButtonsEnabled();
+        });
         buttonsPanel.add(nextButton);
     }
 
-    public void prepareLabelsPanel() {
-        labelsPanel = new JPanel();
-        labelsPanel.setLayout(new GridLayout(6, 2));
-
-        labelsPanel.add(new JLabel("Account type: "));
-        prepareRightsBox();
-        labelsPanel.add(rightsBox);
-
-        labelsPanel.add(new JLabel("Name: "));
-        labelsPanel.add(nameLabel = new JLabel());
-
-        labelsPanel.add(new JLabel("Surname: "));
-        labelsPanel.add(surnameLabel = new JLabel());
-
-        labelsPanel.add(new JLabel("Username: "));
-        labelsPanel.add(usernameLabel = new JLabel());
-
-        labelsPanel.add(new JLabel("Telephone: "));
-        labelsPanel.add(telephoneLabel = new JLabel());
-
-        labelsPanel.add(new JLabel("E-mail address: "));
-        labelsPanel.add(mailLabel = new JLabel());
-    }
-
-    public void prepareRightsBox() {
-        String[] items = UsersRights.getItems();
-        rightsBox = new JComboBox<>(items);
-        rightsBox.addItemListener(e -> usersRights = rightsBox.getSelectedIndex());
+    public void checkButtonsEnabled() {
+        nextButton.setEnabled(usersIndex != userInfoPanelsList.size() - 1);
+        prevButton.setEnabled(usersIndex != 0);
     }
 
     public class UsersTableModel implements TableModel {
@@ -263,6 +228,67 @@ public class UsersInfoGI extends JFrame {
         @Override
         public void removeTableModelListener(TableModelListener l) {
 
+        }
+    }
+
+    public class UserInfoPanel extends JPanel {
+
+        private JComboBox<Object> rightsBox;
+        private User user;
+
+        public UserInfoPanel(User user) {
+            super();
+            this.user = user;
+            initPanel();
+        }
+
+        public void initPanel() {
+            setLayout(new GridLayout(6, 2));
+            setVisible(false);
+
+            add(new JLabel("Account type: "));
+            prepareRightsBox();
+            add(rightsBox);
+
+            add(new JLabel("Name: "));
+            add(new JLabel(user.getName()));
+
+            add(new JLabel("Surname: "));
+            add(new JLabel(user.getSurname()));
+
+            add(new JLabel("Username: "));
+            add(new JLabel(user.getUserName()));
+
+            add(new JLabel("Telephone: "));
+            add(new JLabel(user.getTelephoneNum()));
+
+            add(new JLabel("E-mail address: "));
+            add(new JLabel(user.getMailAddress()));
+        }
+
+        public void prepareRightsBox() {
+            String[] items = UsersRights.getItems();
+            rightsBox = new JComboBox<>(items);
+            rightsBox.setSelectedIndex(user.getRights());
+            rightsBox.setEnabled(user.getRights() != UsersRights.ADMIN && user.getRights() != UsersRights.EMPTY);
+            rightsBox.addItemListener(e -> {
+                if (rightsBox.getSelectedIndex() == UsersRights.ADMIN) {
+                    rightsBox.setSelectedIndex(user.getRights());
+                }
+                if (user.getRights() != UsersRights.EMPTY && user.getRights() != UsersRights.EMPTY_SIMPLE_PASSWORD) {
+                    if (rightsBox.getSelectedIndex() == UsersRights.EMPTY ||
+                            rightsBox.getSelectedIndex() == UsersRights.EMPTY_SIMPLE_PASSWORD) {
+                        rightsBox.setSelectedIndex(user.getRights());
+                    }
+                }
+                if (user.getRights() == UsersRights.EMPTY || user.getRights() == UsersRights.EMPTY_SIMPLE_PASSWORD) {
+                    if (rightsBox.getSelectedIndex() != UsersRights.EMPTY &&
+                            rightsBox.getSelectedIndex() != UsersRights.EMPTY_SIMPLE_PASSWORD) {
+                        rightsBox.setSelectedIndex(user.getRights());
+                    }
+                }
+                user.setRights(rightsBox.getSelectedIndex());
+            });
         }
     }
 }
