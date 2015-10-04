@@ -1,9 +1,6 @@
 package GI;
 
-import support.Controller;
-import support.Message;
-import support.User;
-import support.UsersRights;
+import support.*;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -116,6 +113,7 @@ public class SettingsGI extends JDialog {
         removeButton.setEnabled(user.getRights() != UsersRights.ADMIN);
         removeButton.addActionListener(e -> {
             controller.removeUser(user);
+            IOFileHandling.saveUsersSet(controller.getUserSet());
             dispose();
             frame.dispose();
         });
@@ -181,6 +179,7 @@ public class SettingsGI extends JDialog {
                 messageLabel.setIcon(null);
                 messageLabel.setText(Message.SAVED);
                 saveButton.setEnabled(false);
+                IOFileHandling.saveUsersSet(controller.getUserSet());
             } catch (IOException e1) {
                 messageLabel.setIcon(Message.WARNING_IMAGE);
                 messageLabel.setText(e1.getMessage());

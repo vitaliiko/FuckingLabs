@@ -11,7 +11,7 @@ public class Controller {
     private static final String USERNAME_REG = "^[-a-zA-Z0-9_]{5,15}$";
     private static final String PASSWORD_REG = "((?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%&*-_]).{8,24})";
     private static final String TEL_NUM_REG = "^[\\d]{10}$";
-    private static final String MAIL_REG = "([a-z0-9]([-a-z0-9]{0,61}[a-z0-9])?\\.)*[a-z]{2,4}";
+    private static final String MAIL_REG = "^[a-zA-Z0-9\\._%+-]+@[a-zA-Z0-9.-]+\\.[a-z]{2,4}$";
 
     private Set<User> userSet;
     private Map<String, Integer> userNameMap;
@@ -48,6 +48,7 @@ public class Controller {
             throw new IOException(Message.EXIST_USER);
         }
         userNameMap.put(userName, rights);
+        IOFileHandling.saveUsersSet(userSet);
     }
 
     public void updateUsersInfo(User user, String name, String surname, String telephone, String mail)

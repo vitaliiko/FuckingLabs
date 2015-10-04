@@ -1,6 +1,7 @@
 package GI;
 
 import support.Controller;
+import support.IOFileHandling;
 import support.Message;
 import support.UsersRights;
 
@@ -97,6 +98,7 @@ public class AddEmptyUserGI extends JDialog {
                 messageLabel.setIcon(null);
                 messageLabel.setText(Message.ADD_USER_SUC);
                 addButton.setEnabled(false);
+                IOFileHandling.saveUsersSet(controller.getUserSet());
             } catch (IOException e1) {
                 messageLabel.setIcon(Message.WARNING_IMAGE);
                 messageLabel.setText(e1.getMessage());

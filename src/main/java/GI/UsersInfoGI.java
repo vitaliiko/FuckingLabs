@@ -1,9 +1,6 @@
 package GI;
 
-import support.Controller;
-import support.Message;
-import support.User;
-import support.UsersRights;
+import support.*;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -130,6 +127,7 @@ public class UsersInfoGI extends JFrame {
         saveButton.setEnabled(false);
         saveButton.addActionListener(e -> {
             saveButton.setEnabled(false);
+            IOFileHandling.saveUsersSet(controller.getUserSet());
         });
         saveCancelPanel.add(saveButton);
 
@@ -208,8 +206,10 @@ public class UsersInfoGI extends JFrame {
         removeButton = new JButton("Remove user");
         removeButton.addActionListener(e -> {
             controller.removeUser(usersList.get(usersIndex));
+            usersList.remove(usersIndex);
             viewUserInfoPanel.setVisible(false);
             userInfoPanelsList.get(usersIndex).setVisible(false);
+            userInfoPanelsList.remove(usersIndex);
             tablePanel.setVisible(true);
             saveButton.setEnabled(true);
         });
