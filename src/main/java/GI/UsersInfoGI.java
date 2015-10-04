@@ -9,6 +9,8 @@ import javax.swing.*;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
 import java.awt.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -30,6 +32,8 @@ public class UsersInfoGI extends JFrame {
     private JButton nextButton;
     private JButton backButton;
     private JButton addButton;
+    private JButton removeButton;
+    private JButton saveButton;
     private JButton showInfoButton;
     private JLabel messageLabel;
     private JTable usersTable;
@@ -57,7 +61,7 @@ public class UsersInfoGI extends JFrame {
 
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         setSize(new Dimension(500, 400));
-        setIconImage(new ImageIcon("resources/table.png").getImage());
+        setIconImage(new ImageIcon("resources/users.png").getImage());
         setResizable(false);
         setLocationRelativeTo(null);
         setVisible(true);
@@ -74,8 +78,12 @@ public class UsersInfoGI extends JFrame {
     public void prepareTablePanel() {
         tablePanel = new JPanel();
         tablePanel.setLayout(new BoxLayout(tablePanel, BoxLayout.Y_AXIS));
+
         prepareShowButton();
-        tablePanel.add(showInfoButton);
+        JPanel showButtonsPanel = new JPanel();
+        showButtonsPanel.add(showInfoButton);
+        tablePanel.add(showButtonsPanel);
+
         prepareUsersTable();
         tablePanel.add(new JScrollPane(usersTable, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
                 ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER));
@@ -103,6 +111,7 @@ public class UsersInfoGI extends JFrame {
     public void prepareShowButton() {
         showInfoButton = new JButton("Show info");
         showInfoButton.setEnabled(false);
+        showInfoButton.setHorizontalAlignment(JButton.CENTER);
         showInfoButton.addActionListener(e -> {
             usersIndex = usersTable.getSelectedRow();
             tablePanel.setVisible(false);
@@ -242,9 +251,15 @@ public class UsersInfoGI extends JFrame {
             initPanel();
         }
 
-        public void initPanel() {
+        private void initPanel() {
             setLayout(new GridLayout(6, 2));
             setVisible(false);
+            addComponentListener(new ComponentAdapter() {
+                @Override
+                public void componentHidden(ComponentEvent e) {
+                    user.setRights(rightsBox.getSelectedIndex());
+                }
+            });
 
             add(new JLabel("Account type: "));
             prepareRightsBox();
@@ -266,28 +281,28 @@ public class UsersInfoGI extends JFrame {
             add(new JLabel(user.getMailAddress()));
         }
 
-        public void prepareRightsBox() {
+        private void prepareRightsBox() {
             String[] items = UsersRights.getItems();
             rightsBox = new JComboBox<>(items);
             rightsBox.setSelectedIndex(user.getRights());
-            rightsBox.setEnabled(user.getRights() != UsersRights.ADMIN && user.getRights() != UsersRights.EMPTY);
+            rightsBox.setEnabled(user.getRights() != UsersRights.ADMIN);
             rightsBox.addItemListener(e -> {
-                if (rightsBox.getSelectedIndex() == UsersRights.ADMIN) {
+                int selectedRights = rightsBox.getSelectedIndex();
+                if (selectedRights == UsersRights.ADMIN) {
                     rightsBox.setSelectedIndex(user.getRights());
                 }
                 if (user.getRights() != UsersRights.EMPTY && user.getRights() != UsersRights.EMPTY_SIMPLE_PASSWORD) {
-                    if (rightsBox.getSelectedIndex() == UsersRights.EMPTY ||
+                    if (selectedRights == UsersRights.EMPTY ||
                             rightsBox.getSelectedIndex() == UsersRights.EMPTY_SIMPLE_PASSWORD) {
                         rightsBox.setSelectedIndex(user.getRights());
                     }
                 }
                 if (user.getRights() == UsersRights.EMPTY || user.getRights() == UsersRights.EMPTY_SIMPLE_PASSWORD) {
-                    if (rightsBox.getSelectedIndex() != UsersRights.EMPTY &&
+                    if (selectedRights != UsersRights.EMPTY &&
                             rightsBox.getSelectedIndex() != UsersRights.EMPTY_SIMPLE_PASSWORD) {
                         rightsBox.setSelectedIndex(user.getRights());
                     }
                 }
-                user.setRights(rightsBox.getSelectedIndex());
             });
         }
     }
