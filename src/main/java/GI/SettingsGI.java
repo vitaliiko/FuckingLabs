@@ -7,8 +7,6 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.Arrays;
 
@@ -113,14 +111,11 @@ public class SettingsGI extends JDialog {
     public void prepareRemoveButton(){
         removeButton = new JButton("Remove account");
         removeButton.setEnabled(user.getRights() != UsersRights.ADMIN);
-        removeButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                controller.removeUser(user);
-                IOFileHandling.saveUsersSet(controller.getUserSet());
-                dispose();
-                frame.dispose();
-            }
+        removeButton.addActionListener(e -> {
+            controller.removeUser(user);
+            IOFileHandling.saveUsersSet(controller.getUserSet());
+            dispose();
+            frame.dispose();
         });
     }
 
@@ -150,59 +145,51 @@ public class SettingsGI extends JDialog {
     public void prepareSaveButton() {
         saveButton = new JButton("Save");
         saveButton.setEnabled(false);
-        saveButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    controller.updateUsersInfo(user, nameField.getText(), surnameField.getText(),
-                            telephoneField.getText(), mailField.getText());
-                    String username = usernameField.getText();
-                    if (!user.getUserName().equals(username)) {
-                        if (controller.validateUsername(username)) {
-                            for (String s : controller.getUserNameMap().keySet()) {
-                                if (s.equals(username)) {
-                                    throw new IOException(Message.EXIST_USER);
-                                }
-                            }
-                            user.setUserName(username);
-                        }
-                    }
-                    if (isNotPasswordsFieldsEmpty()) {
-                        if (!Arrays.equals(user.getPassword(), currentPasswordField.getPassword())) {
-                            throw new IOException(Message.WRONG_PASSWORD);
-                        }
-                        if (!Arrays.equals(newPasswordField.getPassword(), repeatPasswordField.getPassword())) {
-                            throw new IOException(Message.PASSWORDS_DOES_NOT_MATCH);
-                        }
-                        if (user.getRights() == UsersRights.USER_WITH_SIMPLE_PASSWORD ||
-                                user.getRights() == UsersRights.LOCK_USERNAME_WITH_SIMPLE_PASSWORD) {
-                            user.setPassword(newPasswordField.getPassword());
-                        } else {
-                            if (controller.validatePassword(newPasswordField.getPassword())) {
-                                user.setPassword(newPasswordField.getPassword());
+        saveButton.addActionListener(e -> {
+            try {
+                controller.updateUsersInfo(user, nameField.getText(), surnameField.getText(),
+                        telephoneField.getText(), mailField.getText());
+                String username = usernameField.getText();
+                if (!user.getUserName().equals(username)) {
+                    if (controller.validateUsername(username)) {
+                        for (String s : controller.getUserNameMap().keySet()) {
+                            if (s.equals(username)) {
+                                throw new IOException(Message.EXIST_USER);
                             }
                         }
+                        user.setUserName(username);
                     }
-                    messageLabel.setIcon(null);
-                    messageLabel.setText(Message.SAVED);
-                    saveButton.setEnabled(false);
-                    IOFileHandling.saveUsersSet(controller.getUserSet());
-                } catch (IOException e1) {
-                    messageLabel.setIcon(Message.WARNING_IMAGE);
-                    messageLabel.setText(e1.getMessage());
                 }
+                if (isNotPasswordsFieldsEmpty()) {
+                    if (!Arrays.equals(user.getPassword(), currentPasswordField.getPassword())){
+                        throw new IOException(Message.WRONG_PASSWORD);
+                    }
+                    if (!Arrays.equals(newPasswordField.getPassword(), repeatPasswordField.getPassword())) {
+                        throw new IOException(Message.PASSWORDS_DOES_NOT_MATCH);
+                    }
+                    if (user.getRights() == UsersRights.USER_WITH_SIMPLE_PASSWORD ||
+                            user.getRights() == UsersRights.LOCK_USERNAME_WITH_SIMPLE_PASSWORD) {
+                        user.setPassword(newPasswordField.getPassword());
+                    } else {
+                        if (controller.validatePassword(newPasswordField.getPassword())) {
+                            user.setPassword(newPasswordField.getPassword());
+                        }
+                    }
+                }
+                messageLabel.setIcon(null);
+                messageLabel.setText(Message.SAVED);
+                saveButton.setEnabled(false);
+                IOFileHandling.saveUsersSet(controller.getUserSet());
+            } catch (IOException e1) {
+                messageLabel.setIcon(Message.WARNING_IMAGE);
+                messageLabel.setText(e1.getMessage());
             }
         });
     }
 
     public void prepareCancelButton() {
         cancelButton = new JButton("Cancel");
-        cancelButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                dispose();
-            }
-        });
+        cancelButton.addActionListener(e -> dispose());
     }
 
     private boolean isPasswordsFieldsEmpty() {

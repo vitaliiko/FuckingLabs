@@ -4,12 +4,13 @@ import support.*;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 
@@ -94,12 +95,7 @@ public class UsersInfoGI extends JFrame {
         usersTable.setShowHorizontalLines(false);
         usersTable.setShowVerticalLines(false);
         usersTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        usersTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
-            @Override
-            public void valueChanged(ListSelectionEvent e) {
-                showInfoButton.setEnabled(true);
-            }
-        });
+        usersTable.getSelectionModel().addListSelectionListener(e -> showInfoButton.setEnabled(true));
         usersTable.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -114,16 +110,13 @@ public class UsersInfoGI extends JFrame {
         showInfoButton = new JButton("Show info");
         showInfoButton.setEnabled(false);
         showInfoButton.setHorizontalAlignment(JButton.CENTER);
-        showInfoButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                tablePanel.setVisible(false);
-                viewUserInfoPanel.setVisible(true);
-                usersIndex = usersTable.getSelectedRow();
-                userInfoPanelsList.get(usersIndex).setVisible(true);
-                checkButtonsEnabled();
-                messageLabel.setText(Message.USER_INFO);
-            }
+        showInfoButton.addActionListener(e -> {
+            tablePanel.setVisible(false);
+            viewUserInfoPanel.setVisible(true);
+            usersIndex = usersTable.getSelectedRow();
+            userInfoPanelsList.get(usersIndex).setVisible(true);
+            checkButtonsEnabled();
+            messageLabel.setText(Message.USER_INFO);
         });
     }
 
@@ -132,22 +125,14 @@ public class UsersInfoGI extends JFrame {
 
         saveButton = new JButton("Save");
         saveButton.setEnabled(false);
-        saveButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                saveButton.setEnabled(false);
-                IOFileHandling.saveUsersSet(controller.getUserSet());
-            }
+        saveButton.addActionListener(e -> {
+            saveButton.setEnabled(false);
+            IOFileHandling.saveUsersSet(controller.getUserSet());
         });
         saveCancelPanel.add(saveButton);
 
         JButton cancelButton = new JButton("Cancel");
-        cancelButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                dispose();
-            }
-        });
+        cancelButton.addActionListener(e -> dispose());
         saveCancelPanel.add(cancelButton);
     }
 
@@ -173,27 +158,22 @@ public class UsersInfoGI extends JFrame {
         prevButton= new JButton("Prev");
         prevButton.setIcon(new ImageIcon("resources/prev.png"));
         prevButton.setHorizontalAlignment(JButton.LEFT);
-        prevButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                userInfoPanelsList.get(usersIndex).setVisible(false);
-                userInfoPanelsList.get(--usersIndex).setVisible(true);
-                checkButtonsEnabled();
-            }
+        prevButton.addActionListener(e -> {
+            userInfoPanelsList.get(usersIndex).setVisible(false);
+            userInfoPanelsList.get(--usersIndex).setVisible(true);
+            checkButtonsEnabled();
         });
         navigationPanel.add(prevButton);
 
         JButton backButton = new JButton("Back");
         backButton.setHorizontalAlignment(JButton.CENTER);
-        backButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                viewUserInfoPanel.setVisible(false);
-                userInfoPanelsList.get(usersIndex).setVisible(false);
-                tablePanel.setVisible(true);
-                messageLabel.setText(Message.USER_LIST);
-                usersIndex = 0;
-            }
+        backButton.addActionListener(e -> {
+            viewUserInfoPanel.setVisible(false);
+            userInfoPanelsList.get(usersIndex).setVisible(false);
+            tablePanel.setVisible(true);
+            messageLabel.setText(Message.USER_LIST);
+            usersIndex = 0;
+
         });
         navigationPanel.add(backButton);
 
@@ -201,13 +181,10 @@ public class UsersInfoGI extends JFrame {
         nextButton.setIcon(new ImageIcon("resources/next.png"));
         nextButton.setHorizontalTextPosition(SwingConstants.LEFT);
         nextButton.setHorizontalAlignment(JButton.RIGHT);
-        nextButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                userInfoPanelsList.get(usersIndex).setVisible(false);
-                userInfoPanelsList.get(++usersIndex).setVisible(true);
-                checkButtonsEnabled();
-            }
+        nextButton.addActionListener(e -> {
+            userInfoPanelsList.get(usersIndex).setVisible(false);
+            userInfoPanelsList.get(++usersIndex).setVisible(true);
+            checkButtonsEnabled();
         });
         navigationPanel.add(nextButton);
     }
@@ -217,30 +194,24 @@ public class UsersInfoGI extends JFrame {
 
         JButton addButton = new JButton("Add user");
         addButton.setIcon(new ImageIcon("resources/addUsers.png"));
-        addButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                int usersCount = controller.getUserSet().size();
-                new AddEmptyUserGI(null, controller);
-                if (usersCount < controller.getUserSet().size()) {
-                    saveButton.setEnabled(true);
-                }
+        addButton.addActionListener(e -> {
+            int usersCount = controller.getUserSet().size();
+            new AddEmptyUserGI(this, controller);
+            if (usersCount < controller.getUserSet().size()) {
+                saveButton.setEnabled(true);
             }
         });
         addRemovePanel.add(addButton);
 
         removeButton = new JButton("Remove user");
-        removeButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                controller.removeUser(usersList.get(usersIndex));
-                usersList.remove(usersIndex);
-                viewUserInfoPanel.setVisible(false);
-                userInfoPanelsList.get(usersIndex).setVisible(false);
-                userInfoPanelsList.remove(usersIndex);
-                tablePanel.setVisible(true);
-                saveButton.setEnabled(true);
-            }
+        removeButton.addActionListener(e -> {
+            controller.removeUser(usersList.get(usersIndex));
+            usersList.remove(usersIndex);
+            viewUserInfoPanel.setVisible(false);
+            userInfoPanelsList.get(usersIndex).setVisible(false);
+            userInfoPanelsList.remove(usersIndex);
+            tablePanel.setVisible(true);
+            saveButton.setEnabled(true);
         });
         addRemovePanel.add(removeButton);
     }
@@ -354,27 +325,24 @@ public class UsersInfoGI extends JFrame {
             rightsBox = new JComboBox<>(items);
             rightsBox.setSelectedIndex(user.getRights());
             rightsBox.setEnabled(user.getRights() != UsersRights.ADMIN);
-            rightsBox.addItemListener(new ItemListener() {
-                @Override
-                public void itemStateChanged(ItemEvent e) {
-                    int selectedRights = rightsBox.getSelectedIndex();
-                    if (selectedRights == UsersRights.ADMIN) {
+            rightsBox.addItemListener(e -> {
+                int selectedRights = rightsBox.getSelectedIndex();
+                if (selectedRights == UsersRights.ADMIN) {
+                    rightsBox.setSelectedIndex(user.getRights());
+                }
+                if (user.getRights() != UsersRights.EMPTY && user.getRights() != UsersRights.EMPTY_SIMPLE_PASSWORD) {
+                    if (selectedRights == UsersRights.EMPTY ||
+                            rightsBox.getSelectedIndex() == UsersRights.EMPTY_SIMPLE_PASSWORD) {
                         rightsBox.setSelectedIndex(user.getRights());
                     }
-                    if (user.getRights() != UsersRights.EMPTY && user.getRights() != UsersRights.EMPTY_SIMPLE_PASSWORD) {
-                        if (selectedRights == UsersRights.EMPTY ||
-                                rightsBox.getSelectedIndex() == UsersRights.EMPTY_SIMPLE_PASSWORD) {
-                            rightsBox.setSelectedIndex(user.getRights());
-                        }
-                    }
-                    if (user.getRights() == UsersRights.EMPTY || user.getRights() == UsersRights.EMPTY_SIMPLE_PASSWORD) {
-                        if (selectedRights != UsersRights.EMPTY &&
-                                rightsBox.getSelectedIndex() != UsersRights.EMPTY_SIMPLE_PASSWORD) {
-                            rightsBox.setSelectedIndex(user.getRights());
-                        }
-                    }
-                    saveButton.setEnabled(true);
                 }
+                if (user.getRights() == UsersRights.EMPTY || user.getRights() == UsersRights.EMPTY_SIMPLE_PASSWORD) {
+                    if (selectedRights != UsersRights.EMPTY &&
+                            rightsBox.getSelectedIndex() != UsersRights.EMPTY_SIMPLE_PASSWORD) {
+                        rightsBox.setSelectedIndex(user.getRights());
+                    }
+                }
+                saveButton.setEnabled(true);
             });
         }
     }
