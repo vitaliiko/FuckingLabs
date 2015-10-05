@@ -129,7 +129,6 @@ public class AuthenticationGI extends JFrame {
                     @Override
                     public void windowClosed(WindowEvent e) {
                         setVisible(true);
-                        usernameBox = new JComboBox<>(controller.getUserNameMap().keySet().toArray());
                     }
                 });
             }

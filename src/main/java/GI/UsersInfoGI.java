@@ -204,6 +204,7 @@ public class UsersInfoGI extends JFrame {
         addRemovePanel.add(addButton);
 
         removeButton = new JButton("Remove user");
+        removeButton.setIcon(new ImageIcon("resources/remove.png"));
         removeButton.addActionListener(e -> {
             controller.removeUser(usersList.get(usersIndex));
             usersList.remove(usersIndex);

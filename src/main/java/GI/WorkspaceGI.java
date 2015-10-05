@@ -12,9 +12,10 @@ public class WorkspaceGI extends JFrame {
     private User user;
     private Controller controller;
 
-    private JTextArea textArea;
     private JMenuBar menuBar;
     private JMenu fileMenu;
+    private JMenu helpMenu;
+    private JFrame usersInfoGI;
 
     public WorkspaceGI(User user, Controller controller) {
         super("NBKS-Lab2");
@@ -27,7 +28,7 @@ public class WorkspaceGI extends JFrame {
             e.printStackTrace();
         }
 
-        textArea = new JTextArea();
+        JTextArea textArea = new JTextArea();
         textArea.setFont(new Font("arial", Font.PLAIN, 14));
         textArea.setText("Hello, " + user.getName() + " " + user.getSurname() + "!\n" + "Welcome in your workspace!");
         getContentPane().add(new JScrollPane(textArea, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
@@ -46,6 +47,8 @@ public class WorkspaceGI extends JFrame {
         menuBar = new JMenuBar();
         prepareFileMenu();
         menuBar.add(fileMenu);
+        prepareHelpMenu();
+        menuBar.add(helpMenu);
     }
 
     public void prepareFileMenu() {
@@ -53,7 +56,12 @@ public class WorkspaceGI extends JFrame {
 
         JMenuItem logoutItem = new JMenuItem("Log out");
         logoutItem.setIcon(new ImageIcon("resources/logout.png"));
-        logoutItem.addActionListener(e -> dispose());
+        logoutItem.addActionListener(e -> {
+            dispose();
+            if (usersInfoGI != null) {
+                usersInfoGI.dispose();
+            }
+        });
         fileMenu.add(logoutItem);
 
         JMenuItem settingsItem = new JMenuItem("Settings");
@@ -66,7 +74,7 @@ public class WorkspaceGI extends JFrame {
         if (user.getRights() != UsersRights.ADMIN) {
             usersItem.setVisible(false);
         }
-        usersItem.addActionListener(e -> new UsersInfoGI(controller));
+        usersItem.addActionListener(e -> usersInfoGI = new UsersInfoGI(controller));
         fileMenu.add(usersItem);
 
         JMenuItem addUsersItem = new JMenuItem("Add user");
@@ -82,5 +90,19 @@ public class WorkspaceGI extends JFrame {
         JMenuItem closeItem = new JMenuItem("Close");
         closeItem.addActionListener(e -> System.exit(0));
         fileMenu.add(closeItem);
+    }
+
+    public void prepareHelpMenu() {
+        helpMenu = new JMenu("Help");
+
+        JMenuItem aboutItem = new JMenuItem("About");
+        aboutItem.addActionListener(e -> JOptionPane.showConfirmDialog(null,
+                "<html>Програму розробив студент групи СПС-1466 Кобрін В.О.<br>" +
+                        "Індивідувальне завдання згідно варіанта №9:<br>" +
+                        "При перевірці на валідність обраного користувачем пароля<br>" +
+                        "наобхідно враховувати наявність великих і малих літер,<br>" +
+                        "цифр та розділових знаків</html>", "About",
+                JOptionPane.DEFAULT_OPTION));
+        helpMenu.add(aboutItem);
     }
 }
