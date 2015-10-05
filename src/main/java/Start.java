@@ -1,6 +1,9 @@
 import GI.AuthenticationGI;
+import GI.WorkspaceGI;
 import support.Controller;
 import support.IOFileHandling;
+import support.User;
+import support.UsersRights;
 
 public class Start {
 
@@ -8,7 +11,8 @@ public class Start {
 
         Controller controller = new Controller(IOFileHandling.loadUsersSet());
         try {
-            new AuthenticationGI(controller);
+            //new AuthenticationGI(controller);
+            new WorkspaceGI(new User("Admin", "Admin", "ADMIN", "111111", UsersRights.ADMIN), controller);
         } catch (Exception e) {
             e.printStackTrace();
         }

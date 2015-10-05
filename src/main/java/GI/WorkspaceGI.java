@@ -5,6 +5,7 @@ import support.User;
 import support.UsersRights;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
 public class WorkspaceGI extends JFrame {
@@ -12,10 +13,30 @@ public class WorkspaceGI extends JFrame {
     private User user;
     private Controller controller;
 
+    private JTextField keyField;
+    private JTextField alphabetField;
+    private JTextField originalFilePathField;
+    private JTextField finalFilePathField;
+    private JLabel alphabetPowerLabel;
+    private JTextArea originalTextArea;
+    private JTextArea finalTextArea;
+    private JButton createAlphabetButton;
+    private JButton saveAlphabetButton;
+    private JButton selectOriginalFileButton;
+    private JButton selectFinalFileButton;
+    private JButton encryptButton;
+    private JButton decryptButton;
+    private JPanel selectFilesPanel;
+    private JPanel textAreasPanel;
+    private JPanel alphabetButtonsPanel;
+    private JPanel northPanel;
+    private JPanel encryptionPanel;
     private JMenuBar menuBar;
     private JMenu fileMenu;
     private JMenu helpMenu;
     private JFrame usersInfoGI;
+
+    private Font font = new Font("Arial", Font.PLAIN, 12);
 
     public WorkspaceGI(User user, Controller controller) {
         super("NBKS-Lab2");
@@ -28,19 +49,124 @@ public class WorkspaceGI extends JFrame {
             e.printStackTrace();
         }
 
-        JTextArea textArea = new JTextArea();
-        textArea.setFont(new Font("arial", Font.PLAIN, 14));
-        textArea.setText("Hello, " + user.getName() + " " + user.getSurname() + "!\n" + "Welcome in your workspace!");
-        getContentPane().add(new JScrollPane(textArea, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
-                ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED), BorderLayout.CENTER);
         prepareMenuBar();
         setJMenuBar(menuBar);
 
+        prepareNorthPanel();
+        getContentPane().add(northPanel, BorderLayout.NORTH);
+
+        prepareTextAreasPanel();
+        getContentPane().add(textAreasPanel, BorderLayout.CENTER);
+
+        prepareEncryptionPanel();
+        getContentPane().add(encryptionPanel, BorderLayout.SOUTH);
+
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        setMinimumSize(new Dimension(400, 300));
+        setMinimumSize(new Dimension(924, 620));
         setIconImage(new ImageIcon("resources/icon.png").getImage());
         setLocationRelativeTo(null);
         setVisible(true);
+    }
+
+    public void prepareNorthPanel() {
+        northPanel = new JPanel();
+        northPanel.setLayout(new BoxLayout(northPanel, BoxLayout.Y_AXIS));
+
+        JPanel keyPanel = new JPanel();
+        keyPanel.add(new JLabel("       Key: "));
+        keyField = new JTextField(40);
+        keyField.setFont(font);
+        keyPanel.add(keyField);
+        northPanel.add(keyPanel);
+
+        JPanel alphabetPanel = new JPanel();
+        alphabetPanel.add(new JLabel("Alphabet: "));
+        alphabetField = new JTextField(40);
+        alphabetField.setFont(font);
+        alphabetPanel.add(alphabetField);
+        northPanel.add(alphabetPanel);
+
+        prepareAlphabetButtonsPanel();
+        northPanel.add(alphabetButtonsPanel);
+
+        JPanel powerPanel = new JPanel();
+        powerPanel.add(new JLabel("Alphabet power: "));
+        powerPanel.add(alphabetPowerLabel = new JLabel("0"));
+        northPanel.add(powerPanel);
+
+        prepareSelectFilesPanel();
+        northPanel.add(selectFilesPanel);
+        northPanel.add(new JSeparator());
+    }
+
+    public void prepareAlphabetButtonsPanel() {
+        alphabetButtonsPanel = new JPanel();
+
+        createAlphabetButton = new JButton("Random", new ImageIcon("resources/random.png"));
+        createAlphabetButton.setToolTipText("Create random alphabet");
+        alphabetButtonsPanel.add(createAlphabetButton);
+
+        saveAlphabetButton = new JButton("Save", new ImageIcon("resources/save.png"));
+        saveAlphabetButton.setEnabled(false);
+        alphabetButtonsPanel.add(saveAlphabetButton);
+    }
+
+    public void prepareSelectFilesPanel() {
+        selectFilesPanel = new JPanel();
+        selectFilesPanel.setLayout(new GridLayout(1, 2));
+
+        JPanel originalPanel = new JPanel();
+        originalPanel.add(new JLabel("Original file: "));
+        originalFilePathField = new JTextField(27);
+        originalFilePathField.setFont(font);
+        originalPanel.add(originalFilePathField);
+        selectOriginalFileButton = new JButton(new ImageIcon("resources/folder.png"));
+        originalPanel.add(selectOriginalFileButton);
+
+        JPanel finalPanel = new JPanel();
+        finalPanel.add(new JLabel("Final file: "));
+        finalFilePathField = new JTextField(27);
+        finalFilePathField.setFont(font);
+        finalPanel.add(finalFilePathField);
+        selectFinalFileButton = new JButton(new ImageIcon("resources/folder.png"));
+        finalPanel.add(selectFinalFileButton);
+
+        selectFilesPanel.add(originalPanel);
+        selectFilesPanel.add(finalPanel);
+    }
+
+    public void prepareTextAreasPanel() {
+        textAreasPanel = new JPanel();
+        textAreasPanel.setLayout(new GridLayout(1, 2));
+
+        originalTextArea = new JTextArea();
+        originalTextArea.setLineWrap(true);
+        originalTextArea.setFont(font);
+        JScrollPane originalScroll = new JScrollPane(originalTextArea, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
+                ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        originalScroll.setBorder(new EmptyBorder(10, 10, 10, 5));
+        textAreasPanel.add(originalScroll);
+
+        finalTextArea = new JTextArea();
+        finalTextArea.setLineWrap(true);
+        finalTextArea.setFont(font);
+        JScrollPane finalScroll = new JScrollPane(finalTextArea, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
+                ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        finalScroll.setBorder(new EmptyBorder(10, 5, 10, 10));
+        textAreasPanel.add(finalScroll);
+    }
+
+    public void prepareEncryptionPanel() {
+        encryptionPanel = new JPanel();
+        encryptionPanel.setBorder(new EmptyBorder(0, 0, 10, 0));
+
+        encryptButton = new JButton("Encrypt");
+        encryptButton.setEnabled(false);
+        encryptionPanel.add(encryptButton);
+
+        decryptButton = new JButton("Decrypt");
+        decryptButton.setEnabled(false);
+        encryptionPanel.add(decryptButton);
     }
 
     public void prepareMenuBar() {
