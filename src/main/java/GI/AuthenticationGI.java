@@ -75,8 +75,7 @@ public class AuthenticationGI extends JFrame {
     public void prepareLoginPanel() {
         loginPanel = new JPanel();
         loginPanel.setLayout(new BorderLayout());
-        JPanel fieldsPanel = new JPanel();
-        fieldsPanel.setLayout(new BoxLayout(fieldsPanel, BoxLayout.Y_AXIS));
+        JPanel fieldsPanel = new BoxPanel(BoxLayout.Y_AXIS);
 
         prepareUsernameBox();
         fieldsPanel.add(new LabelComponentPanel("Username: ", usernameBox), BorderLayout.EAST);
@@ -87,12 +86,9 @@ public class AuthenticationGI extends JFrame {
 
         loginPanel.add(fieldsPanel, BorderLayout.EAST);
 
-        JPanel buttonsPanel = new JPanel();
         prepareLoginButton();
-        buttonsPanel.add(loginButton);
         prepareCreateNewButton();
-        buttonsPanel.add(createNewButton);
-        loginPanel.add(buttonsPanel, BorderLayout.SOUTH);
+        loginPanel.add(new BoxPanel(loginButton, createNewButton), BorderLayout.SOUTH);
     }
 
     public void prepareUsernameBox() {

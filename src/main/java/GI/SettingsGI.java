@@ -71,8 +71,7 @@ public class SettingsGI extends JDialog {
     }
 
     public void prepareFieldsPanel() {
-        fieldsPanel = new JPanel();
-        fieldsPanel.setLayout(new BoxLayout(fieldsPanel, BoxLayout.Y_AXIS));
+        fieldsPanel = new BoxPanel(BoxLayout.Y_AXIS);
 
         fieldsPanel.add(
                 new LabelComponentPanel("Account type: ", new JLabel(UsersRights.accountType(user.getRights())))
@@ -120,8 +119,7 @@ public class SettingsGI extends JDialog {
     }
 
     public void preparePasswordPanel() {
-        passwordPanel = new JPanel();
-        passwordPanel.setLayout(new BoxLayout(passwordPanel, BoxLayout.Y_AXIS));
+        passwordPanel = new BoxPanel(BoxLayout.Y_AXIS);
         passwordPanel.setBorder(new EmptyBorder(8, 0, 0, 0));
         passwordPanel.add(new JSeparator());
 

@@ -52,8 +52,6 @@ public class AddEmptyUserGI extends JDialog {
     }
 
     public void preparePanels() {
-        fieldPanel = new JPanel();
-        fieldPanel.setLayout(new BoxLayout(fieldPanel, BoxLayout.Y_AXIS));
         usernameField = new JTextField(30);
         usernameField.getDocument().addDocumentListener(new DocumentListener() {
             @Override
@@ -71,18 +69,14 @@ public class AddEmptyUserGI extends JDialog {
                 insertUpdate(e);
             }
         });
-        fieldPanel.add(new LabelComponentPanel("Username: ", usernameField));
 
         checkBox = new JCheckBox("Authorize to use a simple password");
         checkBox.setAlignmentX(Component.RIGHT_ALIGNMENT);
-        fieldPanel.add(checkBox);
+        fieldPanel = new BoxPanel(BoxLayout.Y_AXIS, (new LabelComponentPanel("Username: ", usernameField)), checkBox);
 
-        buttonPanel = new JPanel();
         prepareAddButton();
-        buttonPanel.add(addButton);
         prepareCancelButton();
-        buttonPanel.add(cancelButton);
-
+        buttonPanel = new BoxPanel(addButton, cancelButton);
     }
 
     public void prepareAddButton() {

@@ -15,20 +15,21 @@ public class WorkspaceGI extends JFrame {
 
     private JTextField keyField;
     private JTextField alphabetField;
-    private JTextField originalFilePathField;
-    private JTextField finalFilePathField;
+    private JTextField inputFilePathField;
+    private JTextField outputFilePathField;
     private JLabel alphabetPowerLabel;
-    private JTextArea originalTextArea;
-    private JTextArea finalTextArea;
+    private JLabel inputTextEntropyLabel;
+    private JLabel outputTextEntropyLabel;
+    private JTextArea inputTextArea;
+    private JTextArea outputTextArea;
     private JButton createAlphabetButton;
     private JButton saveAlphabetButton;
-    private JButton selectOriginalFileButton;
-    private JButton selectFinalFileButton;
+    private JButton selectInputFileButton;
+    private JButton selectOutputFileButton;
     private JButton encryptButton;
     private JButton decryptButton;
     private JPanel selectFilesPanel;
     private JPanel textAreasPanel;
-    private JPanel alphabetButtonsPanel;
     private JPanel northPanel;
     private JPanel encryptionPanel;
     private JMenuBar menuBar;
@@ -69,104 +70,83 @@ public class WorkspaceGI extends JFrame {
     }
 
     public void prepareNorthPanel() {
-        northPanel = new JPanel();
-        northPanel.setLayout(new BoxLayout(northPanel, BoxLayout.Y_AXIS));
+        northPanel = new BoxPanel(BoxLayout.Y_AXIS);
 
-        JPanel keyPanel = new JPanel();
-        keyPanel.add(new JLabel("       Key: "));
         keyField = new JTextField(40);
         keyField.setFont(font);
-        keyPanel.add(keyField);
-        northPanel.add(keyPanel);
+        northPanel.add(new BoxPanel(new JLabel("       Key: "), keyField));
 
-        JPanel alphabetPanel = new JPanel();
-        alphabetPanel.add(new JLabel("Alphabet: "));
         alphabetField = new JTextField(40);
         alphabetField.setFont(font);
-        alphabetPanel.add(alphabetField);
-        northPanel.add(alphabetPanel);
+        northPanel.add(new BoxPanel(new JLabel("Alphabet: "), alphabetField));
 
-        prepareAlphabetButtonsPanel();
-        northPanel.add(alphabetButtonsPanel);
+        prepareAlphabetButtons();
+        northPanel.add(new BoxPanel(createAlphabetButton, saveAlphabetButton));
 
-        JPanel powerPanel = new JPanel();
-        powerPanel.add(new JLabel("Alphabet power: "));
-        powerPanel.add(alphabetPowerLabel = new JLabel("0"));
-        northPanel.add(powerPanel);
+        northPanel.add(new BoxPanel(new JLabel("Alphabet power: "), alphabetPowerLabel = new JLabel("0")));
 
         prepareSelectFilesPanel();
         northPanel.add(selectFilesPanel);
         northPanel.add(new JSeparator());
     }
 
-    public void prepareAlphabetButtonsPanel() {
-        alphabetButtonsPanel = new JPanel();
-
+    public void prepareAlphabetButtons() {
         createAlphabetButton = new JButton("Random", new ImageIcon("resources/random.png"));
         createAlphabetButton.setToolTipText("Create random alphabet");
-        alphabetButtonsPanel.add(createAlphabetButton);
 
         saveAlphabetButton = new JButton("Save", new ImageIcon("resources/save.png"));
         saveAlphabetButton.setEnabled(false);
-        alphabetButtonsPanel.add(saveAlphabetButton);
     }
 
     public void prepareSelectFilesPanel() {
         selectFilesPanel = new JPanel();
         selectFilesPanel.setLayout(new GridLayout(1, 2));
 
-        JPanel originalPanel = new JPanel();
-        originalPanel.add(new JLabel("Original file: "));
-        originalFilePathField = new JTextField(27);
-        originalFilePathField.setFont(font);
-        originalPanel.add(originalFilePathField);
-        selectOriginalFileButton = new JButton(new ImageIcon("resources/folder.png"));
-        originalPanel.add(selectOriginalFileButton);
+        inputFilePathField = new JTextField(27);
+        inputFilePathField.setFont(font);
+        selectInputFileButton = new JButton(new ImageIcon("resources/folder.png"));
+        selectFilesPanel.add(new BoxPanel(new JLabel("Original file: "), inputFilePathField, selectInputFileButton));
 
-        JPanel finalPanel = new JPanel();
-        finalPanel.add(new JLabel("Final file: "));
-        finalFilePathField = new JTextField(27);
-        finalFilePathField.setFont(font);
-        finalPanel.add(finalFilePathField);
-        selectFinalFileButton = new JButton(new ImageIcon("resources/folder.png"));
-        finalPanel.add(selectFinalFileButton);
-
-        selectFilesPanel.add(originalPanel);
-        selectFilesPanel.add(finalPanel);
+        outputFilePathField = new JTextField(27);
+        outputFilePathField.setFont(font);
+        selectOutputFileButton = new JButton(new ImageIcon("resources/folder.png"));
+        selectFilesPanel.add(new BoxPanel(new JLabel("Final file: "), outputFilePathField, selectOutputFileButton));
     }
 
     public void prepareTextAreasPanel() {
         textAreasPanel = new JPanel();
         textAreasPanel.setLayout(new GridLayout(1, 2));
 
-        originalTextArea = new JTextArea();
-        originalTextArea.setLineWrap(true);
-        originalTextArea.setFont(font);
-        JScrollPane originalScroll = new JScrollPane(originalTextArea, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
-                ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        originalScroll.setBorder(new EmptyBorder(10, 10, 10, 5));
-        textAreasPanel.add(originalScroll);
+        inputTextArea = new JTextArea();
+        inputTextArea.setLineWrap(true);
+        inputTextArea.setFont(font);
+        inputTextEntropyLabel = new JLabel("Entropy = 0");
+        JPanel inputTextPanel = new BoxPanel(BoxLayout.Y_AXIS, inputTextEntropyLabel,
+                new JScrollPane(inputTextArea, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
+                ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER));
+        inputTextPanel.setBorder(new EmptyBorder(10, 10, 10, 5));
+        textAreasPanel.add(inputTextPanel);
 
-        finalTextArea = new JTextArea();
-        finalTextArea.setLineWrap(true);
-        finalTextArea.setFont(font);
-        JScrollPane finalScroll = new JScrollPane(finalTextArea, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
-                ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        finalScroll.setBorder(new EmptyBorder(10, 5, 10, 10));
-        textAreasPanel.add(finalScroll);
+        outputTextArea = new JTextArea();
+        outputTextArea.setLineWrap(true);
+        outputTextArea.setFont(font);
+        outputTextEntropyLabel = new JLabel("Entropy = 0");
+        JPanel outputTextPanel = new BoxPanel(BoxLayout.Y_AXIS, outputTextEntropyLabel,
+                new JScrollPane(outputTextArea, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
+                ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER));
+        outputTextPanel.setBorder(new EmptyBorder(10, 5, 10, 10));
+        textAreasPanel.add(outputTextPanel);
     }
 
     public void prepareEncryptionPanel() {
-        encryptionPanel = new JPanel();
-        encryptionPanel.setBorder(new EmptyBorder(0, 0, 10, 0));
-
         encryptButton = new JButton("Encrypt");
         encryptButton.setEnabled(false);
-        encryptionPanel.add(encryptButton);
 
         decryptButton = new JButton("Decrypt");
         decryptButton.setEnabled(false);
-        encryptionPanel.add(decryptButton);
+
+        encryptionPanel = new BoxPanel(encryptButton, decryptButton);
+        encryptionPanel.setBorder(new EmptyBorder(0, 0, 10, 0));
     }
 
     public void prepareMenuBar() {
@@ -190,12 +170,12 @@ public class WorkspaceGI extends JFrame {
         });
         fileMenu.add(logoutItem);
 
-        JMenuItem settingsItem = new JMenuItem("Settings");
+        JMenuItem settingsItem = new JMenuItem("Settings          ");
         settingsItem.setIcon(new ImageIcon("resources/settings.png"));
         settingsItem.addActionListener(e -> new SettingsGI(this, user, controller));
         fileMenu.add(settingsItem);
 
-        JMenuItem usersItem = new JMenuItem("Users");
+        JMenuItem usersItem = new JMenuItem("Users info");
         usersItem.setIcon(new ImageIcon("resources/users.png"));
         if (user.getRights() != UsersRights.ADMIN) {
             usersItem.setVisible(false);
@@ -221,13 +201,13 @@ public class WorkspaceGI extends JFrame {
     public void prepareHelpMenu() {
         helpMenu = new JMenu("Help");
 
-        JMenuItem aboutItem = new JMenuItem("About");
+        JMenuItem aboutItem = new JMenuItem("About           ");
         aboutItem.addActionListener(e -> JOptionPane.showConfirmDialog(null,
                 "<html>Програму розробив студент групи СПС-1466 Кобрін В.О.<br>" +
                         "Індивідувальне завдання згідно варіанта №9:<br>" +
                         "При перевірці на валідність обраного користувачем пароля<br>" +
                         "наобхідно враховувати наявність великих і малих літер,<br>" +
-                        "цифр та розділових знаків</html>", "About",
+                        "цифр та розділових знаків.</html>", "About",
                 JOptionPane.DEFAULT_OPTION));
         helpMenu.add(aboutItem);
     }

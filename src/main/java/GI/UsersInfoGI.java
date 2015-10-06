@@ -75,13 +75,10 @@ public class UsersInfoGI extends JFrame {
     }
 
     public void prepareTablePanel() {
-        tablePanel = new JPanel();
-        tablePanel.setLayout(new BoxLayout(tablePanel, BoxLayout.Y_AXIS));
+        tablePanel = new BoxPanel(BoxLayout.Y_AXIS);
 
         prepareShowButton();
-        JPanel showButtonsPanel = new JPanel();
-        showButtonsPanel.add(showInfoButton);
-        tablePanel.add(showButtonsPanel);
+        tablePanel.add(new BoxPanel(showInfoButton));
 
         prepareUsersTable();
         tablePanel.add(new JScrollPane(usersTable, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
@@ -137,9 +134,8 @@ public class UsersInfoGI extends JFrame {
     }
 
     public void prepareUserInfoPanel() {
-        viewUserInfoPanel = new JPanel();
+        viewUserInfoPanel = new BoxPanel(BoxLayout.Y_AXIS);
         viewUserInfoPanel.setVisible(false);
-        viewUserInfoPanel.setLayout(new BoxLayout(viewUserInfoPanel, BoxLayout.Y_AXIS));
 
         prepareNavigationPanel();
         viewUserInfoPanel.add(navigationPanel);
@@ -153,8 +149,6 @@ public class UsersInfoGI extends JFrame {
     }
 
     public void prepareNavigationPanel() {
-        navigationPanel = new JPanel();
-
         prevButton= new JButton("Prev");
         prevButton.setIcon(new ImageIcon("resources/prev.png"));
         prevButton.setHorizontalAlignment(JButton.LEFT);
@@ -163,7 +157,6 @@ public class UsersInfoGI extends JFrame {
             userInfoPanelsList.get(--usersIndex).setVisible(true);
             checkButtonsEnabled();
         });
-        navigationPanel.add(prevButton);
 
         JButton backButton = new JButton("Back");
         backButton.setHorizontalAlignment(JButton.CENTER);
@@ -175,7 +168,6 @@ public class UsersInfoGI extends JFrame {
             usersIndex = 0;
 
         });
-        navigationPanel.add(backButton);
 
         nextButton = new JButton("Next");
         nextButton.setIcon(new ImageIcon("resources/next.png"));
@@ -186,12 +178,11 @@ public class UsersInfoGI extends JFrame {
             userInfoPanelsList.get(++usersIndex).setVisible(true);
             checkButtonsEnabled();
         });
-        navigationPanel.add(nextButton);
+
+        navigationPanel = new BoxPanel(prevButton, backButton, nextButton);
     }
 
     public void prepareAddRemovePanel() {
-        addRemovePanel = new JPanel();
-
         JButton addButton = new JButton("Add user");
         addButton.setIcon(new ImageIcon("resources/addUsers.png"));
         addButton.addActionListener(e -> {
@@ -201,7 +192,6 @@ public class UsersInfoGI extends JFrame {
                 saveButton.setEnabled(true);
             }
         });
-        addRemovePanel.add(addButton);
 
         removeButton = new JButton("Remove user");
         removeButton.setIcon(new ImageIcon("resources/remove.png"));
@@ -214,7 +204,8 @@ public class UsersInfoGI extends JFrame {
             tablePanel.setVisible(true);
             saveButton.setEnabled(true);
         });
-        addRemovePanel.add(removeButton);
+
+        addRemovePanel = new BoxPanel(addButton, removeButton);
     }
 
     public void checkButtonsEnabled() {
