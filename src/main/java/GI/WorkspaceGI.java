@@ -1,17 +1,18 @@
 package GI;
 
-import support.Controller;
-import support.User;
-import support.UsersRights;
+import support.*;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import java.awt.*;
 
 public class WorkspaceGI extends JFrame {
 
     private User user;
     private Controller controller;
+    private Coder coder;
 
     private JTextField keyField;
     private JTextField alphabetField;
@@ -43,6 +44,7 @@ public class WorkspaceGI extends JFrame {
         super("NBKS-Lab2");
         this.user = user;
         this.controller = controller;
+        coder = new Coder();
 
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -72,30 +74,81 @@ public class WorkspaceGI extends JFrame {
     public void prepareNorthPanel() {
         northPanel = new BoxPanel(BoxLayout.Y_AXIS);
 
-        keyField = new JTextField(40);
-        keyField.setFont(font);
+        prepareKeyField();
         northPanel.add(new BoxPanel(new JLabel("       Key: "), keyField));
 
-        alphabetField = new JTextField(40);
-        alphabetField.setFont(font);
+        prepareAlphabetField();
         northPanel.add(new BoxPanel(new JLabel("Alphabet: "), alphabetField));
 
         prepareAlphabetButtons();
         northPanel.add(new BoxPanel(createAlphabetButton, saveAlphabetButton));
 
-        northPanel.add(new BoxPanel(new JLabel("Alphabet power: "), alphabetPowerLabel = new JLabel("0")));
+        alphabetPowerLabel = new JLabel(String.valueOf(alphabetField.getText().length()));
+        northPanel.add(new BoxPanel(new JLabel("Alphabet power: "), alphabetPowerLabel));
 
         prepareSelectFilesPanel();
         northPanel.add(selectFilesPanel);
         northPanel.add(new JSeparator());
     }
 
+    public void prepareKeyField() {
+        keyField = new JPasswordField(40);
+        keyField.setFont(font);
+        keyField.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                checkButtonsEnabled();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                checkButtonsEnabled();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                checkButtonsEnabled();
+            }
+        });
+    }
+
+    public void prepareAlphabetField() {
+        alphabetField = new JTextField(user.getAlphabet().isEmpty() ? "" : user.getAlphabet(), 40);
+        alphabetField.setFont(font);
+        alphabetField.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                alphabetPowerLabel.setText(String.valueOf(alphabetField.getText().length()));
+                saveAlphabetButton.setEnabled(!alphabetField.getText().isEmpty());
+                checkButtonsEnabled();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                insertUpdate(e);
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                insertUpdate(e);
+            }
+        });
+    }
+
     public void prepareAlphabetButtons() {
         createAlphabetButton = new JButton("Random", new ImageIcon("resources/random.png"));
         createAlphabetButton.setToolTipText("Create random alphabet");
+        createAlphabetButton.addActionListener(e -> {
+            coder.createAlphabet(alphabetField.getText());
+            alphabetField.setText(coder.getAlphabet());
+        });
 
         saveAlphabetButton = new JButton("Save", new ImageIcon("resources/save.png"));
         saveAlphabetButton.setEnabled(false);
+        saveAlphabetButton.addActionListener(e -> {
+            user.setAlphabet(alphabetField.getText());
+            IOFileHandling.saveUsersSet(controller.getUserSet());
+        });
     }
 
     public void prepareSelectFilesPanel() {
@@ -119,7 +172,10 @@ public class WorkspaceGI extends JFrame {
 
         inputTextArea = new JTextArea();
         inputTextArea.setLineWrap(true);
+        inputTextArea.setWrapStyleWord(true);
         inputTextArea.setFont(font);
+        inputTextArea.setName("input");
+        inputTextArea.getDocument().addDocumentListener(new TextAreasListener(inputTextArea));
         inputTextEntropyLabel = new JLabel("Entropy = 0");
         JPanel inputTextPanel = new BoxPanel(BoxLayout.Y_AXIS, inputTextEntropyLabel,
                 new JScrollPane(inputTextArea, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
@@ -130,6 +186,9 @@ public class WorkspaceGI extends JFrame {
         outputTextArea = new JTextArea();
         outputTextArea.setLineWrap(true);
         outputTextArea.setFont(font);
+        outputTextArea.setName("output");
+        outputTextArea.setWrapStyleWord(true);
+        outputTextArea.getDocument().addDocumentListener(new TextAreasListener(outputTextArea));
         outputTextEntropyLabel = new JLabel("Entropy = 0");
         JPanel outputTextPanel = new BoxPanel(BoxLayout.Y_AXIS, outputTextEntropyLabel,
                 new JScrollPane(outputTextArea, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
@@ -141,9 +200,19 @@ public class WorkspaceGI extends JFrame {
     public void prepareEncryptionPanel() {
         encryptButton = new JButton("Encrypt");
         encryptButton.setEnabled(false);
+        encryptButton.addActionListener(e -> {
+            coder.setAlphabet(alphabetField.getText());
+            String outputText = coder.vigenereEncoder(keyField.getText(), inputTextArea.getText());
+            outputTextArea.setText(outputText);
+        });
 
         decryptButton = new JButton("Decrypt");
         decryptButton.setEnabled(false);
+        decryptButton.addActionListener(e -> {
+            coder.setAlphabet(alphabetField.getText());
+            String outputText = coder.vigenereDecoder(keyField.getText(), inputTextArea.getText());
+            outputTextArea.setText(outputText);
+        });
 
         encryptionPanel = new BoxPanel(encryptButton, decryptButton);
         encryptionPanel.setBorder(new EmptyBorder(0, 0, 10, 0));
@@ -210,5 +279,42 @@ public class WorkspaceGI extends JFrame {
                         "цифр та розділових знаків.</html>", "About",
                 JOptionPane.DEFAULT_OPTION));
         helpMenu.add(aboutItem);
+    }
+
+    public void checkButtonsEnabled() {
+        encryptButton.setEnabled(!keyField.getText().isEmpty() &&
+                !alphabetField.getText().isEmpty() &&
+                !inputTextArea.getText().isEmpty());
+        decryptButton.setEnabled(encryptButton.isEnabled());
+    }
+
+    public class TextAreasListener implements DocumentListener {
+
+        JTextArea textArea;
+
+        public TextAreasListener(JTextArea textArea) {
+            this.textArea = textArea;
+        }
+
+        @Override
+        public void insertUpdate(DocumentEvent e) {
+            float entropy = coder.entropy(textArea.getText());
+            if (textArea.getName().equals("input")) {
+                inputTextEntropyLabel.setText("Entropy: " + String.valueOf(entropy));
+            } else {
+                outputTextEntropyLabel.setText("Entropy: " + String.valueOf(entropy));
+            }
+            checkButtonsEnabled();
+        }
+
+        @Override
+        public void removeUpdate(DocumentEvent e) {
+            insertUpdate(e);
+        }
+
+        @Override
+        public void changedUpdate(DocumentEvent e) {
+            insertUpdate(e);
+        }
     }
 }

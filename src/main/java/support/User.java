@@ -12,6 +12,7 @@ public class User implements Serializable {
     private int rights;
     private String telephoneNum;
     private String mailAddress;
+    private String alphabet = "";
 
     public User(String name, String surname, String userName, String password, int rights) {
         this.name = name;
@@ -88,6 +89,14 @@ public class User implements Serializable {
 
     public void setMailAddress(String mailAddress) {
         this.mailAddress = mailAddress;
+    }
+
+    public String getAlphabet() {
+        return alphabet;
+    }
+
+    public void setAlphabet(String alphabet) {
+        this.alphabet = alphabet;
     }
 
     public boolean isMatches(String userName, char[] password) {
