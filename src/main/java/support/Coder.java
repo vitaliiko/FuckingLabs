@@ -20,7 +20,7 @@ public class Coder {
         int alphabetPower = alphabet.length();
 
         int i = 0, outputCharIndex;
-        for (char c : inputText.toLowerCase().toCharArray()) {
+        for (char c : inputText.toCharArray()) {
             if ((int) c == 10) {
                 c = (char) 32;
             }

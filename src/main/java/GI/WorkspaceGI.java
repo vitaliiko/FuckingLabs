@@ -13,6 +13,7 @@ public class WorkspaceGI extends JFrame {
     private User user;
     private Controller controller;
     private Coder coder;
+    private String outputFilePath;
 
     private JTextField keyField;
     private JTextField alphabetField;
@@ -25,8 +26,6 @@ public class WorkspaceGI extends JFrame {
     private JTextArea outputTextArea;
     private JButton createAlphabetButton;
     private JButton saveAlphabetButton;
-    private JButton selectInputFileButton;
-    private JButton selectOutputFileButton;
     private JButton encryptButton;
     private JButton decryptButton;
     private JPanel selectFilesPanel;
@@ -92,7 +91,7 @@ public class WorkspaceGI extends JFrame {
     }
 
     public void prepareKeyField() {
-        keyField = new JPasswordField(40);
+        keyField = new JPasswordField(50);
         keyField.setFont(font);
         keyField.getDocument().addDocumentListener(new DocumentListener() {
             @Override
@@ -113,7 +112,7 @@ public class WorkspaceGI extends JFrame {
     }
 
     public void prepareAlphabetField() {
-        alphabetField = new JTextField(user.getAlphabet().isEmpty() ? "" : user.getAlphabet(), 40);
+        alphabetField = new JTextField(user.getAlphabet() == null ? "" : user.getAlphabet(), 50);
         alphabetField.setFont(font);
         alphabetField.getDocument().addDocumentListener(new DocumentListener() {
             @Override
@@ -148,6 +147,7 @@ public class WorkspaceGI extends JFrame {
         saveAlphabetButton.addActionListener(e -> {
             user.setAlphabet(alphabetField.getText());
             IOFileHandling.saveUsersSet(controller.getUserSet());
+            saveAlphabetButton.setEnabled(false);
         });
     }
 
@@ -157,13 +157,42 @@ public class WorkspaceGI extends JFrame {
 
         inputFilePathField = new JTextField(27);
         inputFilePathField.setFont(font);
-        selectInputFileButton = new JButton(new ImageIcon("resources/folder.png"));
+        JButton selectInputFileButton = new JButton(new ImageIcon("resources/folder.png"));
+        selectInputFileButton.addActionListener(e -> {
+            String filePath = callFileChooser();
+            if (filePath != null) {
+                inputFilePathField.setText(filePath);
+                inputTextArea.setText(IOFileHandling.readFromFile(filePath));
+            }
+        });
         selectFilesPanel.add(new BoxPanel(new JLabel("Original file: "), inputFilePathField, selectInputFileButton));
 
-        outputFilePathField = new JTextField(27);
+        outputFilePathField = new JTextField(24);
         outputFilePathField.setFont(font);
-        selectOutputFileButton = new JButton(new ImageIcon("resources/folder.png"));
-        selectFilesPanel.add(new BoxPanel(new JLabel("Final file: "), outputFilePathField, selectOutputFileButton));
+        JButton selectOutputFileButton = new JButton(new ImageIcon("resources/folder.png"));
+        selectOutputFileButton.addActionListener(e -> {
+            outputFilePath = callFileChooser();
+            outputFilePathField.setText(outputFilePath);
+        });
+        JButton clearButton = new JButton(new ImageIcon("resources/clear.png"));
+        clearButton.addActionListener(e -> {
+            outputFilePathField.setText("");
+            outputFilePath = null;
+        });
+        selectFilesPanel.add(new BoxPanel(new JLabel("Final file: "), outputFilePathField, selectOutputFileButton, clearButton));
+    }
+
+    public String callFileChooser() {
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        fileChooser.addChoosableFileFilter(new TextFileFilter());
+        fileChooser.setAcceptAllFileFilterUsed(false);
+        fileChooser.setDialogType(JFileChooser.OPEN_DIALOG);
+        int returnVal = fileChooser.showOpenDialog(fileChooser);
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            return fileChooser.getSelectedFile().getAbsolutePath();
+        }
+        return null;
     }
 
     public void prepareTextAreasPanel() {
@@ -204,6 +233,7 @@ public class WorkspaceGI extends JFrame {
             coder.setAlphabet(alphabetField.getText());
             String outputText = coder.vigenereEncoder(keyField.getText(), inputTextArea.getText());
             outputTextArea.setText(outputText);
+            writeToFile(outputText);
         });
 
         decryptButton = new JButton("Decrypt");
@@ -212,10 +242,17 @@ public class WorkspaceGI extends JFrame {
             coder.setAlphabet(alphabetField.getText());
             String outputText = coder.vigenereDecoder(keyField.getText(), inputTextArea.getText());
             outputTextArea.setText(outputText);
+            writeToFile(outputText);
         });
 
         encryptionPanel = new BoxPanel(encryptButton, decryptButton);
         encryptionPanel.setBorder(new EmptyBorder(0, 0, 10, 0));
+    }
+
+    public void writeToFile(String outputLine) {
+        if (outputFilePath != null) {
+            IOFileHandling.writeToFile(outputLine, outputFilePath);
+        }
     }
 
     public void prepareMenuBar() {

@@ -4,13 +4,9 @@ import javax.swing.*;
 import java.io.*;
 import java.util.Set;
 
-import static java.lang.System.out;
-
 public class IOFileHandling {
 
     private final static String USERS_SER = "IOFiles/users.ser";
-    public final static String SOURCE_FILE_NAME = "sourceText.txt";
-    public final static String ENCODED_FILE_NAME = "encodedText";
 
     public static void saveUsersSet(Set<User> usersSet) {
         try{
@@ -46,7 +42,8 @@ public class IOFileHandling {
             }
             reader.close();
         } catch (IOException e) {
-            out.println(e);
+            JOptionPane.showConfirmDialog(null, "File does not exist", "ACHTUNG!",
+                    JOptionPane.DEFAULT_OPTION);
         }
         return finalLine;
     }
@@ -57,7 +54,8 @@ public class IOFileHandling {
             writer.write(outputLine);
             writer.close();
         } catch (IOException e) {
-            out.println(e);
+            JOptionPane.showConfirmDialog(null, "Error when writing text to a file", "ACHTUNG!",
+                    JOptionPane.DEFAULT_OPTION);
         }
     }
 }

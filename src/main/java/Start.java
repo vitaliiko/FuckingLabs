@@ -5,14 +5,19 @@ import support.IOFileHandling;
 import support.User;
 import support.UsersRights;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class Start {
 
     public static void main(String[] args) {
 
         Controller controller = new Controller(IOFileHandling.loadUsersSet());
         try {
-            //new AuthenticationGI(controller);
-            new WorkspaceGI(new User("Admin", "Admin", "ADMIN", "111111", UsersRights.ADMIN), controller);
+            new AuthenticationGI(controller);
+//            User user = new User("Admin", "Admin", "ADMIN", "111111", UsersRights.ADMIN);
+//            user.setAlphabet("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789/*-+=!¹?., ");
+//            new WorkspaceGI(user, controller);
         } catch (Exception e) {
             e.printStackTrace();
         }
