@@ -40,7 +40,7 @@ public class IOFileHandling {
         try {
             BufferedReader reader = new BufferedReader(new FileReader(fileName));
             while ((interLine = reader.readLine()) != null) {
-                finalLine = finalLine + " " + interLine.toLowerCase();
+                finalLine = finalLine + " " + interLine;
             }
             reader.close();
         } catch (IOException e) {

@@ -14,6 +14,14 @@ public class User implements Serializable {
     private String mailAddress;
     private String alphabet = "";
 
+    public User(String name, String surname, String userName, String password, int rights) {
+        this.name = name;
+        this.surname = surname;
+        this.userName = userName;
+        this.password = password.toCharArray();
+        this.rights = rights;
+    }
+
     public User(String name, String surname, String userName, char[] password, int rights) {
         this.name = name;
         this.surname = surname;
