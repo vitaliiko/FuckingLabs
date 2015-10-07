@@ -1,4 +1,4 @@
-package GI;
+package panels;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;

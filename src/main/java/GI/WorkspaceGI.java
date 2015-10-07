@@ -1,5 +1,8 @@
 package GI;
 
+import InputOutput.IOFileHandling;
+import InputOutput.TextFileFilter;
+import panels.BoxPanel;
 import support.*;
 
 import javax.swing.*;
@@ -335,7 +338,7 @@ public class WorkspaceGI extends JFrame {
 
         @Override
         public void insertUpdate(DocumentEvent e) {
-            float entropy = coder.entropy(textArea.getText());
+            float entropy = coder.calculateEntropy(textArea.getText());
             if (textArea.getName().equals("input")) {
                 inputTextEntropyLabel.setText("Entropy: " + String.valueOf(entropy));
             } else {

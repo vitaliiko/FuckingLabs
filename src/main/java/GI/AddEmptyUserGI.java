@@ -1,8 +1,10 @@
 package GI;
 
+import panels.BoxPanel;
+import panels.LabelComponentPanel;
 import support.Controller;
-import support.IOFileHandling;
-import support.Message;
+import InputOutput.IOFileHandling;
+import InputOutput.Message;
 import support.UsersRights;
 
 import javax.swing.*;

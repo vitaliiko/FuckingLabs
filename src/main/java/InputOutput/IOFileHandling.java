@@ -1,4 +1,6 @@
-package support;
+package InputOutput;
+
+import support.User;
 
 import javax.swing.*;
 import java.io.*;

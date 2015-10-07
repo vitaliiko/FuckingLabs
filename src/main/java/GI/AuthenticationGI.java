@@ -1,7 +1,9 @@
 package GI;
 
+import panels.BoxPanel;
+import panels.LabelComponentPanel;
 import support.Controller;
-import support.Message;
+import InputOutput.Message;
 import support.User;
 import support.UsersRights;
 
@@ -299,7 +301,11 @@ public class AuthenticationGI extends JFrame {
             return;
         }
         String username = (String) usernameBox.getSelectedItem();
-        rights = controller.getUserNameMap().get(username);
+        if (controller.getUserNameMap().get(username) != null) {
+            rights = controller.getUserNameMap().get(username);
+        } else {
+            usernameBox.removeItem(username);
+        }
         switch (rights) {
             case UsersRights.EMPTY_SIMPLE_PASSWORD:
             case UsersRights.EMPTY: {

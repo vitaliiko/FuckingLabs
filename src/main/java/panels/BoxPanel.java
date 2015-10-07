@@ -1,4 +1,4 @@
-package GI;
+package panels;
 
 import javax.swing.*;
 import java.io.IOException;

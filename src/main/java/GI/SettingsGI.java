@@ -1,5 +1,9 @@
 package GI;
 
+import InputOutput.IOFileHandling;
+import InputOutput.Message;
+import panels.BoxPanel;
+import panels.LabelComponentPanel;
 import support.*;
 
 import javax.swing.*;
@@ -147,42 +151,54 @@ public class SettingsGI extends JDialog {
             try {
                 controller.updateUsersInfo(user, nameField.getText(), surnameField.getText(),
                         telephoneField.getText(), mailField.getText());
-                String username = usernameField.getText();
-                if (!user.getUserName().equals(username)) {
-                    if (controller.validateUsername(username)) {
-                        for (String s : controller.getUserNameMap().keySet()) {
-                            if (s.equals(username)) {
-                                throw new IOException(Message.EXIST_USER);
-                            }
-                        }
-                        user.setUserName(username);
-                    }
-                }
+
+                usernameChecker();
                 if (isNotPasswordsFieldsEmpty()) {
-                    if (!Arrays.equals(user.getPassword(), currentPasswordField.getPassword())){
-                        throw new IOException(Message.WRONG_PASSWORD);
-                    }
-                    if (!Arrays.equals(newPasswordField.getPassword(), repeatPasswordField.getPassword())) {
-                        throw new IOException(Message.PASSWORDS_DOES_NOT_MATCH);
-                    }
-                    if (user.getRights() == UsersRights.USER_WITH_SIMPLE_PASSWORD ||
-                            user.getRights() == UsersRights.LOCK_USERNAME_WITH_SIMPLE_PASSWORD) {
-                        user.setPassword(newPasswordField.getPassword());
-                    } else {
-                        if (controller.validatePassword(newPasswordField.getPassword())) {
-                            user.setPassword(newPasswordField.getPassword());
-                        }
-                    }
+                    passwordsChecker();
                 }
                 messageLabel.setIcon(null);
                 messageLabel.setText(Message.SAVED);
-                saveButton.setEnabled(false);
                 IOFileHandling.saveUsersSet(controller.getUserSet());
+                currentPasswordField.setText("");
+                newPasswordField.setText("");
+                repeatPasswordField.setText("");
+                saveButton.setEnabled(false);
             } catch (IOException e1) {
                 messageLabel.setIcon(Message.WARNING_IMAGE);
                 messageLabel.setText(e1.getMessage());
             }
         });
+    }
+
+    public void usernameChecker() throws IOException {
+        String username = usernameField.getText();
+        if (!user.getUserName().equals(username)) {
+            if (controller.validateUsername(username)) {
+                for (String s : controller.getUserNameMap().keySet()) {
+                    if (s.equals(username)) {
+                        throw new IOException(Message.EXIST_USER);
+                    }
+                }
+                user.setUserName(username);
+            }
+        }
+    }
+
+    public void passwordsChecker() throws IOException {
+        if (!Arrays.equals(user.getPassword(), currentPasswordField.getPassword())){
+            throw new IOException(Message.INCORRECT_PASSWORD);
+        }
+        if (!Arrays.equals(newPasswordField.getPassword(), repeatPasswordField.getPassword())) {
+            throw new IOException(Message.PASSWORDS_DOES_NOT_MATCH);
+        }
+        if (user.getRights() == UsersRights.USER_WITH_SIMPLE_PASSWORD ||
+                user.getRights() == UsersRights.LOCK_USERNAME_WITH_SIMPLE_PASSWORD) {
+            user.setPassword(newPasswordField.getPassword());
+        } else {
+            if (controller.validatePassword(newPasswordField.getPassword())) {
+                user.setPassword(newPasswordField.getPassword());
+            }
+        }
     }
 
     public void prepareCancelButton() {

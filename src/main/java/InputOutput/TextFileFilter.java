@@ -1,4 +1,4 @@
-package support;
+package InputOutput;
 
 import javax.swing.filechooser.FileFilter;
 import java.io.File;

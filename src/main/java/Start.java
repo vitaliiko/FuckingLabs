@@ -1,12 +1,6 @@
 import GI.AuthenticationGI;
-import GI.WorkspaceGI;
 import support.Controller;
-import support.IOFileHandling;
-import support.User;
-import support.UsersRights;
-
-import java.util.HashSet;
-import java.util.Set;
+import InputOutput.IOFileHandling;
 
 public class Start {
 

@@ -1,4 +1,4 @@
-package support;
+package InputOutput;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -16,7 +16,9 @@ public class Message {
     public static final String NON_ADMIN_USER = "You can\'t create account with such username";
     public static final String SHORT_PASSWORD = "Password is too short";
     public static final String LONG_PASSWORD = "Password is too long";
-    public static final String WRONG_PASSWORD = "<html>Password must contains uppercase and <br>lowercase letters, numbers and special characters</html>";
+    public static final String WRONG_PASSWORD = "<html>Password must contains uppercase and <br>lowercase letters, " +
+            "numbers and special characters</html>";
+    public static final String INCORRECT_PASSWORD = "Incorrect password";
     public static final String WRONG_NAME = "Name or surname contains forbidden characters";
     public static final String LOGIN = "Log in your account";
     public static final String CREATE = "Creating new account";

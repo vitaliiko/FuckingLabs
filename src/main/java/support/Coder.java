@@ -76,7 +76,7 @@ public class Coder {
         }
     }
 
-    public float entropy(String line){
+    public float calculateEntropy(String line){
         float x, entropy = 0;
         int count;
         ArrayList<Integer> charCount = new ArrayList<>();
