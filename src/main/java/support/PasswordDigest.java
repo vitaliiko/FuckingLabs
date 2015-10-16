@@ -25,7 +25,6 @@ public class PasswordDigest {
         catch (NoSuchAlgorithmException e) {
             return e.toString();
         }
-        System.out.println(password + " " + hexString.toString());
         return hexString.toString();
     }
 }
