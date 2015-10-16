@@ -1,0 +1,4 @@
+Manifest-Version: 1.0
+Class-Path: c:\Program Files (x86)\Java\jre1.8.0_60\bin\
+Main-Class: Start
+

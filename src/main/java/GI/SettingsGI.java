@@ -185,7 +185,7 @@ public class SettingsGI extends JDialog {
     }
 
     public void passwordsChecker() throws IOException {
-        if (!Arrays.equals(user.getPassword(), currentPasswordField.getPassword())){
+        if (user.isPasswordsMatches(currentPasswordField.getPassword())) {
             throw new IOException(Message.INCORRECT_PASSWORD);
         }
         if (!Arrays.equals(newPasswordField.getPassword(), repeatPasswordField.getPassword())) {

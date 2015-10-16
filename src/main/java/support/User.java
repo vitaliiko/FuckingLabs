@@ -1,14 +1,13 @@
 package support;
 
 import java.io.Serializable;
-import java.util.Arrays;
 
 public class User implements Serializable {
 
     private String name;
     private String surname;
     private String userName;
-    private char[] password;
+    private String password;
     private int rights;
     private String telephoneNum;
     private String mailAddress;
@@ -18,7 +17,7 @@ public class User implements Serializable {
         this.name = name;
         this.surname = surname;
         this.userName = userName;
-        this.password = password.toCharArray();
+        this.password = PasswordDigest.hashPassword(password);
         this.rights = rights;
     }
 
@@ -26,7 +25,7 @@ public class User implements Serializable {
         this.name = name;
         this.surname = surname;
         this.userName = userName;
-        this.password = password;
+        this.password = PasswordDigest.hashPassword(password);
         this.rights = rights;
     }
 
@@ -59,12 +58,8 @@ public class User implements Serializable {
         this.userName = userName;
     }
 
-    public char[] getPassword() {
-        return password;
-    }
-
     public void setPassword(char[] password) {
-        this.password = password;
+        this.password = PasswordDigest.hashPassword(password);
     }
 
     public int getRights() {
@@ -100,7 +95,11 @@ public class User implements Serializable {
     }
 
     public boolean isMatches(String userName, char[] password) {
-        return this.userName.equals(userName) && Arrays.equals(this.password, password);
+        return this.userName.equals(userName) && this.password.equals(PasswordDigest.hashPassword(password));
+    }
+
+    public boolean isPasswordsMatches(char[] password) {
+        return this.password.equals(PasswordDigest.hashPassword(password));
     }
 
     @Override
@@ -115,8 +114,6 @@ public class User implements Serializable {
 
     @Override
     public int hashCode() {
-        int result = userName.hashCode();
-        result = 31 * result + Arrays.hashCode(password);
-        return result;
+        return userName.hashCode();
     }
 }
