@@ -18,8 +18,9 @@ public class Coder {
     public String vigenereEncoder(String key, String inputText) {
         String outputText = "";
         int alphabetPower = alphabet.length();
+        int i = 0;
+        int outputCharIndex;
 
-        int i = 0, outputCharIndex;
         for (char c : inputText.toCharArray()) {
             if ((int) c == 10) {
                 c = (char) 32;
@@ -35,8 +36,9 @@ public class Coder {
     public String vigenereDecoder(String key, String inputText) {
         String outputText = "";
         int alphabetPower = alphabet.length();
+        int i = 0;
+        int outputCharIndex;
 
-        int i = 0, outputCharIndex;
         for (char c : inputText.toCharArray()) {
             int keyCharIndex = (i < key.length() ? i : 0);
             int index = alphabet.indexOf(c) - alphabet.indexOf(key.charAt(keyCharIndex));

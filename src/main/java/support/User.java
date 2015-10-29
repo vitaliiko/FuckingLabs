@@ -22,11 +22,7 @@ public class User implements Serializable {
     }
 
     public User(String name, String surname, String userName, char[] password, int rights) {
-        this.name = name;
-        this.surname = surname;
-        this.userName = userName;
-        this.password = PasswordDigest.hashPassword(password);
-        this.rights = rights;
+        this(name, surname, userName, String.valueOf(password), rights);
     }
 
     public User(String userName, int rights) {

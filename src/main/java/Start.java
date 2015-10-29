@@ -1,7 +1,7 @@
 import GI.AuthenticationGI;
+import GI.WorkspaceGI;
 import support.Controller;
 import InputOutput.IOFileHandling;
-import support.PasswordDigest;
 import support.User;
 import support.UsersRights;
 
@@ -12,16 +12,31 @@ public class Start {
 
     public static void main(String[] args) {
 
-//        Controller controller = new Controller(IOFileHandling.loadUsersSet());
-//        try {
-//            new AuthenticationGI(controller);
-////            User user = new User("Admin", "Admin", "ADMIN", "111111", UsersRights.ADMIN);
-////            user.setAlphabet("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789/*-+=!¹?., ");
-////            new WorkspaceGI(user, controller);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
+        startWorkspaceGI();
 
+    }
+
+    public static void startAuthGI() {
+        Controller controller = new Controller(IOFileHandling.loadUsersSet());
+        try {
+            new AuthenticationGI(controller);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void startWorkspaceGI() {
+        Controller controller = new Controller(IOFileHandling.loadUsersSet());
+        try {
+            User user = new User("Admin", "Admin", "ADMIN", "111111", UsersRights.ADMIN);
+            user.setAlphabet("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789/*-+=!?., ");
+            new WorkspaceGI(user, controller);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void initUserSet() {
         Set<User> userSet = new HashSet<>();
         userSet.add(new User("Admin", "Admin", "ADMIN", "111111", UsersRights.ADMIN));
         userSet.add(new User("Vitaliy", "Kobrin", "vetal", "<f,tyrjDthf#01", UsersRights.ADMIN));

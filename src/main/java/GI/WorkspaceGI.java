@@ -3,13 +3,38 @@ package GI;
 import InputOutput.IOFileHandling;
 import InputOutput.TextFileFilter;
 import panels.BoxPanel;
-import support.*;
+import support.Coder;
+import support.Controller;
+import support.User;
+import support.UsersRights;
 
-import javax.swing.*;
+import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JScrollPane;
+import javax.swing.JSeparator;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.ScrollPaneConstants;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.WindowConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GridLayout;
 
 public class WorkspaceGI extends JFrame {
 
@@ -43,17 +68,23 @@ public class WorkspaceGI extends JFrame {
     private Font font = new Font("Arial", Font.PLAIN, 12);
 
     public WorkspaceGI(User user, Controller controller) {
-        super("NBKS-Lab2");
+        super("BPZKS-Lab1");
         this.user = user;
         this.controller = controller;
         coder = new Coder();
 
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (ClassNotFoundException | InstantiationException | UnsupportedLookAndFeelException | IllegalAccessException e) {
+        } catch (ClassNotFoundException | InstantiationException |
+                UnsupportedLookAndFeelException | IllegalAccessException e) {
             e.printStackTrace();
         }
 
+        addComponents();
+        setupFrame();
+    }
+
+    public void addComponents() {
         prepareMenuBar();
         setJMenuBar(menuBar);
 
@@ -65,7 +96,9 @@ public class WorkspaceGI extends JFrame {
 
         prepareEncryptionPanel();
         getContentPane().add(encryptionPanel, BorderLayout.SOUTH);
+    }
 
+    public void setupFrame() {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new Dimension(924, 620));
         setIconImage(new ImageIcon("resources/icon.png").getImage());
