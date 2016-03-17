@@ -2,32 +2,15 @@ package GI;
 
 import InputOutput.IOFileHandling;
 import InputOutput.TextFileFilter;
+import coder.CeasarCoder;
+import coder.VigenereCoder;
 import panels.BoxPanel;
-import support.Coder;
+import coder.Coder;
 import support.Controller;
 import support.User;
 import support.UsersRights;
 
-import javax.swing.BoxLayout;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JFileChooser;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JPasswordField;
-import javax.swing.JScrollPane;
-import javax.swing.JSeparator;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
-import javax.swing.ScrollPaneConstants;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
-import javax.swing.WindowConstants;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -35,6 +18,7 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.io.IOException;
 
 public class WorkspaceGI extends JFrame {
 
@@ -52,6 +36,7 @@ public class WorkspaceGI extends JFrame {
     private JLabel outputTextEntropyLabel;
     private JTextArea inputTextArea;
     private JTextArea outputTextArea;
+    private JComboBox<Coder> selectCoderBox;
     private JButton createAlphabetButton;
     private JButton saveAlphabetButton;
     private JButton encryptButton;
@@ -71,7 +56,7 @@ public class WorkspaceGI extends JFrame {
         super("BPZKS-Lab1");
         this.user = user;
         this.controller = controller;
-        coder = new Coder();
+        this.coder = new CeasarCoder();
 
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -116,7 +101,8 @@ public class WorkspaceGI extends JFrame {
         northPanel.add(new BoxPanel(new JLabel("Alphabet: "), alphabetField));
 
         prepareAlphabetButtons();
-        northPanel.add(new BoxPanel(createAlphabetButton, saveAlphabetButton));
+        prepareSelectCoderBox();
+        northPanel.add(new BoxPanel(selectCoderBox, createAlphabetButton, saveAlphabetButton));
 
         alphabetPowerLabel = new JLabel(String.valueOf(alphabetField.getText().length()));
         northPanel.add(new BoxPanel(new JLabel("Alphabet power: "), alphabetPowerLabel));
@@ -185,6 +171,11 @@ public class WorkspaceGI extends JFrame {
             IOFileHandling.saveUsersSet(controller.getUserSet());
             saveAlphabetButton.setEnabled(false);
         });
+    }
+
+    private void prepareSelectCoderBox() {
+        selectCoderBox = new JComboBox<>(new Coder[] {new CeasarCoder(), new VigenereCoder()});
+        selectCoderBox.addActionListener(e -> coder = (Coder) selectCoderBox.getSelectedItem());
     }
 
     public void prepareSelectFilesPanel() {
@@ -266,19 +257,27 @@ public class WorkspaceGI extends JFrame {
         encryptButton = new JButton("Encrypt");
         encryptButton.setEnabled(false);
         encryptButton.addActionListener(e -> {
+            try {
             coder.setAlphabet(alphabetField.getText());
-            String outputText = coder.vigenereEncoder(keyField.getText(), inputTextArea.getText());
+            String outputText = coder.encode(keyField.getText(), inputTextArea.getText());
             outputTextArea.setText(outputText);
             writeToFile(outputText);
+            } catch (IOException e1) {
+                System.out.println(e1.getMessage());
+            }
         });
 
         decryptButton = new JButton("Decrypt");
         decryptButton.setEnabled(false);
         decryptButton.addActionListener(e -> {
-            coder.setAlphabet(alphabetField.getText());
-            String outputText = coder.vigenereDecoder(keyField.getText(), inputTextArea.getText());
-            outputTextArea.setText(outputText);
-            writeToFile(outputText);
+            try {
+                coder.setAlphabet(alphabetField.getText());
+                String outputText = coder.decode(keyField.getText(), inputTextArea.getText());
+                outputTextArea.setText(outputText);
+                writeToFile(outputText);
+            } catch (IOException e1) {
+                System.out.println(e1.getMessage());
+            }
         });
 
         encryptionPanel = new BoxPanel(encryptButton, decryptButton);

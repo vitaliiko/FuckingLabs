@@ -1,11 +1,12 @@
-package support;
+package coder;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class Coder {
+public abstract class Coder {
 
-    private String alphabet = "";
+    protected String alphabet = "";
 
     public String getAlphabet() {
         return alphabet;
@@ -15,39 +16,9 @@ public class Coder {
         this.alphabet = alphabet;
     }
 
-    public String vigenereEncoder(String key, String inputText) {
-        String outputText = "";
-        int alphabetPower = alphabet.length();
-        int i = 0;
-        int outputCharIndex;
+    public abstract String encode(String key, String inputText) throws IOException;
 
-        for (char c : inputText.toCharArray()) {
-            if ((int) c == 10) {
-                c = (char) 32;
-            }
-            int keyCharIndex = (i < key.length() ? i : 0);
-            outputCharIndex = (alphabet.indexOf(c) + alphabet.indexOf(key.charAt(keyCharIndex))) % alphabetPower;
-            outputText += alphabet.charAt(outputCharIndex);
-            i++;
-        }
-        return outputText;
-    }
-
-    public String vigenereDecoder(String key, String inputText) {
-        String outputText = "";
-        int alphabetPower = alphabet.length();
-        int i = 0;
-        int outputCharIndex;
-
-        for (char c : inputText.toCharArray()) {
-            int keyCharIndex = (i < key.length() ? i : 0);
-            int index = alphabet.indexOf(c) - alphabet.indexOf(key.charAt(keyCharIndex));
-            outputCharIndex = (index < 0 ? index + alphabetPower : index) % alphabetPower;
-            outputText += alphabet.charAt(outputCharIndex);
-            i++;
-        }
-        return outputText;
-    }
+    public abstract String decode(String key, String inputText) throws IOException;
 
     public void createAlphabet(String inputAlphabet) {
         ArrayList<Character> alphabet = new ArrayList<>();
@@ -55,7 +26,7 @@ public class Coder {
         int randomNum;
 
         if (inputAlphabet.isEmpty()) {
-            for (int i = 97; i <= 122; i++) {
+            for (int i = 65; i <= 122; i++) {
                 alphabet.add((char) i);
             }
             for (int i = 48; i <= 57; i++) {
@@ -103,4 +74,7 @@ public class Coder {
         }
         return entropy;
     }
+
+    @Override
+    public abstract String toString();
 }
