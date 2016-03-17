@@ -1,7 +1,6 @@
 package user_gi;
 
 import input_output.IOFileHandling;
-import input_output.TextFileFilter;
 import coder.CeasarCoder;
 import coder.VigenereCoder;
 import components.BoxPanel;
@@ -10,6 +9,7 @@ import model.Controller;
 import model.User;
 import model.UsersRights;
 import utils.FrameUtils;
+import utils.TextAreasListener;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -17,7 +17,6 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.GridLayout;
 import java.io.IOException;
 
@@ -25,7 +24,7 @@ public class WorkspaceGI extends JFrame {
 
     private User user;
     private Controller controller;
-    private Coder coder;
+    private Coder coder = CeasarCoder.getInstance();
     private String outputFilePath;
 
     private JTextField keyField;
@@ -33,8 +32,6 @@ public class WorkspaceGI extends JFrame {
     private JTextField inputFilePathField;
     private JTextField outputFilePathField;
     private JLabel alphabetPowerLabel;
-    private JLabel inputTextEntropyLabel;
-    private JLabel outputTextEntropyLabel;
     private JTextArea inputTextArea;
     private JTextArea outputTextArea;
     private JComboBox<Coder> selectCoderBox;
@@ -48,16 +45,12 @@ public class WorkspaceGI extends JFrame {
     private JPanel encryptionPanel;
     private JMenuBar menuBar;
     private JMenu fileMenu;
-    private JMenu helpMenu;
     private JFrame usersInfoGI;
-
-    private Font font = new Font("Arial", Font.PLAIN, 12);
 
     public WorkspaceGI(User user, Controller controller) {
         super("BPZKS-Lab1");
         this.user = user;
         this.controller = controller;
-        this.coder = CeasarCoder.getInstance();
 
         FrameUtils.setLookAndFeel();
 
@@ -65,7 +58,7 @@ public class WorkspaceGI extends JFrame {
         setupFrame();
     }
 
-    public void addComponents() {
+    private void addComponents() {
         prepareMenuBar();
         setJMenuBar(menuBar);
 
@@ -79,7 +72,7 @@ public class WorkspaceGI extends JFrame {
         getContentPane().add(encryptionPanel, BorderLayout.SOUTH);
     }
 
-    public void setupFrame() {
+    private void setupFrame() {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new Dimension(924, 620));
         setIconImage(new ImageIcon("resources/icon.png").getImage());
@@ -87,7 +80,7 @@ public class WorkspaceGI extends JFrame {
         setVisible(true);
     }
 
-    public void prepareNorthPanel() {
+    private void prepareNorthPanel() {
         northPanel = new BoxPanel(BoxLayout.Y_AXIS);
 
         prepareKeyField();
@@ -108,9 +101,9 @@ public class WorkspaceGI extends JFrame {
         northPanel.add(new JSeparator());
     }
 
-    public void prepareKeyField() {
+    private void prepareKeyField() {
         keyField = new JPasswordField(50);
-        keyField.setFont(font);
+        keyField.setFont(FrameUtils.FONT);
         keyField.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {
@@ -129,9 +122,9 @@ public class WorkspaceGI extends JFrame {
         });
     }
 
-    public void prepareAlphabetField() {
+    private void prepareAlphabetField() {
         alphabetField = new JTextField(user.getAlphabet() == null ? "" : user.getAlphabet(), 50);
-        alphabetField.setFont(font);
+        alphabetField.setFont(FrameUtils.FONT);
         alphabetField.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {
@@ -152,7 +145,7 @@ public class WorkspaceGI extends JFrame {
         });
     }
 
-    public void prepareAlphabetButtons() {
+    private void prepareAlphabetButtons() {
         createAlphabetButton = new JButton("Random", new ImageIcon("resources/random.png"));
         createAlphabetButton.setToolTipText("Create random alphabet");
         createAlphabetButton.addActionListener(e -> {
@@ -174,15 +167,15 @@ public class WorkspaceGI extends JFrame {
         selectCoderBox.addActionListener(e -> coder = (Coder) selectCoderBox.getSelectedItem());
     }
 
-    public void prepareSelectFilesPanel() {
+    private void prepareSelectFilesPanel() {
         selectFilesPanel = new JPanel();
         selectFilesPanel.setLayout(new GridLayout(1, 2));
 
         inputFilePathField = new JTextField(27);
-        inputFilePathField.setFont(font);
+        inputFilePathField.setFont(FrameUtils.FONT);
         JButton selectInputFileButton = new JButton(new ImageIcon("resources/folder.png"));
         selectInputFileButton.addActionListener(e -> {
-            String filePath = callFileChooser();
+            String filePath = FrameUtils.callFileChooser();
             if (filePath != null) {
                 inputFilePathField.setText(filePath);
                 inputTextArea.setText(IOFileHandling.readFromFile(filePath));
@@ -191,10 +184,10 @@ public class WorkspaceGI extends JFrame {
         selectFilesPanel.add(new BoxPanel(new JLabel("Original file: "), inputFilePathField, selectInputFileButton));
 
         outputFilePathField = new JTextField(24);
-        outputFilePathField.setFont(font);
+        outputFilePathField.setFont(FrameUtils.FONT);
         JButton selectOutputFileButton = new JButton(new ImageIcon("resources/folder.png"));
         selectOutputFileButton.addActionListener(e -> {
-            outputFilePath = callFileChooser();
+            outputFilePath = FrameUtils.callFileChooser();
             outputFilePathField.setText(outputFilePath);
         });
         JButton clearButton = new JButton(new ImageIcon("resources/clear.png"));
@@ -205,27 +198,15 @@ public class WorkspaceGI extends JFrame {
         selectFilesPanel.add(new BoxPanel(new JLabel("Final file: "), outputFilePathField, selectOutputFileButton, clearButton));
     }
 
-    public String callFileChooser() {
-        JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-        fileChooser.addChoosableFileFilter(new TextFileFilter());
-        fileChooser.setAcceptAllFileFilterUsed(false);
-        fileChooser.setDialogType(JFileChooser.OPEN_DIALOG);
-        int returnVal = fileChooser.showOpenDialog(fileChooser);
-        if (returnVal == JFileChooser.APPROVE_OPTION) {
-            return fileChooser.getSelectedFile().getAbsolutePath();
-        }
-        return null;
-    }
-
-    public void prepareTextAreasPanel() {
+    private void prepareTextAreasPanel() {
         textAreasPanel = new JPanel();
         textAreasPanel.setLayout(new GridLayout(1, 2));
 
         inputTextArea = new JTextArea();
-        textAreaFactory(inputTextArea, "input");
+        JLabel inputTextEntropyLabel = new JLabel("Entropy = 0");
+        DocumentListener inputListener = new TextAreasListener(this, inputTextArea, inputTextEntropyLabel, coder);
+        FrameUtils.textAreaFactory(inputTextArea, "input", inputListener);
 
-        inputTextEntropyLabel = new JLabel("Entropy = 0");
         JPanel inputTextPanel = new BoxPanel(BoxLayout.Y_AXIS, inputTextEntropyLabel,
                 new JScrollPane(inputTextArea, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
                 ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER));
@@ -233,9 +214,10 @@ public class WorkspaceGI extends JFrame {
         textAreasPanel.add(inputTextPanel);
 
         outputTextArea = new JTextArea();
-        textAreaFactory(outputTextArea, "output");
+        JLabel outputTextEntropyLabel = new JLabel("Entropy = 0");
+        DocumentListener outputListener = new TextAreasListener(this, inputTextArea, outputTextEntropyLabel, coder);
+        FrameUtils.textAreaFactory(outputTextArea, "output", outputListener);
 
-        outputTextEntropyLabel = new JLabel("Entropy = 0");
         JPanel outputTextPanel = new BoxPanel(BoxLayout.Y_AXIS, outputTextEntropyLabel,
                 new JScrollPane(outputTextArea, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
                 ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER));
@@ -243,15 +225,7 @@ public class WorkspaceGI extends JFrame {
         textAreasPanel.add(outputTextPanel);
     }
 
-    private void textAreaFactory(JTextArea textArea, String name) {
-        textArea.setLineWrap(true);
-        textArea.setWrapStyleWord(true);
-        textArea.setFont(font);
-        textArea.setName(name);
-        textArea.getDocument().addDocumentListener(new TextAreasListener(textArea));
-    }
-
-    public void prepareEncryptionPanel() {
+    private void prepareEncryptionPanel() {
         encryptButton = new JButton("Encrypt");
         encryptButton.setEnabled(false);
         encryptButton.addActionListener(e -> {
@@ -282,21 +256,20 @@ public class WorkspaceGI extends JFrame {
         encryptionPanel.setBorder(new EmptyBorder(0, 0, 10, 0));
     }
 
-    public void writeToFile(String outputLine) {
+    private void writeToFile(String outputLine) {
         if (outputFilePath != null) {
             IOFileHandling.writeToFile(outputLine, outputFilePath);
         }
     }
 
-    public void prepareMenuBar() {
+    private void prepareMenuBar() {
         menuBar = new JMenuBar();
         prepareFileMenu();
         menuBar.add(fileMenu);
-        prepareHelpMenu();
-        menuBar.add(helpMenu);
+        menuBar.add(FrameUtils.prepareHelpMenu());
     }
 
-    public void prepareFileMenu() {
+    private void prepareFileMenu() {
         fileMenu = new JMenu("File");
 
         JMenuItem logoutItem = new JMenuItem("Log out");
@@ -337,57 +310,10 @@ public class WorkspaceGI extends JFrame {
         fileMenu.add(closeItem);
     }
 
-    public void prepareHelpMenu() {
-        helpMenu = new JMenu("Help");
-
-        JMenuItem aboutItem = new JMenuItem("About           ");
-        aboutItem.addActionListener(e -> JOptionPane.showConfirmDialog(null,
-                "<html>Програму розробив студент групи СПС-1466 Кобрін В.О.<br><br>" +
-                        "ЛР №2:<br>" +
-                        "Індивідувальне завдання згідно варіанта №9:<br>" +
-                        "При перевірці на валідність обраного користувачем пароля<br>" +
-                        "наобхідно враховувати наявність великих і малих літер,<br>" +
-                        "цифр та розділових знаків.<br><br>" +
-                        "ЛР №3:<br>" +
-                        "Шифрування та розшифровування текстових повідомлень методом Віженера.</html>", "About",
-                JOptionPane.DEFAULT_OPTION));
-        helpMenu.add(aboutItem);
-    }
-
     public void checkButtonsEnabled() {
         encryptButton.setEnabled(!keyField.getText().isEmpty() &&
                 !alphabetField.getText().isEmpty() &&
                 !inputTextArea.getText().isEmpty());
         decryptButton.setEnabled(encryptButton.isEnabled());
-    }
-
-    public class TextAreasListener implements DocumentListener {
-
-        JTextArea textArea;
-
-        public TextAreasListener(JTextArea textArea) {
-            this.textArea = textArea;
-        }
-
-        @Override
-        public void insertUpdate(DocumentEvent e) {
-            float entropy = coder.calculateEntropy(textArea.getText());
-            if (textArea.getName().equals("input")) {
-                inputTextEntropyLabel.setText("Entropy: " + String.valueOf(entropy));
-            } else {
-                outputTextEntropyLabel.setText("Entropy: " + String.valueOf(entropy));
-            }
-            checkButtonsEnabled();
-        }
-
-        @Override
-        public void removeUpdate(DocumentEvent e) {
-            insertUpdate(e);
-        }
-
-        @Override
-        public void changedUpdate(DocumentEvent e) {
-            insertUpdate(e);
-        }
     }
 }
