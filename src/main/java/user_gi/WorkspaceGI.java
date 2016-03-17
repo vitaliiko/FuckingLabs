@@ -1,5 +1,6 @@
 package user_gi;
 
+import coder.VerrnamCoder;
 import input_output.IOFileHandling;
 import coder.CeasarCoder;
 import coder.VigenereCoder;
@@ -126,7 +127,11 @@ public class WorkspaceGI extends JFrame {
     }
 
     private void prepareSelectCoderBox() {
-        selectCoderBox = new JComboBox<>(new Coder[] {CeasarCoder.getInstance(), VigenereCoder.getInstance()});
+        selectCoderBox = new JComboBox<>(new Coder[] {
+                CeasarCoder.getInstance(),
+                VigenereCoder.getInstance(),
+                VerrnamCoder.getInstance()
+        });
         selectCoderBox.addActionListener(e -> coder = (Coder) selectCoderBox.getSelectedItem());
         selectCoderBox.setPreferredSize(new Dimension(150, 23));
     }
