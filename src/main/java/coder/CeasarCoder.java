@@ -19,7 +19,7 @@ public class CeasarCoder extends Coder {
         if (key.length() > 1) {
             throw new IOException("Key length should be less than 1 symbol");
         }
-        if (checkForForbiddenSymbols(key)) {
+        if (!checkForForbiddenSymbols(key)) {
             throw new IOException(Message.FORBIDDEN_SYMBOLS_IN_KEY);
         }
     }

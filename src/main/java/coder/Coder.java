@@ -4,6 +4,7 @@ import input_output.Message;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public abstract class Coder {
@@ -40,7 +41,7 @@ public abstract class Coder {
     }
 
     public void createAlphabet(String inputAlphabet) {
-        ArrayList<Character> alphabet = new ArrayList<>();
+        List<Character> alphabet = new ArrayList<>();
         Random random = new Random();
         int randomNum;
 
@@ -71,8 +72,8 @@ public abstract class Coder {
     public float calculateEntropy(String line){
         float x, entropy = 0;
         int count;
-        ArrayList<Integer> charCount = new ArrayList<>();
-        ArrayList<Character> charList = new ArrayList<>();
+        List<Integer> charCount = new ArrayList<>();
+        List<Character> charList = new ArrayList<>();
 
         for (int i = 0; i < line.length(); i++) {
             if (!charList.contains(line.charAt(i))) {

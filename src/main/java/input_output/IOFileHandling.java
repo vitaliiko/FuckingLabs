@@ -52,9 +52,11 @@ public class IOFileHandling {
 
     public static void writeToFile(String outputLine, String fileName){
         try {
-            FileWriter writer = new FileWriter(fileName);
-            writer.write(outputLine);
-            writer.close();
+            if (fileName != null) {
+                FileWriter writer = new FileWriter(fileName);
+                writer.write(outputLine);
+                writer.close();
+            }
         } catch (IOException e) {
             JOptionPane.showConfirmDialog(null, "Error when writing text to a file", "ACHTUNG!",
                     JOptionPane.DEFAULT_OPTION);

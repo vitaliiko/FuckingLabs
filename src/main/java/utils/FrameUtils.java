@@ -8,7 +8,7 @@ import java.awt.*;
 
 public final class FrameUtils {
 
-    public static final Font FONT = new Font("Arial", Font.PLAIN, 12);
+    public static final Font ARIAL_12 = new Font("Arial", Font.PLAIN, 12);
 
     private FrameUtils() {}
 
@@ -37,29 +37,18 @@ public final class FrameUtils {
     public static void textAreaFactory(JTextArea textArea, String name, DocumentListener listener) {
         textArea.setLineWrap(true);
         textArea.setWrapStyleWord(true);
-        textArea.setFont(FONT);
+        textArea.setFont(ARIAL_12);
         textArea.setName(name);
         textArea.getDocument().addDocumentListener(listener);
     }
 
-    public static JMenu prepareHelpMenu() {
-        JMenu helpMenu = new JMenu("Help");
-
-        JMenuItem aboutItem = new JMenuItem("About           ");
-        aboutItem.addActionListener(e -> JOptionPane.showConfirmDialog(null,
-                "<html>" +
-                        "Програму розробли студенти групи СПС-1466 <br>" +
-                        "Артеменко І.Ю.<br>" +
-                        "Кобрін В.О.<br>" +
-                        "Петров Д.В.<br>" +
-                        "</html>",
-                "About",
-                JOptionPane.DEFAULT_OPTION));
-        helpMenu.add(aboutItem);
-        return helpMenu;
-    }
-
     public static void showErrorDialog(JFrame frame, String message) {
         JOptionPane.showMessageDialog(frame, message, "Error", JOptionPane.ERROR_MESSAGE);
+    }
+
+    public static JScrollPane createScroll(JComponent component) {
+        return new JScrollPane(component,
+                ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
+                ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
     }
 }

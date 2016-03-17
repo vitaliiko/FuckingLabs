@@ -56,7 +56,7 @@ public class VigenereCoder extends Coder {
 
     @Override
     public void validateKey(String key) throws IOException {
-        if (checkForForbiddenSymbols(key)) {
+        if (!checkForForbiddenSymbols(key)) {
             throw new IOException(Message.FORBIDDEN_SYMBOLS_IN_KEY);
         }
     }
