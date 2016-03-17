@@ -3,7 +3,6 @@ package utils;
 import input_output.TextFileFilter;
 
 import javax.swing.*;
-import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.awt.*;
 
@@ -59,5 +58,9 @@ public final class FrameUtils {
                 JOptionPane.DEFAULT_OPTION));
         helpMenu.add(aboutItem);
         return helpMenu;
+    }
+
+    public static void showErrorDialog(JFrame frame, String message) {
+        JOptionPane.showMessageDialog(frame, message, "Error", JOptionPane.ERROR_MESSAGE);
     }
 }

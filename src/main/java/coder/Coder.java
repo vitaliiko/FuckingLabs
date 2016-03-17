@@ -1,5 +1,7 @@
 package coder;
 
+import input_output.Message;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
@@ -20,9 +22,15 @@ public abstract class Coder {
 
     public abstract String decode(String key, String inputText) throws IOException;
 
-    public abstract boolean validateKey(String key) throws IOException;
+    public abstract void validateKey(String key) throws IOException;
 
-    protected boolean validateMessage(String message) throws IOException {
+    public void validateMessage(String message) throws IOException {
+        if (!checkForForbiddenSymbols(message)) {
+            throw new IOException(Message.FORBIDDEN_SYMBOLS_IN_MESSAGE);
+        }
+    }
+
+    protected boolean checkForForbiddenSymbols(String message) {
         for (char c : message.toCharArray()) {
             if (alphabet.indexOf(c) < 0) {
                 return false;

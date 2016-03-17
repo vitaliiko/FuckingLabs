@@ -1,5 +1,7 @@
 package coder;
 
+import input_output.Message;
+
 import java.io.IOException;
 
 public class VigenereCoder extends Coder {
@@ -53,11 +55,10 @@ public class VigenereCoder extends Coder {
     }
 
     @Override
-    public boolean validateKey(String key) throws IOException {
-        if (validateMessage(key)) {
-            throw new IOException("Key contain danger symbol");
+    public void validateKey(String key) throws IOException {
+        if (checkForForbiddenSymbols(key)) {
+            throw new IOException(Message.FORBIDDEN_SYMBOLS_IN_KEY);
         }
-        return true;
     }
 
     @Override

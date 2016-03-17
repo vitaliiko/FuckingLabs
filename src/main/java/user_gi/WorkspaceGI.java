@@ -230,12 +230,12 @@ public class WorkspaceGI extends JFrame {
         encryptButton.setEnabled(false);
         encryptButton.addActionListener(e -> {
             try {
-            coder.setAlphabet(alphabetField.getText());
-            String outputText = coder.encode(keyField.getText(), inputTextArea.getText());
-            outputTextArea.setText(outputText);
-            writeToFile(outputText);
+                coder.setAlphabet(alphabetField.getText());
+                String outputText = coder.encode(keyField.getText(), inputTextArea.getText());
+                outputTextArea.setText(outputText);
+                writeToFile(outputText);
             } catch (IOException e1) {
-                System.out.println(e1.getMessage());
+                FrameUtils.showErrorDialog(this, e1.getMessage());
             }
         });
 
@@ -248,7 +248,7 @@ public class WorkspaceGI extends JFrame {
                 outputTextArea.setText(outputText);
                 writeToFile(outputText);
             } catch (IOException e1) {
-                System.out.println(e1.getMessage());
+                FrameUtils.showErrorDialog(this, e1.getMessage());
             }
         });
 

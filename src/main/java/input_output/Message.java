@@ -35,6 +35,9 @@ public class Message {
     public static final String USER_LIST = "A list of users";
     public static final String USER_INFO = "User information";
 
+    public static final String FORBIDDEN_SYMBOLS_IN_KEY = "Key contain forbidden symbols";
+    public static final String FORBIDDEN_SYMBOLS_IN_MESSAGE = "Message contain forbidden symbols";
+
     public static JLabel prepareMessageLabel(String message) {
         JLabel messageLabel = new JLabel(message);
         messageLabel.setHorizontalAlignment(JLabel.CENTER);

@@ -1,5 +1,7 @@
 package coder;
 
+import input_output.Message;
+
 import java.io.IOException;
 
 public class CeasarCoder extends Coder {
@@ -13,19 +15,13 @@ public class CeasarCoder extends Coder {
     }
 
     @Override
-    public boolean validateKey(String key) throws IOException {
+    public void validateKey(String key) throws IOException {
         if (key.length() > 1) {
-            throw new IOException("Key length must be equal 1!!!!!(");
+            throw new IOException("Key length should be less than 1 symbol");
         }
-        if (validateMessage(key)) {
-            throw new IOException("Key contain danger symbol");
+        if (checkForForbiddenSymbols(key)) {
+            throw new IOException(Message.FORBIDDEN_SYMBOLS_IN_KEY);
         }
-        return true;
-    }
-
-    @Override
-    protected boolean validateMessage(String message) throws IOException {
-        return super.validateMessage(message);
     }
 
     @Override
