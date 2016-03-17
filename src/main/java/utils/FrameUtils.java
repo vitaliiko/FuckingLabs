@@ -47,14 +47,13 @@ public final class FrameUtils {
 
         JMenuItem aboutItem = new JMenuItem("About           ");
         aboutItem.addActionListener(e -> JOptionPane.showConfirmDialog(null,
-                "<html>Програму розробив студент групи СПС-1466 Кобрін В.О.<br><br>" +
-                        "ЛР №2:<br>" +
-                        "Індивідувальне завдання згідно варіанта №9:<br>" +
-                        "При перевірці на валідність обраного користувачем пароля<br>" +
-                        "наобхідно враховувати наявність великих і малих літер,<br>" +
-                        "цифр та розділових знаків.<br><br>" +
-                        "ЛР №3:<br>" +
-                        "Шифрування та розшифровування текстових повідомлень методом Віженера.</html>", "About",
+                "<html>" +
+                        "Програму розробли студенти групи СПС-1466 <br>" +
+                        "Артеменко І.Ю.<br>" +
+                        "Кобрін В.О.<br>" +
+                        "Петров Д.В.<br>" +
+                        "</html>",
+                "About",
                 JOptionPane.DEFAULT_OPTION));
         helpMenu.add(aboutItem);
         return helpMenu;
