@@ -20,6 +20,17 @@ public abstract class Coder {
 
     public abstract String decode(String key, String inputText) throws IOException;
 
+    public abstract boolean validateKey(String key) throws IOException;
+
+    protected boolean validateMessage(String message) throws IOException {
+        for (char c : message.toCharArray()) {
+            if (alphabet.indexOf(c) < 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     public void createAlphabet(String inputAlphabet) {
         ArrayList<Character> alphabet = new ArrayList<>();
         Random random = new Random();

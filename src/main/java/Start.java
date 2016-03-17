@@ -1,9 +1,9 @@
-import GI.AuthenticationGI;
-import GI.WorkspaceGI;
-import support.Controller;
-import InputOutput.IOFileHandling;
-import support.User;
-import support.UsersRights;
+import user_gi.AuthenticationGI;
+import user_gi.WorkspaceGI;
+import model.Controller;
+import input_output.IOFileHandling;
+import model.User;
+import model.UsersRights;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -12,6 +12,7 @@ public class Start {
 
     public static void main(String[] args) {
 
+        initUserSet();
         startWorkspaceGI();
 
     }

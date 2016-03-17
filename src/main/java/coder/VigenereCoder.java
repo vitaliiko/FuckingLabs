@@ -4,8 +4,18 @@ import java.io.IOException;
 
 public class VigenereCoder extends Coder {
 
+    private static Coder instance = new VigenereCoder();
+
+    private VigenereCoder() {}
+
+    public static Coder getInstance() {
+        return instance;
+    }
+
     @Override
     public String encode(String key, String inputText) throws IOException {
+        validateMessage(inputText);
+        validateKey(key);
         String outputText = "";
         int alphabetPower = alphabet.length();
         int i = 0;
@@ -25,6 +35,8 @@ public class VigenereCoder extends Coder {
 
     @Override
     public String decode(String key, String inputText) throws IOException {
+        validateMessage(inputText);
+        validateKey(key);
         String outputText = "";
         int alphabetPower = alphabet.length();
         int i = 0;
@@ -38,6 +50,14 @@ public class VigenereCoder extends Coder {
             i++;
         }
         return outputText;
+    }
+
+    @Override
+    public boolean validateKey(String key) throws IOException {
+        if (validateMessage(key)) {
+            throw new IOException("Key contain danger symbol");
+        }
+        return true;
     }
 
     @Override
