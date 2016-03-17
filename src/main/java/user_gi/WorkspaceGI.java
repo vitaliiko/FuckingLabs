@@ -1,11 +1,8 @@
 package user_gi;
 
-import coder.VerrnamCoder;
+import coder.*;
 import input_output.IOFileHandling;
-import coder.CeasarCoder;
-import coder.VigenereCoder;
 import components.BoxPanel;
-import coder.Coder;
 import model.Controller;
 import model.User;
 import utils.*;
@@ -34,10 +31,11 @@ public class WorkspaceGI extends JFrame {
     private JTextArea inputTextArea;
     private JTextArea outputTextArea;
     private JComboBox<Coder> selectCoderBox;
-    private JButton createAlphabetButton;
+    private JButton generateAlphabetButton;
     private JButton saveAlphabetButton;
     private JButton encryptButton;
     private JButton decryptButton;
+    private JButton generateKeyButton;
     private JPanel selectFilesPanel;
     private JPanel textAreasPanel;
     private JPanel northPanel;
@@ -87,7 +85,8 @@ public class WorkspaceGI extends JFrame {
 
         prepareAlphabetButtons();
         prepareSelectCoderBox();
-        northPanel.add(new BoxPanel(new JLabel("Method: "), selectCoderBox, createAlphabetButton, saveAlphabetButton));
+        northPanel.add(new BoxPanel(new JLabel("Method: "),
+                selectCoderBox, generateAlphabetButton, saveAlphabetButton, generateKeyButton));
 
         alphabetPowerLabel = new JLabel(String.valueOf(alphabetField.getText().length()));
         northPanel.add(new BoxPanel(new JLabel("Alphabet power: "), alphabetPowerLabel));
@@ -110,11 +109,18 @@ public class WorkspaceGI extends JFrame {
     }
 
     private void prepareAlphabetButtons() {
-        createAlphabetButton = new JButton("Random", new ImageIcon("resources/random.png"));
-        createAlphabetButton.setToolTipText("Create random alphabet");
-        createAlphabetButton.addActionListener(e -> {
+        generateAlphabetButton = new JButton("Random", new ImageIcon("resources/random.png"));
+        generateAlphabetButton.setToolTipText("Generate random alphabet");
+        generateAlphabetButton.addActionListener(e -> {
             coder.createAlphabet(alphabetField.getText());
             alphabetField.setText(coder.getAlphabet());
+        });
+
+        generateKeyButton = new JButton("Generate key");
+        generateKeyButton.setVisible(false);
+        generateKeyButton.addActionListener(e -> {
+            String key = KeyGenerator.generateKey(alphabetField.getText(), inputTextArea.getText().length());
+            keyField.setText(key);
         });
 
         saveAlphabetButton = new JButton("Save", new ImageIcon("resources/save.png"));
@@ -132,7 +138,10 @@ public class WorkspaceGI extends JFrame {
                 VigenereCoder.getInstance(),
                 VerrnamCoder.getInstance()
         });
-        selectCoderBox.addActionListener(e -> coder = (Coder) selectCoderBox.getSelectedItem());
+        selectCoderBox.addActionListener(e -> {
+            coder = (Coder) selectCoderBox.getSelectedItem();
+            generateKeyButton.setVisible(selectCoderBox.getSelectedItem().equals(VerrnamCoder.getInstance()));
+        });
         selectCoderBox.setPreferredSize(new Dimension(150, 23));
     }
 
@@ -197,17 +206,17 @@ public class WorkspaceGI extends JFrame {
     private void prepareEncryptionPanel() {
         encryptButton = new JButton("Encrypt");
         encryptButton.setEnabled(false);
-        encryptButton.addActionListener(e -> makeCrypt(encryptButton));
+        encryptButton.addActionListener(e -> doCrypt(encryptButton));
 
         decryptButton = new JButton("Decrypt");
         decryptButton.setEnabled(false);
-        decryptButton.addActionListener(e -> makeCrypt(decryptButton));
+        decryptButton.addActionListener(e -> doCrypt(decryptButton));
 
         encryptionPanel = new BoxPanel(encryptButton, decryptButton);
         encryptionPanel.setBorder(new EmptyBorder(0, 0, 10, 0));
     }
 
-    private void makeCrypt(JButton button) {
+    private void doCrypt(JButton button) {
         try {
             coder.setAlphabet(alphabetField.getText());
             String outputText;

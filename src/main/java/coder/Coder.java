@@ -9,7 +9,7 @@ import java.util.Random;
 
 public abstract class Coder {
 
-    protected String alphabet = "";
+    private String alphabet = "";
 
     public String getAlphabet() {
         return alphabet;

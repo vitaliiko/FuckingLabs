@@ -19,7 +19,7 @@ public class VigenereCoder extends Coder {
         validateMessage(inputText);
         validateKey(key);
         String outputText = "";
-        int alphabetPower = alphabet.length();
+        int alphabetPower = getAlphabet().length();
         int i = 0;
         int outputCharIndex;
 
@@ -28,8 +28,8 @@ public class VigenereCoder extends Coder {
                 c = (char) 32;
             }
             int keyCharIndex = (i < key.length() ? i : 0);
-            outputCharIndex = (alphabet.indexOf(c) + alphabet.indexOf(key.charAt(keyCharIndex))) % alphabetPower;
-            outputText += alphabet.charAt(outputCharIndex);
+            outputCharIndex = (getAlphabet().indexOf(c) + getAlphabet().indexOf(key.charAt(keyCharIndex))) % alphabetPower;
+            outputText += getAlphabet().charAt(outputCharIndex);
             i++;
         }
         return outputText;
@@ -40,15 +40,15 @@ public class VigenereCoder extends Coder {
         validateMessage(inputText);
         validateKey(key);
         String outputText = "";
-        int alphabetPower = alphabet.length();
+        int alphabetPower = getAlphabet().length();
         int i = 0;
         int outputCharIndex;
 
         for (char c : inputText.toCharArray()) {
             int keyCharIndex = (i < key.length() ? i : 0);
-            int index = alphabet.indexOf(c) - alphabet.indexOf(key.charAt(keyCharIndex));
+            int index = getAlphabet().indexOf(c) - getAlphabet().indexOf(key.charAt(keyCharIndex));
             outputCharIndex = (index < 0 ? index + alphabetPower : index) % alphabetPower;
-            outputText += alphabet.charAt(outputCharIndex);
+            outputText += getAlphabet().charAt(outputCharIndex);
             i++;
         }
         return outputText;

@@ -19,7 +19,7 @@ public class VerrnamCoder extends Coder {
         validateMessage(inputText);
         validateKey(key, inputText);
         String outputText = "";
-        int alphabetPower = alphabet.length();
+        int alphabetPower = getAlphabet().length();
         int outputCharIndex;
 
         for (int i = 0; i < inputText.length(); i++) {
@@ -28,8 +28,8 @@ public class VerrnamCoder extends Coder {
             if ((int) keyChar == 10) {
                 keyChar = (char) 32;
             }
-            outputCharIndex = (alphabet.indexOf(textChar) + alphabet.indexOf(keyChar)) % alphabetPower;
-            outputText += alphabet.charAt(outputCharIndex);
+            outputCharIndex = (getAlphabet().indexOf(textChar) + getAlphabet().indexOf(keyChar)) % alphabetPower;
+            outputText += getAlphabet().charAt(outputCharIndex);
         }
         return outputText;
     }
@@ -39,16 +39,16 @@ public class VerrnamCoder extends Coder {
         validateMessage(inputText);
         validateKey(key, inputText);
         String outputText = "";
-        int alphabetPower = alphabet.length();
+        int alphabetPower = getAlphabet().length();
         int outputCharIndex;
 
         for (int i = 0; i < inputText.length(); i++) {
             char keyChar = key.charAt(i);
             char textChar = inputText.charAt(i);
 
-            int index = alphabet.indexOf(textChar) - alphabet.indexOf(keyChar);
+            int index = getAlphabet().indexOf(textChar) - getAlphabet().indexOf(keyChar);
             outputCharIndex = (index < 0 ? index + alphabetPower : index) % alphabetPower;
-            outputText += alphabet.charAt(outputCharIndex);
+            outputText += getAlphabet().charAt(outputCharIndex);
         }
         return outputText;
     }
