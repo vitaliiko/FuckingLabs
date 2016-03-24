@@ -49,11 +49,11 @@ public class UsersTableModel implements TableModel {
     public Object getValueAt(int rowIndex, int columnIndex) {
         switch (columnIndex) {
             case 0:
-                return usersList.get(rowIndex).getName();
+                return usersList.get(rowIndex).getFirstName();
             case 1:
-                return usersList.get(rowIndex).getSurname();
+                return usersList.get(rowIndex).getLastName();
             case 2:
-                return usersList.get(rowIndex).getUserName();
+                return usersList.get(rowIndex).getLogin();
             case 3:
                 return UsersRights.accountType(usersList.get(rowIndex).getRights());
             default:

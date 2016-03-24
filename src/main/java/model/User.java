@@ -4,54 +4,57 @@ import java.io.Serializable;
 
 public class User implements Serializable {
 
-    private String name;
-    private String surname;
-    private String userName;
+    private String firstName;
+    private String lastName;
+    private String login;
     private String password;
     private int rights;
     private String telephoneNum;
     private String mailAddress;
     private String alphabet = "";
+    private Integer day = 1;
+    private Integer month = 1;
+    private Integer year = 1980;
 
-    public User(String name, String surname, String userName, String password, int rights) {
-        this.name = name;
-        this.surname = surname;
-        this.userName = userName;
+    public User(String firstName, String lastName, String login, String password, int rights) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.login = login;
         this.password = PasswordDigest.hashPassword(password);
         this.rights = rights;
     }
 
-    public User(String name, String surname, String userName, char[] password, int rights) {
-        this(name, surname, userName, String.valueOf(password), rights);
+    public User(String firstName, String lastName, String login, char[] password, int rights) {
+        this(firstName, lastName, login, String.valueOf(password), rights);
     }
 
-    public User(String userName, int rights) {
-        this.userName = userName;
+    public User(String login, int rights) {
+        this.login = login;
         this.rights = rights;
     }
 
-    public String getName() {
-        return name;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
-    public String getSurname() {
-        return surname;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setSurname(String surname) {
-        this.surname = surname;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getLogin() {
+        return login;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setLogin(String login) {
+        this.login = login;
     }
 
     public void setPassword(char[] password) {
@@ -90,8 +93,32 @@ public class User implements Serializable {
         this.alphabet = alphabet;
     }
 
+    public Integer getDay() {
+        return day;
+    }
+
+    public void setDay(Integer day) {
+        this.day = day;
+    }
+
+    public Integer getMonth() {
+        return month;
+    }
+
+    public void setMonth(Integer month) {
+        this.month = month;
+    }
+
+    public Integer getYear() {
+        return year;
+    }
+
+    public void setYear(Integer year) {
+        this.year = year;
+    }
+
     public boolean isMatches(String userName, char[] password) {
-        return this.userName.equals(userName) && this.password.equals(PasswordDigest.hashPassword(password));
+        return this.login.equals(userName) && this.password.equals(PasswordDigest.hashPassword(password));
     }
 
     public boolean isPasswordsMatches(char[] password) {
@@ -105,11 +132,11 @@ public class User implements Serializable {
 
         User user = (User) o;
 
-        return userName.toLowerCase().equals(user.userName.toLowerCase());
+        return login.toLowerCase().equals(user.login.toLowerCase());
     }
 
     @Override
     public int hashCode() {
-        return userName.hashCode();
+        return login.hashCode();
     }
 }

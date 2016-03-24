@@ -1,5 +1,6 @@
 package input_output;
 
+import model.Controller;
 import model.User;
 
 import javax.swing.*;
@@ -8,20 +9,22 @@ import java.util.Set;
 
 public class IOFileHandling {
 
-    private final static String USERS_SER = "IOFiles/users.ser";
+    public final static String USERS_SER = "IOFiles/users.ser";
 
-    public static void saveUsersSet(Set<User> usersSet) {
-        try{
+    public static void saveUsers(Controller controller) {
+        User admin = controller.getAdmin();
+        try {
             ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(USERS_SER));
-            os.writeObject(usersSet);
+            os.writeObject(controller.getUserSet());
             os.close();
+            TimeUtil.changeFileCreationTime(admin.getDay(), admin.getMonth(), admin.getYear());
         } catch (IOException e) {
             JOptionPane.showConfirmDialog(null, "Error when saving data base file", "ACHTUNG!",
                     JOptionPane.DEFAULT_OPTION);
         }
     }
 
-    public static Set<User> loadUsersSet() {
+    public static Set<User> loadUsers() {
         Set<User> usersSet = null;
         ObjectInputStream is;
         try {

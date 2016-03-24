@@ -5,17 +5,22 @@ import input_output.Message;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Controller extends Validator {
 
     private Set<User> userSet;
     private Map<String, Integer> userNameMap;
 
+    public Controller() {
+        userSet = new HashSet<>();
+    }
+
     public Controller(Set<User> userSet) {
         this.userSet = userSet;
         userNameMap = new TreeMap<>();
         for (User user : userSet) {
-            userNameMap.put(user.getUserName(), user.getRights());
+            userNameMap.put(user.getLogin(), user.getRights());
         }
     }
 
@@ -39,18 +44,19 @@ public class Controller extends Validator {
         if (rights == UsersRights.LOCK_USERNAME || rights == UsersRights.LOCK_USERNAME_WITH_SIMPLE_PASSWORD) {
             removeUser(new User(userName, rights));
         }
-        if (!userSet.add(new User(name, surname, userName, password, rights))) {
+        User newUser = new User(name, surname, userName, password, rights);
+        if (!userSet.add(newUser)) {
             throw new IOException(Message.EXIST_USER);
         }
         userNameMap.put(userName, rights);
-        IOFileHandling.saveUsersSet(userSet);
+        IOFileHandling.saveUsers(this);
     }
 
     public void updateUsersInfo(User user, String name, String surname, String telephone, String mail)
             throws IOException {
         validateName(name, surname);
-        user.setName(name);
-        user.setSurname(surname);
+        user.setFirstName(name);
+        user.setLastName(surname);
         if (!telephone.isEmpty()) {
             validateTelephone(telephone);
             user.setTelephoneNum(telephone);
@@ -72,7 +78,7 @@ public class Controller extends Validator {
 
     public void removeUser(User user) {
         userSet.remove(user);
-        userNameMap.remove(user.getUserName());
+        userNameMap.remove(user.getLogin());
     }
 
     public User authorizedUsers(String userName, char[] password) {
@@ -82,5 +88,15 @@ public class Controller extends Validator {
             }
         }
         return null;
+    }
+
+    public User getAdmin() {
+        return userSet.stream()
+                .filter(u -> u.getLogin().equals("ADMIN"))
+                .collect(Collectors.toList()).get(0);
+    }
+
+    public void addUser(User user) {
+        userSet.add(user);
     }
 }

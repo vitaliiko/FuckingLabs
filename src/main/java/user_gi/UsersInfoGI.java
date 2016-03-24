@@ -120,7 +120,7 @@ public class UsersInfoGI extends JFrame {
         saveButton = new JButton("Save");
         saveButton.addActionListener(e -> {
             saveButton.setEnabled(false);
-            IOFileHandling.saveUsersSet(controller.getUserSet());
+            IOFileHandling.saveUsers(controller);
         });
         saveCancelPanel.add(saveButton);
 

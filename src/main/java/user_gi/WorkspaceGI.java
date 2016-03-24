@@ -42,7 +42,7 @@ public class WorkspaceGI extends JFrame {
     private JPanel encryptionPanel;
 
     public WorkspaceGI(User user, Controller controller) {
-        super("BPZKS-Lab1");
+        super("ПРОЕКТУВАННЯ СИСТЕМ КОМПЛЕКСНОГО ЗАХИСТУ ІНФОРМАЦІЇ");
         this.user = user;
         this.controller = controller;
         this.workspaceUtil = new WorkspaceUtil(this, user, controller);
@@ -127,7 +127,7 @@ public class WorkspaceGI extends JFrame {
         saveAlphabetButton.setEnabled(false);
         saveAlphabetButton.addActionListener(e -> {
             user.setAlphabet(alphabetField.getText());
-            IOFileHandling.saveUsersSet(controller.getUserSet());
+            IOFileHandling.saveUsers(controller);
             saveAlphabetButton.setEnabled(false);
         });
     }

@@ -9,6 +9,7 @@ import java.awt.*;
 public final class FrameUtils {
 
     public static final Font ARIAL_12 = new Font("Arial", Font.PLAIN, 12);
+    public static final String RESOURCES_PATH = "resources/";
 
     private FrameUtils() {}
 

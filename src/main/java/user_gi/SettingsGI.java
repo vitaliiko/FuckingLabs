@@ -47,7 +47,11 @@ public class SettingsGI extends JDialog {
         typeListener = new TypeListener();
 
         FrameUtils.setLookAndFeel();
+        prepareComponents();
+        setup();
+    }
 
+    private void prepareComponents() {
         messageLabel = Message.prepareMessageLabel(Message.SETTINGS);
         getContentPane().add(messageLabel, BorderLayout.NORTH);
         prepareFieldsPanel();
@@ -59,7 +63,9 @@ public class SettingsGI extends JDialog {
         prepareCancelButton();
         buttonsPanel.add(cancelButton);
         getContentPane().add(buttonsPanel, BorderLayout.SOUTH);
+    }
 
+    private void setup() {
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         setSize(new Dimension(335, 430));
         setIconImage(new ImageIcon("resources/settings.png").getImage());
@@ -77,15 +83,15 @@ public class SettingsGI extends JDialog {
                 new LabelComponentPanel("Account type: ", new JLabel(UsersRights.accountType(user.getRights())))
         );
 
-        nameField = new JTextField(user.getName(), COLUMNS_COUNT);
+        nameField = new JTextField(user.getFirstName(), COLUMNS_COUNT);
         nameField.getDocument().addDocumentListener(typeListener);
         fieldsPanel.add(new LabelComponentPanel("Your name: ", nameField));
 
-        surnameField = new JTextField(user.getSurname(), COLUMNS_COUNT);
+        surnameField = new JTextField(user.getLastName(), COLUMNS_COUNT);
         surnameField.getDocument().addDocumentListener(typeListener);
         fieldsPanel.add(new LabelComponentPanel("Your surname: ", surnameField));
 
-        usernameField = new JTextField(user.getUserName(), COLUMNS_COUNT);
+        usernameField = new JTextField(user.getLogin(), COLUMNS_COUNT);
         usernameField.getDocument().addDocumentListener(typeListener);
         usernameField.setEnabled(user.getRights() != UsersRights.LOCK_USERNAME &&
                 user.getRights() != UsersRights.ADMIN &&
@@ -112,7 +118,7 @@ public class SettingsGI extends JDialog {
         removeButton.setEnabled(user.getRights() != UsersRights.ADMIN);
         removeButton.addActionListener(e -> {
             controller.removeUser(user);
-            IOFileHandling.saveUsersSet(controller.getUserSet());
+            IOFileHandling.saveUsers(controller);
             dispose();
             frame.dispose();
         });
@@ -154,7 +160,7 @@ public class SettingsGI extends JDialog {
                 }
                 messageLabel.setIcon(null);
                 messageLabel.setText(Message.SAVED);
-                IOFileHandling.saveUsersSet(controller.getUserSet());
+                IOFileHandling.saveUsers(controller);
                 currentPasswordField.setText("");
                 newPasswordField.setText("");
                 repeatPasswordField.setText("");
@@ -168,14 +174,14 @@ public class SettingsGI extends JDialog {
 
     public void usernameChecker() throws IOException {
         String username = usernameField.getText();
-        if (!user.getUserName().equals(username)) {
+        if (!user.getLogin().equals(username)) {
             if (controller.validateUsername(username)) {
                 for (String s : controller.getUserNameMap().keySet()) {
                     if (s.equals(username)) {
                         throw new IOException(Message.EXIST_USER);
                     }
                 }
-                user.setUserName(username);
+                user.setLogin(username);
             }
         }
     }

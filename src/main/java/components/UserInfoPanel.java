@@ -35,13 +35,13 @@ public class UserInfoPanel extends JPanel {
         add(rightsBox);
 
         add(new JLabel("Name: "));
-        add(new JLabel(user.getName()));
+        add(new JLabel(user.getFirstName()));
 
         add(new JLabel("Surname: "));
-        add(new JLabel(user.getSurname()));
+        add(new JLabel(user.getLastName()));
 
         add(new JLabel("Username: "));
-        add(new JLabel(user.getUserName()));
+        add(new JLabel(user.getLogin()));
 
         add(new JLabel("Telephone: "));
         add(new JLabel(user.getTelephoneNum()));

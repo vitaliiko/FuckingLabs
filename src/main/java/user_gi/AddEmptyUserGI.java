@@ -90,7 +90,7 @@ public class AddEmptyUserGI extends JDialog {
                 messageLabel.setIcon(null);
                 messageLabel.setText(Message.ADD_USER_SUC);
                 addButton.setEnabled(false);
-                IOFileHandling.saveUsersSet(controller.getUserSet());
+                IOFileHandling.saveUsers(controller);
             } catch (IOException e1) {
                 messageLabel.setIcon(Message.WARNING_IMAGE);
                 messageLabel.setText(e1.getMessage());
