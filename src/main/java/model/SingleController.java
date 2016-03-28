@@ -1,7 +1,7 @@
 package model;
 
 import input_output.IOFileHandling;
-import input_output.SingleMessage;
+import components.SingleMessage;
 
 import java.io.IOException;
 import java.util.HashSet;

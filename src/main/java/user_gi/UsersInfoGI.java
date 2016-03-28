@@ -1,7 +1,7 @@
 package user_gi;
 
 import input_output.IOFileHandling;
-import input_output.SingleMessage;
+import components.SingleMessage;
 import components.BoxPanel;
 import model.*;
 import components.UserInfoPanel;

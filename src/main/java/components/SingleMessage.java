@@ -1,4 +1,4 @@
-package input_output;
+package components;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -39,7 +39,8 @@ public class SingleMessage extends JLabel {
     public static final String FORBIDDEN_SYMBOLS_IN_MESSAGE = "SingleMessage contain forbidden symbols";
 
     public static final String SET_LAST_MODIFIED_TIME = "Set last modified time";
-    public static final String TIME_CHANGED = "Creation time changed successfully)";
+    public static final String TIME_CHANGED = "Last modified time changed successfully)";
+    public static final String TIME_NOT_CHANGED = "Last modified time doesn't changed";
 
     private static SingleMessage instance = new SingleMessage();
 

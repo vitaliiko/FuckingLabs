@@ -1,6 +1,6 @@
 package model;
 
-import input_output.SingleMessage;
+import components.SingleMessage;
 
 import java.io.IOException;
 import java.util.regex.Matcher;

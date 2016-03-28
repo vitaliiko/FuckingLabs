@@ -3,6 +3,7 @@ package utils;
 import input_output.TextFileFilter;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import javax.swing.event.DocumentListener;
 import java.awt.*;
 
@@ -12,6 +13,10 @@ public final class FrameUtils {
     public static final String RESOURCES_PATH = "resources/";
 
     private FrameUtils() {}
+
+    public static JComponent getFreeSpace() {
+        return new JLabel("                                         ");
+    }
 
     public static void setLookAndFeel() {
         try {
@@ -52,4 +57,29 @@ public final class FrameUtils {
                 ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
                 ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
     }
+
+    public static JPanel createLabelGridPanel(int alignment, String... strings) {
+        JPanel panel = createPanel(strings.length, 6);
+        for (String s : strings) {
+            JLabel label = new JLabel(s, alignment);
+            panel.add(label);
+        }
+        return panel;
+    }
+
+    public static JPanel createComponentsGridPanel(Component... components) {
+        JPanel panel = createPanel(components.length, 6);
+        for (Component component : components) {
+            panel.add(component);
+        }
+        return panel;
+    }
+
+    private static JPanel createPanel(int rowCount, int distance) {
+        JPanel panel = new JPanel(new GridLayout(rowCount, 1, 0, distance));
+        panel.setOpaque(false);
+        panel.setBorder(new EmptyBorder(0, 5, 8, 0));
+        return panel;
+    }
+
 }

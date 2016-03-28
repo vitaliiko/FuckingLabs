@@ -1,6 +1,6 @@
 package coder;
 
-import input_output.SingleMessage;
+import components.SingleMessage;
 
 import java.io.IOException;
 

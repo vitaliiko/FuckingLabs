@@ -14,7 +14,7 @@ public class User implements Serializable {
     private String alphabet = "";
     private Integer day = 1;
     private Integer month = 1;
-    private Integer year = 1980;
+    private Integer year = 1990;
 
     public User(String firstName, String lastName, String login, String password, int rights) {
         this.firstName = firstName;

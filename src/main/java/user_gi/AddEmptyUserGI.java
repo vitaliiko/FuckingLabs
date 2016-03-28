@@ -2,7 +2,7 @@ package user_gi;
 
 import components.BoxPanel;
 import components.LabelComponentPanel;
-import input_output.SingleMessage;
+import components.SingleMessage;
 import model.SingleController;
 import input_output.IOFileHandling;
 import model.UsersRights;

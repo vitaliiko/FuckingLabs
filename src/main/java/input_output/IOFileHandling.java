@@ -2,6 +2,7 @@ package input_output;
 
 import model.SingleController;
 import model.User;
+import utils.TimeUtil;
 
 import javax.swing.*;
 import java.io.*;
@@ -18,7 +19,7 @@ public class IOFileHandling {
             ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(USERS_SER));
             os.writeObject(controller.getUserSet());
             os.close();
-            TimeUtil.setLastModified(admin.getDay(), admin.getMonth(), admin.getYear());
+            TimeUtil.setLastModifiedTime(admin.getDay(), admin.getMonth(), admin.getYear());
         } catch (IOException e) {
             JOptionPane.showConfirmDialog(null, "Error when saving data base file", "ACHTUNG!",
                     JOptionPane.DEFAULT_OPTION);
