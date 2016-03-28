@@ -11,7 +11,8 @@ public class IOFileHandling {
 
     public final static String USERS_SER = "IOFiles/users.ser";
 
-    public static void saveUsers(Controller controller) {
+    public static void saveUsers() {
+        Controller controller = Controller.getInstance();
         User admin = controller.getAdmin();
         try {
             ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(USERS_SER));

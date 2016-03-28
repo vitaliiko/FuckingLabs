@@ -41,11 +41,11 @@ public class WorkspaceGI extends JFrame {
     private JPanel northPanel;
     private JPanel encryptionPanel;
 
-    public WorkspaceGI(User user, Controller controller) {
-        super("ПРОЕКТУВАННЯ СИСТЕМ КОМПЛЕКСНОГО ЗАХИСТУ ІНФОРМАЦІЇ");
+    public WorkspaceGI(User user) {
+        super("Безпека програмного забезпечення комп’ютерних систем");
         this.user = user;
-        this.controller = controller;
-        this.workspaceUtil = new WorkspaceUtil(this, user, controller);
+        this.workspaceUtil = new WorkspaceUtil(this, user);
+        this.controller = Controller.getInstance();
 
         FrameUtils.setLookAndFeel();
 
@@ -127,7 +127,7 @@ public class WorkspaceGI extends JFrame {
         saveAlphabetButton.setEnabled(false);
         saveAlphabetButton.addActionListener(e -> {
             user.setAlphabet(alphabetField.getText());
-            IOFileHandling.saveUsers(controller);
+            IOFileHandling.saveUsers();
             saveAlphabetButton.setEnabled(false);
         });
     }

@@ -10,25 +10,41 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
 
-public class Controller extends Validator {
+public final class Controller extends Validator {
 
-    private Set<User> userSet;
+    private static Controller instance = new Controller();
+    private Set<User> userSet = new HashSet<>();
     private Map<String, Integer> userNameMap;
 
-    public Controller() {
-        userSet = new HashSet<>();
+    private Controller() {}
+
+//    public Controller() {
+//        userSet = new HashSet<>();
+//    }
+//
+//    public Controller(Set<User> userSet) {
+//        this.userSet = userSet;
+//        userNameMap = new TreeMap<>();
+//        for (User user : userSet) {
+//            userNameMap.put(user.getLogin(), user.getRights());
+//        }
+//    }
+
+
+    public static Controller getInstance() {
+        return instance;
     }
 
-    public Controller(Set<User> userSet) {
+    public Set<User> getUserSet() {
+        return userSet;
+    }
+
+    public void setUserSet(Set<User> userSet) {
         this.userSet = userSet;
         userNameMap = new TreeMap<>();
         for (User user : userSet) {
             userNameMap.put(user.getLogin(), user.getRights());
         }
-    }
-
-    public Set<User> getUserSet() {
-        return userSet;
     }
 
     public Map<String, Integer> getUserNameMap() {
@@ -52,7 +68,7 @@ public class Controller extends Validator {
             throw new IOException(Message.EXIST_USER);
         }
         userNameMap.put(userName, rights);
-        IOFileHandling.saveUsers(this);
+        IOFileHandling.saveUsers();
     }
 
     public void updateUsersInfo(User user, String name, String surname, String telephone, String mail)

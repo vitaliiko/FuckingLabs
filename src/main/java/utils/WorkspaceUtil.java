@@ -16,10 +16,10 @@ public class WorkspaceUtil {
     private User user;
     private Controller controller;
 
-    public WorkspaceUtil(WorkspaceGI workspaceGI, User user, Controller controller) {
+    public WorkspaceUtil(WorkspaceGI workspaceGI, User user) {
         this.workspaceGI = workspaceGI;
         this.user = user;
-        this.controller = controller;
+        this.controller = Controller.getInstance();
     }
 
     public JMenuBar prepareMenuBar() {
@@ -38,11 +38,11 @@ public class WorkspaceUtil {
                 usersInfoGI.dispose();
             }
         });
-        createMenuItem("Settings          ", "settings.png", e -> new SettingsGI(workspaceGI, user, controller));
+        createMenuItem("Settings          ", "settings.png", e -> new SettingsGI(workspaceGI, user));
         if (user.getRights() == UsersRights.ADMIN) {
-            createMenuItem("Change time", "clock.png", e -> new CreationTimeGI(workspaceGI));
-            createMenuItem("Users info", "users.png", e -> usersInfoGI = new UsersInfoGI(controller));
-            createMenuItem("Add user", "addUsers.png", e -> new AddEmptyUserGI(workspaceGI, controller));
+            createMenuItem("Change time", "clock.png", e -> new SetLastModifiedTimeGI(workspaceGI));
+            createMenuItem("Users info", "users.png", e -> usersInfoGI = new UsersInfoGI());
+            createMenuItem("Add user", "addUsers.png", e -> new AddEmptyUserGI(workspaceGI));
         }
         fileMenu.addSeparator();
         createMenuItem("Close", null, e -> System.exit(0));

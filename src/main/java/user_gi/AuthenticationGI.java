@@ -39,12 +39,10 @@ public class AuthenticationGI extends JFrame {
 
     private Dimension loginDimension = new Dimension(400, 170);
     private Dimension signUpDimension = new Dimension(400, 270);
-    private Controller controller;
     private int rights;
 
-    public AuthenticationGI(Controller controller) throws Exception {
+    public AuthenticationGI() throws Exception {
         super("Login");
-        this.controller = controller;
 
         FrameUtils.setLookAndFeel();
 
@@ -90,7 +88,7 @@ public class AuthenticationGI extends JFrame {
     }
 
     public void prepareUsernameBox() {
-        usernameBox = new JComboBox<>(controller.getUserNameMap().keySet().toArray());
+        usernameBox = new JComboBox<>(Controller.getInstance().getUserNameMap().keySet().toArray());
         usernameBox.setSelectedIndex(-1);
         usernameBox.setEditable(true);
         usernameBox.addItemListener(e -> checkUsersRights());
@@ -108,7 +106,7 @@ public class AuthenticationGI extends JFrame {
         loginButton = new JButton("Login");
         loginButton.setEnabled(false);
         loginButton.addActionListener(e -> {
-            User user = controller.authorizedUsers(
+            User user = Controller.getInstance().authorizedUsers(
                     ((JTextField) usernameBox.getEditor().getEditorComponent()).getText(),
                     passwordField.getPassword());
             if (user == null) {
@@ -118,7 +116,7 @@ public class AuthenticationGI extends JFrame {
                 setVisible(false);
                 clearFields();
                 rights = -1;
-                WorkspaceGI workspaceGI = new WorkspaceGI(user, controller);
+                WorkspaceGI workspaceGI = new WorkspaceGI(user);
                 workspaceGI.addWindowListener(new WindowAdapter() {
                     @Override
                     public void windowClosed(WindowEvent e) {
@@ -200,7 +198,7 @@ public class AuthenticationGI extends JFrame {
                     }
                 }
                 if (Arrays.equals(firstPasswordField.getPassword(), secondPasswordField.getPassword())) {
-                    controller.createUser(nameField.getText(), surnameField.getText(), usernameField.getText(),
+                    Controller.getInstance().createUser(nameField.getText(), surnameField.getText(), usernameField.getText(),
                             firstPasswordField.getPassword(), rights);
                 } else {
                     throw new IOException(Message.PASSWORDS_DOES_NOT_MATCH);
@@ -297,8 +295,8 @@ public class AuthenticationGI extends JFrame {
             return;
         }
         String username = (String) usernameBox.getSelectedItem();
-        if (controller.getUserNameMap().get(username) != null) {
-            rights = controller.getUserNameMap().get(username);
+        if (Controller.getInstance().getUserNameMap().get(username) != null) {
+            rights = Controller.getInstance().getUserNameMap().get(username);
         } else {
             usernameBox.removeItem(username);
         }

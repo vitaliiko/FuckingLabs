@@ -7,12 +7,13 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.prefs.Preferences;
 
-public class RegisterUtil {
+public class RegisterManager {
 
     public static final String PREF_KEY = "Signature";
 
     public static void writeKeyToReg() {
-        Controller controller = new Controller(IOFileHandling.loadUsers());
+        Controller controller = Controller.getInstance();
+        controller.setUserSet(IOFileHandling.loadUsers());
         String prefKey = controller.getAdmin().getLastName() + "/Signature";
 
         // Write Preferences information to HKCU (HKEY_CURRENT_USER),

@@ -39,11 +39,11 @@ public class SettingsGI extends JDialog {
     private JLabel messageLabel;
     private TypeListener typeListener;
 
-    public SettingsGI(Frame frame, User user, Controller controller) {
+    public SettingsGI(Frame frame, User user) {
         super(frame);
         this.frame = (JFrame) frame;
         this.user = user;
-        this.controller = controller;
+        this.controller = Controller.getInstance();
         typeListener = new TypeListener();
 
         FrameUtils.setLookAndFeel();
@@ -118,7 +118,7 @@ public class SettingsGI extends JDialog {
         removeButton.setEnabled(user.getRights() != UsersRights.ADMIN);
         removeButton.addActionListener(e -> {
             controller.removeUser(user);
-            IOFileHandling.saveUsers(controller);
+            IOFileHandling.saveUsers();
             dispose();
             frame.dispose();
         });
@@ -160,7 +160,7 @@ public class SettingsGI extends JDialog {
                 }
                 messageLabel.setIcon(null);
                 messageLabel.setText(Message.SAVED);
-                IOFileHandling.saveUsers(controller);
+                IOFileHandling.saveUsers();
                 currentPasswordField.setText("");
                 newPasswordField.setText("");
                 repeatPasswordField.setText("");

@@ -37,9 +37,9 @@ public class UsersInfoGI extends JFrame {
     private JLabel messageLabel;
     private JTable usersTable;
 
-    public UsersInfoGI(Controller controller) throws HeadlessException {
+    public UsersInfoGI() throws HeadlessException {
         super("Users");
-        this.controller = controller;
+        this.controller = Controller.getInstance();
         usersList = new ArrayList<>(controller.getUserSet());
         userInfoPanelsList = new ArrayList<>();
         userInfoPanelsList.addAll(usersList.stream().map(UserInfoPanel::new).collect(Collectors.toList()));
@@ -120,7 +120,7 @@ public class UsersInfoGI extends JFrame {
         saveButton = new JButton("Save");
         saveButton.addActionListener(e -> {
             saveButton.setEnabled(false);
-            IOFileHandling.saveUsers(controller);
+            IOFileHandling.saveUsers();
         });
         saveCancelPanel.add(saveButton);
 
@@ -181,7 +181,7 @@ public class UsersInfoGI extends JFrame {
     public void prepareAddRemovePanel() {
         JButton addButton = new JButton("Add user");
         addButton.setIcon(new ImageIcon("resources/addUsers.png"));
-        addButton.addActionListener(e -> new AddEmptyUserGI(this, controller));
+        addButton.addActionListener(e -> new AddEmptyUserGI(this));
 
         removeButton = new JButton("Remove user");
         removeButton.setIcon(new ImageIcon("resources/remove.png"));

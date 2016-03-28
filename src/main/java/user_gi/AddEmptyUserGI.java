@@ -27,9 +27,9 @@ public class AddEmptyUserGI extends JDialog {
     private JCheckBox checkBox;
     private JLabel messageLabel;
 
-    public AddEmptyUserGI(Frame owner, Controller controller) {
+    public AddEmptyUserGI(Frame owner) {
         super(owner);
-        this.controller = controller;
+        this.controller = Controller.getInstance();
 
         FrameUtils.setLookAndFeel();
 
@@ -90,7 +90,7 @@ public class AddEmptyUserGI extends JDialog {
                 messageLabel.setIcon(null);
                 messageLabel.setText(Message.ADD_USER_SUC);
                 addButton.setEnabled(false);
-                IOFileHandling.saveUsers(controller);
+                IOFileHandling.saveUsers();
             } catch (IOException e1) {
                 messageLabel.setIcon(Message.WARNING_IMAGE);
                 messageLabel.setText(e1.getMessage());

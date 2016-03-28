@@ -8,7 +8,7 @@ import utils.FrameUtils;
 import javax.swing.*;
 import java.awt.*;
 
-public class CreationTimeGI extends JDialog {
+public class SetLastModifiedTimeGI extends JDialog {
 
     private BoxPanel mainPanel;
     private BoxPanel spinnerPanel;
@@ -19,7 +19,7 @@ public class CreationTimeGI extends JDialog {
     private JButton cancelButton;
     private JLabel messageLabel;
 
-    public CreationTimeGI(Frame frame) {
+    public SetLastModifiedTimeGI(Frame frame) {
         super(frame);
         FrameUtils.setLookAndFeel();
         prepareMainPanel();
@@ -44,7 +44,7 @@ public class CreationTimeGI extends JDialog {
         spinnerPanel = new BoxPanel(BoxLayout.X_AXIS);
         daySpinner = new JSpinner(new SpinnerNumberModel(1, 1, 31, 1));
         monthSpinner = new JSpinner(new SpinnerNumberModel(1, 1, 12, 1));
-        yearSpinner = new JSpinner(new SpinnerNumberModel(1980, 1940, 2000, 10));
+        yearSpinner = new JSpinner(new SpinnerNumberModel(1995, 1990, 2010, 5));
         spinnerPanel.add(daySpinner, monthSpinner, yearSpinner);
     }
 
