@@ -57,6 +57,9 @@ public class VigenereCoder extends Coder {
     @Override
     public void validateKey(String key) throws IOException {
         if (!checkForForbiddenSymbols(key)) {
+            if (getAlphabet().equals(RUSO_ALPHABET)) {
+                throw new IOException(SingleMessage.RU_FORBIDDEN_SYMBOLS_IN_KEY);
+            }
             throw new IOException(SingleMessage.FORBIDDEN_SYMBOLS_IN_KEY);
         }
     }

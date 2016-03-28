@@ -36,7 +36,9 @@ public class SingleMessage extends JLabel {
     public static final String USER_INFO = "User information";
 
     public static final String FORBIDDEN_SYMBOLS_IN_KEY = "Key contain forbidden symbols";
-    public static final String FORBIDDEN_SYMBOLS_IN_MESSAGE = "SingleMessage contain forbidden symbols";
+    public static final String RU_FORBIDDEN_SYMBOLS_IN_KEY = "Ключ содержит запрещенные символы";
+    public static final String FORBIDDEN_SYMBOLS_IN_MESSAGE = "Message contain forbidden symbols";
+    public static final String RU_FORBIDDEN_SYMBOLS_IN_MESSAGE = "Открытое сообщение содержит запрещенные символы";
 
     public static final String SET_LAST_MODIFIED_TIME = "Set last modified time";
     public static final String TIME_CHANGED = "Last modified time changed successfully)";

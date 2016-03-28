@@ -14,10 +14,6 @@ public final class FrameUtils {
 
     private FrameUtils() {}
 
-    public static JComponent getFreeSpace() {
-        return new JLabel("                                         ");
-    }
-
     public static void setLookAndFeel() {
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());

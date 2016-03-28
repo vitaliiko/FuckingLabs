@@ -3,7 +3,6 @@ package user_gi;
 import coder.*;
 import input_output.IOFileHandling;
 import components.BoxPanel;
-import model.SingleController;
 import model.User;
 import utils.*;
 
@@ -18,7 +17,6 @@ import java.io.IOException;
 public class WorkspaceGI extends JFrame {
 
     private User user;
-    private SingleController controller;
     private Coder coder = CeasarCoder.getInstance();
     private String outputFilePath;
     private WorkspaceUtil workspaceUtil;
@@ -42,15 +40,22 @@ public class WorkspaceGI extends JFrame {
     private JPanel encryptionPanel;
 
     public WorkspaceGI(User user) {
-        super("Безпека програмного забезпечення комп’ютерних систем");
+        super(WorkspaceUtil.FRAME_NAME);
         this.user = user;
         this.workspaceUtil = new WorkspaceUtil(this, user);
-        this.controller = SingleController.getInstance();
 
         FrameUtils.setLookAndFeel();
 
         addComponents();
         setupFrame();
+    }
+
+    public void setupFrame() {
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setMinimumSize(new Dimension(924, 620));
+        setIconImage(new ImageIcon("resources/icon.png").getImage());
+        setLocationRelativeTo(null);
+        setVisible(true);
     }
 
     private void addComponents() {
@@ -64,14 +69,6 @@ public class WorkspaceGI extends JFrame {
 
         prepareEncryptionPanel();
         getContentPane().add(encryptionPanel, BorderLayout.SOUTH);
-    }
-
-    private void setupFrame() {
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        setMinimumSize(new Dimension(924, 620));
-        setIconImage(new ImageIcon("resources/icon.png").getImage());
-        setLocationRelativeTo(null);
-        setVisible(true);
     }
 
     private void prepareNorthPanel() {

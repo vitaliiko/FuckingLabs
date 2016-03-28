@@ -9,6 +9,8 @@ import java.util.Random;
 
 public abstract class Coder {
 
+    public static final String RUSO_ALPHABET = "шцУд4й.эВзЗвЦфяП5Ъ06руБЮсДГОШФищЩмеьА Х3ЭЁ-9юЛМ8ажкнКЖоЙхТСИЧЯпг1лёъ,ЕбЬРН7т2ч";
+
     private String alphabet = "";
 
     public String getAlphabet() {
@@ -27,6 +29,9 @@ public abstract class Coder {
 
     public void validateMessage(String message) throws IOException {
         if (!checkForForbiddenSymbols(message)) {
+            if (alphabet.equals(RUSO_ALPHABET)) {
+                throw new IOException(SingleMessage.RU_FORBIDDEN_SYMBOLS_IN_MESSAGE);
+            }
             throw new IOException(SingleMessage.FORBIDDEN_SYMBOLS_IN_MESSAGE);
         }
     }
@@ -67,6 +72,10 @@ public abstract class Coder {
             randomNum = random.nextInt(alphabet.size());
             this.alphabet += alphabet.remove(randomNum);
         }
+    }
+
+    public void createRusoAlphabet() {
+        alphabet = RUSO_ALPHABET;
     }
 
     public float calculateEntropy(String line){

@@ -6,6 +6,7 @@ import utils.TimeUtil;
 import utils.FrameUtils;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
 public class SetLastModifiedTimeGI extends JDialog {
@@ -27,9 +28,6 @@ public class SetLastModifiedTimeGI extends JDialog {
         getContentPane().add(mainPanel, BorderLayout.CENTER);
         prepareButtons();
         getContentPane().add(new BoxPanel(submitButton, cancelButton), BorderLayout.SOUTH);
-
-        getContentPane().add(FrameUtils.getFreeSpace(), BorderLayout.WEST);
-        getContentPane().add(FrameUtils.getFreeSpace(), BorderLayout.EAST);
         setup();
     }
 
@@ -72,6 +70,7 @@ public class SetLastModifiedTimeGI extends JDialog {
         mainPanel = new BoxPanel(BoxLayout.Y_AXIS, spinnersPanel);
         mainPanel.setMaximumSize(new Dimension(150, 100));
         mainPanel.setPreferredSize(new Dimension(150, 100));
+        mainPanel.setBorder(new EmptyBorder(0, 120, 0, 120));
     }
 
     private void prepareButtons() {

@@ -56,6 +56,9 @@ public class VerrnamCoder extends Coder {
     @Override
     public void validateKey(String key) throws IOException {
         if (!checkForForbiddenSymbols(key)) {
+            if (getAlphabet().equals(RUSO_ALPHABET)) {
+                throw new IOException(SingleMessage.RU_FORBIDDEN_SYMBOLS_IN_KEY);
+            }
             throw new IOException(SingleMessage.FORBIDDEN_SYMBOLS_IN_KEY);
         }
     }
@@ -63,6 +66,9 @@ public class VerrnamCoder extends Coder {
     public void validateKey(String key, String message) throws IOException {
         validateKey(key);
         if (key.length() != message.length()) {
+            if (getAlphabet().equals(RUSO_ALPHABET)) {
+                throw new IOException("Длина ключа должна соответствовать длине открытого сообщения");
+            }
             throw new IOException("Key length should be equal message length");
         }
     }

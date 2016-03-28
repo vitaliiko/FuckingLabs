@@ -1,6 +1,5 @@
 package utils;
 
-import model.SingleController;
 import model.User;
 import model.UsersRights;
 import user_gi.*;
@@ -10,49 +9,68 @@ import java.awt.event.ActionListener;
 
 public class WorkspaceUtil {
 
-    private WorkspaceGI workspaceGI;
-    private JMenu fileMenu;
+    public static final String FRAME_NAME = "Безпека програмного забезпечення комп’ютерних систем";
+
+    private JFrame workspaceGI;
     private JFrame usersInfoGI;
     private User user;
-    private SingleController controller;
 
-    public WorkspaceUtil(WorkspaceGI workspaceGI, User user) {
+    public WorkspaceUtil(JFrame workspaceGI, User user) {
         this.workspaceGI = workspaceGI;
         this.user = user;
-        this.controller = SingleController.getInstance();
     }
 
     public JMenuBar prepareMenuBar() {
         JMenuBar menuBar = new JMenuBar();
-        prepareFileMenu();
-        menuBar.add(fileMenu);
+        menuBar.add(prepareFileMenu());
+        menuBar.add(prepareViewMenu());
         menuBar.add(prepareHelpMenu());
         return menuBar;
     }
 
-    private void prepareFileMenu() {
-        fileMenu = new JMenu("File");
-        createMenuItem("Log out", "logout.png", e -> {
+    private JMenu prepareFileMenu() {
+        JMenu fileMenu = new JMenu("File");
+        createMenuItem(fileMenu, "Log out", "logout.png", e -> {
             workspaceGI.dispose();
             if (usersInfoGI != null) {
                 usersInfoGI.dispose();
             }
         });
-        createMenuItem("Settings          ", "settings.png", e -> new SettingsGI(workspaceGI, user));
+        createMenuItem(fileMenu, "Settings          ", "settings.png", e -> new SettingsGI(workspaceGI, user));
         if (user.getRights() == UsersRights.ADMIN) {
-            createMenuItem("Change time", "clock.png", e -> new SetLastModifiedTimeGI(workspaceGI));
-            createMenuItem("Users info", "users.png", e -> usersInfoGI = new UsersInfoGI());
-            createMenuItem("Add user", "addUsers.png", e -> new AddEmptyUserGI(workspaceGI));
+            createMenuItem(fileMenu, "Change time", "clock.png", e -> new SetLastModifiedTimeGI(workspaceGI));
+            createMenuItem(fileMenu, "Users info", "users.png", e -> usersInfoGI = new UsersInfoGI());
+            createMenuItem(fileMenu, "Add user", "addUsers.png", e -> new AddEmptyUserGI(workspaceGI));
         }
         fileMenu.addSeparator();
-        createMenuItem("Close", null, e -> System.exit(0));
+        createMenuItem(fileMenu, "Close", null, e -> System.exit(0));
+
+        return fileMenu;
     }
 
-    private void createMenuItem(String name, String iconPath, ActionListener listener) {
+    private JMenuItem createMenuItem(JMenu menu, String name, String iconPath, ActionListener listener) {
         JMenuItem menuItem = new JMenuItem(name);
         menuItem.setIcon(new ImageIcon(FrameUtils.RESOURCES_PATH + iconPath));
         menuItem.addActionListener(listener);
-        fileMenu.add(menuItem);
+        menu.add(menuItem);
+        return menuItem;
+    }
+
+    private JMenu prepareViewMenu() {
+        JMenu viewMenu = new JMenu("View");
+        JMenuItem friendlyItem = createMenuItem(viewMenu, "Friendly interface", null, e -> {
+            workspaceGI.dispose();
+            new FriendshipWorkspaceGI(user);
+        });
+        friendlyItem.setVisible(workspaceGI instanceof WorkspaceGI);
+
+        JMenuItem notFriendlyItem = createMenuItem(viewMenu, "Not friendly interface", null, e -> {
+            workspaceGI.dispose();
+            new WorkspaceGI(user);
+        });
+        notFriendlyItem.setVisible(workspaceGI instanceof FriendshipWorkspaceGI);
+
+        return viewMenu;
     }
 
     private JMenu prepareHelpMenu() {

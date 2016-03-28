@@ -1,6 +1,7 @@
 import model.SingleController;
 import model.User;
 import model.UsersRights;
+import user_gi.FriendshipWorkspaceGI;
 import utils.TimeUtil;
 import user_gi.AuthenticationGI;
 import user_gi.WorkspaceGI;
@@ -17,7 +18,7 @@ public class Start {
 //        initUserSet();
 //        startAuthGI();
         startWorkspaceWithCheckTime();
-
+//        startFriendshipGI();
     }
 
     public static void startWorkspaceWithCheckTime() {
@@ -26,6 +27,16 @@ public class Start {
         } else {
             JOptionPane.showConfirmDialog(null, "System file was modified", "ACHTUNG!",
                     JOptionPane.OK_CANCEL_OPTION);
+        }
+    }
+
+    public static void startFriendshipGI() {
+        SingleController.getInstance().setUserSet(IOFileHandling.loadUsers());
+        try {
+            User user = new User("Admin", "Admin", "ADMIN", "111111", UsersRights.ADMIN);
+            new FriendshipWorkspaceGI(user);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

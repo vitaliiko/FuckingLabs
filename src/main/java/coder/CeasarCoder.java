@@ -17,9 +17,15 @@ public class CeasarCoder extends Coder {
     @Override
     public void validateKey(String key) throws IOException {
         if (key.length() > 1) {
+            if (getAlphabet().equals(RUSO_ALPHABET)) {
+                throw new IOException("Ключ должен содержать не более одного символа");
+            }
             throw new IOException("Key length should be less than 1 symbol");
         }
         if (!checkForForbiddenSymbols(key)) {
+            if (getAlphabet().equals(RUSO_ALPHABET)) {
+                throw new IOException(SingleMessage.RU_FORBIDDEN_SYMBOLS_IN_KEY);
+            }
             throw new IOException(SingleMessage.FORBIDDEN_SYMBOLS_IN_KEY);
         }
     }
