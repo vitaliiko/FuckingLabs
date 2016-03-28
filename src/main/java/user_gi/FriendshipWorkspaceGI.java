@@ -1,9 +1,6 @@
 package user_gi;
 
-import coder.CeasarCoder;
-import coder.Coder;
-import coder.VerrnamCoder;
-import coder.VigenereCoder;
+import coder.*;
 import components.BoxPanel;
 import model.User;
 import utils.FrameUtils;
@@ -91,9 +88,13 @@ public class FriendshipWorkspaceGI extends JFrame {
         selectCoderBox = new JComboBox<>(new Coder[] {
                 CeasarCoder.getInstance(),
                 VigenereCoder.getInstance(),
-                VerrnamCoder.getInstance()
+                VerrnamCoder.getInstance(),
+                CardanGrilleCoder.getInstance()
         });
-        selectCoderBox.addActionListener(e -> coder = (Coder) selectCoderBox.getSelectedItem());
+        selectCoderBox.addActionListener(e -> {
+            coder = (Coder) selectCoderBox.getSelectedItem();
+            keyField.setEnabled(!(coder instanceof CardanGrilleCoder));
+        });
         selectCoderBox.setPreferredSize(new Dimension(150, 23));
     }
 

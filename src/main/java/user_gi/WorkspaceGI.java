@@ -133,10 +133,13 @@ public class WorkspaceGI extends JFrame {
         selectCoderBox = new JComboBox<>(new Coder[] {
                 CeasarCoder.getInstance(),
                 VigenereCoder.getInstance(),
-                VerrnamCoder.getInstance()
+                VerrnamCoder.getInstance(),
+                CardanGrilleCoder.getInstance()
         });
         selectCoderBox.addActionListener(e -> {
             coder = (Coder) selectCoderBox.getSelectedItem();
+            keyField.setEnabled(!(coder instanceof CardanGrilleCoder));
+            alphabetField.setEnabled(keyField.isEnabled());
             generateKeyButton.setVisible(selectCoderBox.getSelectedItem().equals(VerrnamCoder.getInstance()));
         });
         selectCoderBox.setPreferredSize(new Dimension(150, 23));
@@ -230,7 +233,8 @@ public class WorkspaceGI extends JFrame {
     }
 
     public void checkButtonsEnabled() {
-        encryptButton.setEnabled(!keyField.getText().isEmpty() &&
+        encryptButton.setEnabled(!keyField.getText().isEmpty() ||
+                !keyField.isEnabled() &&
                 !alphabetField.getText().isEmpty() &&
                 !inputTextArea.getText().isEmpty());
         decryptButton.setEnabled(encryptButton.isEnabled());
