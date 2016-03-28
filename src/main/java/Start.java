@@ -1,25 +1,23 @@
-import input_output.TimeUtil;
+import model.*;
 import user_gi.AuthenticationGI;
 import user_gi.WorkspaceGI;
-import model.Controller;
 import input_output.IOFileHandling;
-import model.User;
-import model.UsersRights;
-import utils.FrameUtils;
-
-import javax.swing.*;
 
 public class Start {
 
     public static void main(String[] args) {
-        FrameUtils.setLookAndFeel();
-        if (TimeUtil.checkLastModified()) {
-//            initUserSet();
-            startWorkspaceGI();
-        } else {
-            JOptionPane.showConfirmDialog(null, "System file was modified", "ACHTUNG!",
-                    JOptionPane.OK_CANCEL_OPTION);
-        }
+
+        initUserSet();
+        RegisterUtil.writeKeyToReg();
+//        SystemProperties.getSystemProperties();
+//        FrameUtils.setLookAndFeel();
+//        if (TimeUtil.checkLastModified()) {
+////            initUserSet();
+//            startWorkspaceGI();
+//        } else {
+//            JOptionPane.showConfirmDialog(null, "System file was modified", "ACHTUNG!",
+//                    JOptionPane.OK_CANCEL_OPTION);
+//        }
 
 //        initUserSet();
 //        startWorkspaceGI();
