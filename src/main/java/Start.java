@@ -1,3 +1,4 @@
+import coder.CardanGrilleCoder;
 import model.SingleController;
 import model.User;
 import model.UsersRights;
@@ -9,6 +10,8 @@ import input_output.IOFileHandling;
 import utils.FrameUtils;
 
 import javax.swing.JOptionPane;
+import java.io.IOException;
+import java.util.Arrays;
 
 public class Start {
 
@@ -17,8 +20,20 @@ public class Start {
         FrameUtils.setLookAndFeel();
 //        initUserSet();
 //        startAuthGI();
-        startWorkspaceWithCheckTime();
+//        startWorkspaceWithCheckTime();
 //        startFriendshipGI();
+
+        turn();
+    }
+
+    public static void turn() {
+        CardanGrilleCoder coder = (CardanGrilleCoder) CardanGrilleCoder.getInstance();
+
+        try {
+            System.out.println(coder.encode(null, "Решётка Кардано — инструмент шифрова"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public static void startWorkspaceWithCheckTime() {
