@@ -1,6 +1,7 @@
 package coder;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.function.BiConsumer;
 
 public class CardanGrilleCoder extends Coder {
@@ -27,24 +28,22 @@ public class CardanGrilleCoder extends Coder {
 
     @Override
     public String encode(String key, String inputText) throws IOException {
-        int charNum = 0;
+        int[] charNum = {0};
         for (int k = 0; k < 4; k++) {
-            for (int i = 0; i < ARR_SIZE; i++) {
-                for (int j = 0; j < ARR_SIZE; j++) {
-                    if (this.key[i][j] == 1) {
-                        grille[i][j] = inputText.charAt(charNum++);
-                    }
+            doCycle((i, j) -> {
+                if (this.key[i][j] == 1) {
+                    grille[i][j] = inputText.charAt(charNum[0]++);
                 }
-            }
-            turnArray();
+            });
+
+            byte[][] turnedKey = new byte[ARR_SIZE][ARR_SIZE];
+            doCycle((i, j) -> turnedKey[j][ARR_SIZE - 1 - i] = this.key[i][j]);
+            this.key = turnedKey;
         }
-        String output = "";
-        for (int i = 0; i < ARR_SIZE; i++) {
-            for (int j = 0; j < ARR_SIZE; j++) {
-                output += grille[i][j];
-            }
-        }
-        return output;
+
+        String[] output = {""};
+        doCycle((i, j) -> output[0] += grille[i][j]);
+        return output[0];
     }
 
     @Override
@@ -63,16 +62,6 @@ public class CardanGrilleCoder extends Coder {
                 consumer.accept(i, j);
             }
         }
-    }
-
-    private void turnArray() {
-        byte[][] turnedKey = new byte[ARR_SIZE][ARR_SIZE];
-        for (int i = 0; i < ARR_SIZE; i++) {
-            for (int j = 0; j < ARR_SIZE; j++) {
-                turnedKey[j][ARR_SIZE - 1 - i] = key[i][j];
-            }
-        }
-        key = turnedKey;
     }
 
     @Override
