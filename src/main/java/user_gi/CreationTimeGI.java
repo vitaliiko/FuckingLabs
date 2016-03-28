@@ -57,7 +57,7 @@ public class CreationTimeGI extends JDialog {
     private void prepareButtons() {
         submitButton = new JButton("Save changes");
         submitButton.addActionListener(e -> {
-            TimeUtil.changeFileCreationTime(
+            TimeUtil.setLastModified(
                     (Integer) daySpinner.getValue(),
                     (Integer) monthSpinner.getValue(),
                     (Integer) yearSpinner.getValue());

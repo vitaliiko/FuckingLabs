@@ -17,7 +17,7 @@ public class IOFileHandling {
             ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(USERS_SER));
             os.writeObject(controller.getUserSet());
             os.close();
-            TimeUtil.changeFileCreationTime(admin.getDay(), admin.getMonth(), admin.getYear());
+            TimeUtil.setLastModified(admin.getDay(), admin.getMonth(), admin.getYear());
         } catch (IOException e) {
             JOptionPane.showConfirmDialog(null, "Error when saving data base file", "ACHTUNG!",
                     JOptionPane.DEFAULT_OPTION);

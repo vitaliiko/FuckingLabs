@@ -16,7 +16,7 @@ public class TimeUtil {
 
     public static final long MAX_FILE_TIME = 978220800000L;
 
-    public static void changeFileCreationTime(Integer day, Integer month, Integer year) {
+    public static void setLastModified(Integer day, Integer month, Integer year) {
         try {
             File file = new File(IOFileHandling.USERS_SER);
             SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
@@ -31,17 +31,9 @@ public class TimeUtil {
         }
     }
 
-    public static boolean checkCreationTime() {
-        try {
-            Path path = Paths.get(IOFileHandling.USERS_SER);
-            BasicFileAttributes attributes = Files.readAttributes(path, BasicFileAttributes.class);
-            FileTime creationTime = attributes.creationTime();
-            System.out.println(creationTime.toMillis());
-            return creationTime.toMillis() <= MAX_FILE_TIME;
-        } catch (IOException e) {
-            JOptionPane.showConfirmDialog(null, "File creation time can not be verified", "ACHTUNG!",
-                    JOptionPane.OK_CANCEL_OPTION);
-            return false;
-        }
+    public static boolean checkLastModified() {
+        File file = new File(IOFileHandling.USERS_SER);
+        System.out.println(file.lastModified());
+        return file.lastModified() <= MAX_FILE_TIME;
     }
 }

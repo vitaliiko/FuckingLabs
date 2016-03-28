@@ -13,8 +13,8 @@ public class Start {
 
     public static void main(String[] args) {
         FrameUtils.setLookAndFeel();
-        if (TimeUtil.checkCreationTime()) {
-            initUserSet();
+        if (TimeUtil.checkLastModified()) {
+//            initUserSet();
             startWorkspaceGI();
         } else {
             JOptionPane.showConfirmDialog(null, "System file was modified", "ACHTUNG!",
