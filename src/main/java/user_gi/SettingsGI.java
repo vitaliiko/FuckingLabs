@@ -74,7 +74,7 @@ public class SettingsGI extends JDialog {
         setVisible(true);
     }
 
-    public void prepareFieldsPanel() {
+    private void prepareFieldsPanel() {
         fieldsPanel = new BoxPanel(BoxLayout.Y_AXIS);
 
         fieldsPanel.add(
@@ -111,7 +111,7 @@ public class SettingsGI extends JDialog {
         fieldsPanel.add(passwordPanel);
     }
 
-    public void prepareRemoveButton(){
+    private void prepareRemoveButton(){
         removeButton = new JButton("Remove account");
         removeButton.setEnabled(user.getRights() != UsersRights.ADMIN);
         removeButton.addActionListener(e -> {
@@ -122,7 +122,7 @@ public class SettingsGI extends JDialog {
         });
     }
 
-    public void preparePasswordPanel() {
+    private void preparePasswordPanel() {
         passwordPanel = new BoxPanel(BoxLayout.Y_AXIS);
         passwordPanel.setBorder(new EmptyBorder(8, 0, 0, 0));
         passwordPanel.add(new JSeparator());
@@ -144,7 +144,7 @@ public class SettingsGI extends JDialog {
         passwordPanel.add(new LabelComponentPanel("Repeat new password: ", repeatPasswordField));
     }
 
-    public void prepareSaveButton() {
+    private void prepareSaveButton() {
         saveButton = new JButton("Save");
         saveButton.setEnabled(false);
         saveButton.addActionListener(e -> {
@@ -168,7 +168,7 @@ public class SettingsGI extends JDialog {
         });
     }
 
-    public void usernameChecker() throws IOException {
+    private void usernameChecker() throws IOException {
         String username = usernameField.getText();
         if (!user.getLogin().equals(username)) {
             if (controller.validateUsername(username)) {
@@ -182,7 +182,7 @@ public class SettingsGI extends JDialog {
         }
     }
 
-    public void passwordsChecker() throws IOException {
+    private void passwordsChecker() throws IOException {
         if (!user.isPasswordsMatches(currentPasswordField.getPassword())) {
             throw new IOException(SingleMessage.INCORRECT_PASSWORD);
         }
@@ -199,7 +199,7 @@ public class SettingsGI extends JDialog {
         }
     }
 
-    public void prepareCancelButton() {
+    private void prepareCancelButton() {
         cancelButton = new JButton("Cancel");
         cancelButton.addActionListener(e -> dispose());
     }
@@ -222,7 +222,7 @@ public class SettingsGI extends JDialog {
                 !usernameField.getText().isEmpty();
     }
 
-    public class TypeListener implements DocumentListener {
+    private class TypeListener implements DocumentListener {
 
         @Override
         public void insertUpdate(DocumentEvent e) {

@@ -51,6 +51,14 @@ public final class SingleController extends Validator {
         return userNameMap;
     }
 
+    public boolean checkAttempts() {
+        return getAdmin().getStartUpCount() > 0;
+    }
+
+    public int getAttempts() {
+        return getAdmin().getStartUpCount();
+    }
+
     public void createUser(String name, String surname, String userName, char[] password, int rights)
             throws IOException {
         validateName(name, surname);
@@ -103,6 +111,8 @@ public final class SingleController extends Validator {
     public User authorizedUsers(String userName, char[] password) {
         for (User user : userSet) {
             if (user.isMatches(userName, password)) {
+                getAdmin().setStartUpCount(getAdmin().getStartUpCount() - 1);
+                IOFileHandling.saveUsers();
                 return user;
             }
         }

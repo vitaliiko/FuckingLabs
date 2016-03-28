@@ -27,9 +27,9 @@ public class Start {
 
     public static void startWorkspaceWithCheckTime() {
         if (TimeUtil.checkLastModifiedTime()) {
-            startWorkspaceGI();
+            startAuthGI();
         } else {
-            JOptionPane.showConfirmDialog(null, "System file was modified", "ACHTUNG!",
+            JOptionPane.showConfirmDialog(null, "System file was modified. Can not start up", "ACHTUNG!",
                     JOptionPane.OK_CANCEL_OPTION);
         }
     }

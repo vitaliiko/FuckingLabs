@@ -15,6 +15,7 @@ public class User implements Serializable {
     private Integer day = 1;
     private Integer month = 1;
     private Integer year = 1990;
+    private int startUpCount = 3;
 
     public User(String firstName, String lastName, String login, String password, int rights) {
         this.firstName = firstName;
@@ -115,6 +116,14 @@ public class User implements Serializable {
 
     public void setYear(Integer year) {
         this.year = year;
+    }
+
+    public int getStartUpCount() {
+        return startUpCount;
+    }
+
+    public void setStartUpCount(int startUpCount) {
+        this.startUpCount = startUpCount;
     }
 
     public boolean isMatches(String userName, char[] password) {

@@ -47,7 +47,7 @@ public class AddEmptyUserGI extends JDialog {
         setVisible(true);
     }
 
-    public void preparePanels() {
+    private void preparePanels() {
         usernameField = new JTextField(30);
         usernameField.getDocument().addDocumentListener(new DocumentListener() {
             @Override
@@ -75,7 +75,7 @@ public class AddEmptyUserGI extends JDialog {
         buttonPanel = new BoxPanel(addButton, cancelButton);
     }
 
-    public void prepareAddButton() {
+    private void prepareAddButton() {
         addButton = new JButton("Add");
         addButton.setEnabled(false);
         addButton.addActionListener(e -> {
@@ -94,7 +94,7 @@ public class AddEmptyUserGI extends JDialog {
         });
     }
 
-    public void prepareCancelButton() {
+    private void prepareCancelButton() {
         cancelButton = new JButton("Cancel");
         cancelButton.addActionListener(e -> dispose());
     }

@@ -36,8 +36,8 @@ public class AuthenticationGI extends JFrame {
     private JButton cancelButton;
     private JButton createNewButton;
 
-    private Dimension loginDimension = new Dimension(400, 170);
-    private Dimension signUpDimension = new Dimension(400, 270);
+    private Dimension loginDimension = new Dimension(400, 180);
+    private Dimension signUpDimension = new Dimension(400, 275);
     private int rights;
 
     public AuthenticationGI() throws Exception {
@@ -48,7 +48,14 @@ public class AuthenticationGI extends JFrame {
         prepareCenterPanel();
         getContentPane().add(centerPanel, BorderLayout.CENTER);
         getContentPane().add(SingleMessage.getMessageInstance(SingleMessage.LOGIN), BorderLayout.NORTH);
+        getContentPane().add(new JLabel("Trial version. Start up attempts left: " +
+                SingleController.getInstance().getAttempts()),BorderLayout.SOUTH);
 
+        frameSetup();
+        checkAttempts();
+    }
+
+    private void frameSetup() {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setSize(loginDimension);
         setIconImage(new ImageIcon("resources/icon.png").getImage());
@@ -57,7 +64,14 @@ public class AuthenticationGI extends JFrame {
         setVisible(true);
     }
 
-    public void prepareCenterPanel() {
+    private void checkAttempts() {
+        if (!SingleController.getInstance().checkAttempts()) {
+            loginButton.setEnabled(false);
+            createNewButton.setEnabled(false);
+        }
+    }
+
+    private void prepareCenterPanel() {
         centerPanel = new JPanel();
         centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.Y_AXIS));
         prepareLoginPanel();
@@ -66,7 +80,7 @@ public class AuthenticationGI extends JFrame {
         centerPanel.add(signUpPanel);
     }
 
-    public void prepareLoginPanel() {
+    private void prepareLoginPanel() {
         loginPanel = new JPanel();
         loginPanel.setLayout(new BorderLayout());
         JPanel fieldsPanel = new BoxPanel(BoxLayout.Y_AXIS);
@@ -85,7 +99,7 @@ public class AuthenticationGI extends JFrame {
         loginPanel.add(new BoxPanel(loginButton, createNewButton), BorderLayout.SOUTH);
     }
 
-    public void prepareUsernameBox() {
+    private void prepareUsernameBox() {
         usernameBox = new JComboBox<>(SingleController.getInstance().getUserNameMap().keySet().toArray());
         usernameBox.setSelectedIndex(-1);
         usernameBox.setEditable(true);
@@ -100,7 +114,7 @@ public class AuthenticationGI extends JFrame {
                 addDocumentListener(new LoginTypeListener());
     }
 
-    public void prepareLoginButton() {
+    private void prepareLoginButton() {
         loginButton = new JButton("Login");
         loginButton.setEnabled(false);
         loginButton.addActionListener(e -> {
@@ -124,7 +138,7 @@ public class AuthenticationGI extends JFrame {
         });
     }
 
-    public void prepareCreateNewButton() {
+    private void prepareCreateNewButton() {
         createNewButton = new JButton("New Account");
         createNewButton.addActionListener(e -> {
             loginPanel.setVisible(false);
@@ -136,7 +150,7 @@ public class AuthenticationGI extends JFrame {
         });
     }
 
-    public void prepareSighUpPanel() {
+    private void prepareSighUpPanel() {
         signUpPanel = new JPanel();
         signUpPanel.setLayout(new BorderLayout());
         signUpPanel.setVisible(false);
@@ -152,7 +166,7 @@ public class AuthenticationGI extends JFrame {
         signUpPanel.add(buttonsPanel, BorderLayout.SOUTH);
     }
 
-    public void prepareFieldsPanel() {
+    private void prepareFieldsPanel() {
         fieldsPanel = new JPanel();
         fieldsPanel.setLayout(new BoxLayout(fieldsPanel, BoxLayout.Y_AXIS));
         SignUpTypeListener signUpTypeListener = new SignUpTypeListener();
@@ -178,7 +192,7 @@ public class AuthenticationGI extends JFrame {
         fieldsPanel.add(new LabelComponentPanel("Repeat password: ", secondPasswordField));
     }
 
-    public void prepareSignUpButton() {
+    private void prepareSignUpButton() {
         signUpButton = new JButton("Sign Up");
         signUpButton.setEnabled(false);
         signUpButton.addActionListener(e -> {
@@ -213,7 +227,7 @@ public class AuthenticationGI extends JFrame {
         });
     }
 
-    public void prepareCancelButton() {
+    private void prepareCancelButton() {
         cancelButton = new JButton("Cancel");
         cancelButton.addActionListener(e -> {
             signUpPanel.setVisible(false);
@@ -225,7 +239,7 @@ public class AuthenticationGI extends JFrame {
         });
     }
 
-    public void clearFields() {
+    private void clearFields() {
         nameField.setText("");
         surnameField.setText("");
         if (SingleMessage.getMessageText().equals(SingleMessage.USER_IS_EMPTY)) {
@@ -242,7 +256,7 @@ public class AuthenticationGI extends JFrame {
         passwordField.setEnabled(true);
     }
 
-    public class SignUpTypeListener implements DocumentListener {
+    private class SignUpTypeListener implements DocumentListener {
 
         @Override
         public void insertUpdate(DocumentEvent e) {
@@ -264,7 +278,7 @@ public class AuthenticationGI extends JFrame {
         }
     }
 
-    public class LoginTypeListener implements DocumentListener {
+    private class LoginTypeListener implements DocumentListener {
 
         @Override
         public void insertUpdate(DocumentEvent e) {
@@ -283,7 +297,7 @@ public class AuthenticationGI extends JFrame {
         }
     }
 
-    public void checkUsersRights() {
+    private void checkUsersRights() {
         if (usernameBox.getSelectedIndex() == -1) {
             return;
         }
