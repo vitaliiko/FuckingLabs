@@ -1,6 +1,6 @@
 package model;
 
-import input_output.Message;
+import input_output.SingleMessage;
 
 import java.io.IOException;
 import java.util.regex.Matcher;
@@ -16,44 +16,44 @@ public class Validator {
 
     public boolean validateName(String name, String surname) throws IOException {
         if (!validate(name, NAME_REG) || !validate(surname, NAME_REG)) {
-            throw new IOException(Message.WRONG_NAME);
+            throw new IOException(SingleMessage.WRONG_NAME);
         }
         return true;
     }
 
     public boolean validateUsername(String userName) throws IOException {
         if (userName.toLowerCase().contains("admin")) {
-            throw new IOException(Message.NON_ADMIN_USER);
+            throw new IOException(SingleMessage.NON_ADMIN_USER);
         }
         if (!validate(userName, USERNAME_REG)) {
-            throw new IOException(Message.WRONG_USERNAME);
+            throw new IOException(SingleMessage.WRONG_USERNAME);
         }
         return true;
     }
 
     public boolean validatePassword(char[] password) throws IOException {
         if (password.length < 8) {
-            throw new IOException(Message.SHORT_PASSWORD);
+            throw new IOException(SingleMessage.SHORT_PASSWORD);
         }
         if (password.length > 24) {
-            throw new IOException(Message.LONG_PASSWORD);
+            throw new IOException(SingleMessage.LONG_PASSWORD);
         }
         if (!validate(String.valueOf(password), PASSWORD_REG)) {
-            throw new IOException(Message.WRONG_PASSWORD);
+            throw new IOException(SingleMessage.WRONG_PASSWORD);
         }
         return true;
     }
 
     public boolean validateTelephone(String telephone) throws IOException {
         if (!validate(telephone, TEL_NUM_REG)) {
-            throw new IOException(Message.WRONG_TEL);
+            throw new IOException(SingleMessage.WRONG_TEL);
         }
         return true;
     }
 
     public boolean validateMail(String mail) throws IOException {
         if (!validate(mail, MAIL_REG)) {
-            throw new IOException(Message.WRONG_MAIL);
+            throw new IOException(SingleMessage.WRONG_MAIL);
         }
         return true;
     }

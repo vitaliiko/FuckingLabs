@@ -2,8 +2,8 @@ package user_gi;
 
 import components.BoxPanel;
 import components.LabelComponentPanel;
-import model.Controller;
-import input_output.Message;
+import model.SingleController;
+import input_output.SingleMessage;
 import model.User;
 import model.UsersRights;
 import utils.FrameUtils;
@@ -35,7 +35,6 @@ public class AuthenticationGI extends JFrame {
     private JButton signUpButton;
     private JButton cancelButton;
     private JButton createNewButton;
-    private JLabel messageLabel;
 
     private Dimension loginDimension = new Dimension(400, 170);
     private Dimension signUpDimension = new Dimension(400, 270);
@@ -48,8 +47,7 @@ public class AuthenticationGI extends JFrame {
 
         prepareCenterPanel();
         getContentPane().add(centerPanel, BorderLayout.CENTER);
-        messageLabel = Message.prepareMessageLabel(Message.LOGIN);
-        getContentPane().add(messageLabel, BorderLayout.NORTH);
+        getContentPane().add(SingleMessage.getMessageInstance(SingleMessage.LOGIN), BorderLayout.NORTH);
 
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setSize(loginDimension);
@@ -88,7 +86,7 @@ public class AuthenticationGI extends JFrame {
     }
 
     public void prepareUsernameBox() {
-        usernameBox = new JComboBox<>(Controller.getInstance().getUserNameMap().keySet().toArray());
+        usernameBox = new JComboBox<>(SingleController.getInstance().getUserNameMap().keySet().toArray());
         usernameBox.setSelectedIndex(-1);
         usernameBox.setEditable(true);
         usernameBox.addItemListener(e -> checkUsersRights());
@@ -106,12 +104,11 @@ public class AuthenticationGI extends JFrame {
         loginButton = new JButton("Login");
         loginButton.setEnabled(false);
         loginButton.addActionListener(e -> {
-            User user = Controller.getInstance().authorizedUsers(
+            User user = SingleController.getInstance().authorizedUsers(
                     ((JTextField) usernameBox.getEditor().getEditorComponent()).getText(),
                     passwordField.getPassword());
             if (user == null) {
-                messageLabel.setIcon(Message.WARNING_IMAGE);
-                messageLabel.setText(Message.WRONG_USER);
+                SingleMessage.setWarningMessage(SingleMessage.WRONG_USER);
             } else {
                 setVisible(false);
                 clearFields();
@@ -133,8 +130,7 @@ public class AuthenticationGI extends JFrame {
             loginPanel.setVisible(false);
             signUpPanel.setVisible(true);
             clearFields();
-            messageLabel.setIcon(null);
-            messageLabel.setText(Message.CREATE);
+            SingleMessage.setDefaultMessage(SingleMessage.CREATE);
             setSize(signUpDimension);
             setTitle("Sign up");
         });
@@ -198,23 +194,21 @@ public class AuthenticationGI extends JFrame {
                     }
                 }
                 if (Arrays.equals(firstPasswordField.getPassword(), secondPasswordField.getPassword())) {
-                    Controller.getInstance().createUser(nameField.getText(), surnameField.getText(), usernameField.getText(),
+                    SingleController.getInstance().createUser(nameField.getText(), surnameField.getText(), usernameField.getText(),
                             firstPasswordField.getPassword(), rights);
                 } else {
-                    throw new IOException(Message.PASSWORDS_DOES_NOT_MATCH);
+                    throw new IOException(SingleMessage.PASSWORDS_DOES_NOT_MATCH);
                 }
                 loginPanel.setVisible(true);
                 signUpPanel.setVisible(false);
-                messageLabel.setIcon(null);
-                messageLabel.setText(Message.ADD_USER_SUC);
+                SingleMessage.setDefaultMessage(SingleMessage.ADD_USER_SUC);
                 usernameBox.addItem(usernameField.getText());
                 usernameBox.setSelectedItem(usernameField.getText());
                 passwordField.setText(String.valueOf(firstPasswordField.getPassword()));
                 loginButton.setEnabled(true);
                 setSize(loginDimension);
             } catch (IOException exception) {
-                messageLabel.setIcon(Message.WARNING_IMAGE);
-                messageLabel.setText(exception.getMessage());
+                SingleMessage.setWarningMessage(exception.getMessage());
             }
         });
     }
@@ -225,8 +219,7 @@ public class AuthenticationGI extends JFrame {
             signUpPanel.setVisible(false);
             loginPanel.setVisible(true);
             clearFields();
-            messageLabel.setIcon(null);
-            messageLabel.setText(Message.LOGIN);
+            SingleMessage.setDefaultMessage(SingleMessage.LOGIN);
             setSize(loginDimension);
             setTitle("Log in");
         });
@@ -235,7 +228,7 @@ public class AuthenticationGI extends JFrame {
     public void clearFields() {
         nameField.setText("");
         surnameField.setText("");
-        if (messageLabel.getText().equals(Message.USER_IS_EMPTY)) {
+        if (SingleMessage.getMessageText().equals(SingleMessage.USER_IS_EMPTY)) {
             usernameField.setText((String) usernameBox.getSelectedItem());
             usernameField.setEnabled(false);
         } else {
@@ -295,8 +288,8 @@ public class AuthenticationGI extends JFrame {
             return;
         }
         String username = (String) usernameBox.getSelectedItem();
-        if (Controller.getInstance().getUserNameMap().get(username) != null) {
-            rights = Controller.getInstance().getUserNameMap().get(username);
+        if (SingleController.getInstance().getUserNameMap().get(username) != null) {
+            rights = SingleController.getInstance().getUserNameMap().get(username);
         } else {
             usernameBox.removeItem(username);
         }
@@ -304,20 +297,17 @@ public class AuthenticationGI extends JFrame {
             case UsersRights.EMPTY_SIMPLE_PASSWORD:
             case UsersRights.EMPTY: {
                 passwordField.setEnabled(false);
-                messageLabel.setIcon(Message.WARNING_IMAGE);
-                messageLabel.setText(Message.USER_IS_EMPTY);
+                SingleMessage.setWarningMessage(SingleMessage.USER_IS_EMPTY);
                 break;
             }
             case UsersRights.BLOCKED_USER: {
                 passwordField.setEnabled(false);
-                messageLabel.setIcon(Message.WARNING_IMAGE);
-                messageLabel.setText(Message.USER_IS_LOCKED);
+                SingleMessage.setWarningMessage(SingleMessage.USER_IS_LOCKED);
                 break;
             }
             default: {
                 passwordField.setEnabled(true);
-                messageLabel.setIcon(null);
-                messageLabel.setText(Message.LOGIN);
+                SingleMessage.setWarningMessage(SingleMessage.LOGIN);
             }
         }
     }

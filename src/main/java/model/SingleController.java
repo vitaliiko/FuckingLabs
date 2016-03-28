@@ -1,7 +1,7 @@
 package model;
 
 import input_output.IOFileHandling;
-import input_output.Message;
+import input_output.SingleMessage;
 
 import java.io.IOException;
 import java.util.HashSet;
@@ -10,19 +10,19 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
 
-public final class Controller extends Validator {
+public final class SingleController extends Validator {
 
-    private static Controller instance = new Controller();
+    private static SingleController instance = new SingleController();
     private Set<User> userSet = new HashSet<>();
     private Map<String, Integer> userNameMap;
 
-    private Controller() {}
+    private SingleController() {}
 
-//    public Controller() {
+//    public SingleController() {
 //        userSet = new HashSet<>();
 //    }
 //
-//    public Controller(Set<User> userSet) {
+//    public SingleController(Set<User> userSet) {
 //        this.userSet = userSet;
 //        userNameMap = new TreeMap<>();
 //        for (User user : userSet) {
@@ -31,7 +31,7 @@ public final class Controller extends Validator {
 //    }
 
 
-    public static Controller getInstance() {
+    public static SingleController getInstance() {
         return instance;
     }
 
@@ -65,7 +65,7 @@ public final class Controller extends Validator {
         }
         User newUser = new User(name, surname, userName, password, rights);
         if (!userSet.add(newUser)) {
-            throw new IOException(Message.EXIST_USER);
+            throw new IOException(SingleMessage.EXIST_USER);
         }
         userNameMap.put(userName, rights);
         IOFileHandling.saveUsers();
@@ -90,7 +90,7 @@ public final class Controller extends Validator {
         validateUsername(userName);
 
         if (!userSet.add(new User(userName, rights))) {
-            throw new IOException(Message.EXIST_USER);
+            throw new IOException(SingleMessage.EXIST_USER);
         }
         userNameMap.put(userName, rights);
     }

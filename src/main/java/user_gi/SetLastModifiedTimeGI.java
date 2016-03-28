@@ -1,7 +1,7 @@
 package user_gi;
 
 import components.BoxPanel;
-import input_output.Message;
+import input_output.SingleMessage;
 import input_output.TimeUtil;
 import utils.FrameUtils;
 
@@ -17,13 +17,14 @@ public class SetLastModifiedTimeGI extends JDialog {
     private JSpinner yearSpinner;
     private JButton submitButton;
     private JButton cancelButton;
-    private JLabel messageLabel;
 
     public SetLastModifiedTimeGI(Frame frame) {
         super(frame);
         FrameUtils.setLookAndFeel();
+
+        getContentPane().add(SingleMessage.getMessageInstance(SingleMessage.SET_LAST_MODIFIED_TIME));
         prepareMainPanel();
-        getContentPane().add(mainPanel, BorderLayout.NORTH);
+        getContentPane().add(mainPanel, BorderLayout.CENTER);
         prepareButtons();
         getContentPane().add(new BoxPanel(submitButton, cancelButton), BorderLayout.SOUTH);
         setup();
@@ -33,7 +34,7 @@ public class SetLastModifiedTimeGI extends JDialog {
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         setSize(new Dimension(300, 180));
         setIconImage(new ImageIcon("resources/clock.png").getImage());
-        setTitle("Set creation time");
+        setTitle("Set last modified time");
         setModal(true);
         setResizable(false);
         setLocationRelativeTo(null);
@@ -49,9 +50,8 @@ public class SetLastModifiedTimeGI extends JDialog {
     }
 
     private void prepareMainPanel() {
-        messageLabel = Message.prepareMessageLabel("Set creation time");
         prepareSpinners();
-        mainPanel = new BoxPanel(BoxLayout.Y_AXIS, messageLabel, spinnerPanel);
+        mainPanel = new BoxPanel(BoxLayout.Y_AXIS, spinnerPanel);
     }
 
     private void prepareButtons() {
@@ -61,7 +61,7 @@ public class SetLastModifiedTimeGI extends JDialog {
                     (Integer) daySpinner.getValue(),
                     (Integer) monthSpinner.getValue(),
                     (Integer) yearSpinner.getValue());
-            messageLabel.setText("Creation time changed successfully)");
+            SingleMessage.setDefaultMessage(SingleMessage.TIME_CHANGED);
         });
 
         cancelButton = new JButton("Cancel");

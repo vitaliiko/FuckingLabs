@@ -1,6 +1,6 @@
 package utils;
 
-import model.Controller;
+import model.SingleController;
 import model.User;
 import model.UsersRights;
 import user_gi.*;
@@ -14,12 +14,12 @@ public class WorkspaceUtil {
     private JMenu fileMenu;
     private JFrame usersInfoGI;
     private User user;
-    private Controller controller;
+    private SingleController controller;
 
     public WorkspaceUtil(WorkspaceGI workspaceGI, User user) {
         this.workspaceGI = workspaceGI;
         this.user = user;
-        this.controller = Controller.getInstance();
+        this.controller = SingleController.getInstance();
     }
 
     public JMenuBar prepareMenuBar() {

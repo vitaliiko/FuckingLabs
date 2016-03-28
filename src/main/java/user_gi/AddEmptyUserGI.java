@@ -2,9 +2,9 @@ package user_gi;
 
 import components.BoxPanel;
 import components.LabelComponentPanel;
-import model.Controller;
+import input_output.SingleMessage;
+import model.SingleController;
 import input_output.IOFileHandling;
-import input_output.Message;
 import model.UsersRights;
 import utils.FrameUtils;
 
@@ -17,7 +17,7 @@ import java.io.IOException;
 
 public class AddEmptyUserGI extends JDialog {
 
-    private Controller controller;
+    private SingleController controller;
 
     private JPanel fieldPanel;
     private JPanel buttonPanel;
@@ -25,16 +25,14 @@ public class AddEmptyUserGI extends JDialog {
     private JButton addButton;
     private JButton cancelButton;
     private JCheckBox checkBox;
-    private JLabel messageLabel;
 
     public AddEmptyUserGI(Frame owner) {
         super(owner);
-        this.controller = Controller.getInstance();
+        this.controller = SingleController.getInstance();
 
         FrameUtils.setLookAndFeel();
 
-        messageLabel = Message.prepareMessageLabel(Message.ADD_NEW_USER);
-        getContentPane().add(messageLabel, BorderLayout.NORTH);
+        getContentPane().add(SingleMessage.getMessageInstance(SingleMessage.ADD_NEW_USER), BorderLayout.NORTH);
         preparePanels();
         getContentPane().add(fieldPanel, BorderLayout.EAST);
         getContentPane().add(buttonPanel, BorderLayout.SOUTH);
@@ -87,13 +85,11 @@ public class AddEmptyUserGI extends JDialog {
                 } else {
                     controller.addEmptyUser(usernameField.getText(), UsersRights.EMPTY);
                 }
-                messageLabel.setIcon(null);
-                messageLabel.setText(Message.ADD_USER_SUC);
+                SingleMessage.setDefaultMessage(SingleMessage.ADD_USER_SUC);
                 addButton.setEnabled(false);
                 IOFileHandling.saveUsers();
             } catch (IOException e1) {
-                messageLabel.setIcon(Message.WARNING_IMAGE);
-                messageLabel.setText(e1.getMessage());
+                SingleMessage.setWarningMessage(e1.getMessage());
             }
         });
     }

@@ -2,9 +2,6 @@ package model;
 
 import input_output.IOFileHandling;
 
-import java.rmi.RemoteException;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
 import java.util.prefs.Preferences;
 
 public class RegisterManager {
@@ -12,7 +9,7 @@ public class RegisterManager {
     public static final String PREF_KEY = "Signature";
 
     public static void writeKeyToReg() {
-        Controller controller = Controller.getInstance();
+        SingleController controller = SingleController.getInstance();
         controller.setUserSet(IOFileHandling.loadUsers());
         String prefKey = controller.getAdmin().getLastName() + "/Signature";
 

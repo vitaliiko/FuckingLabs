@@ -3,7 +3,7 @@ package user_gi;
 import coder.*;
 import input_output.IOFileHandling;
 import components.BoxPanel;
-import model.Controller;
+import model.SingleController;
 import model.User;
 import utils.*;
 
@@ -18,7 +18,7 @@ import java.io.IOException;
 public class WorkspaceGI extends JFrame {
 
     private User user;
-    private Controller controller;
+    private SingleController controller;
     private Coder coder = CeasarCoder.getInstance();
     private String outputFilePath;
     private WorkspaceUtil workspaceUtil;
@@ -45,7 +45,7 @@ public class WorkspaceGI extends JFrame {
         super("Безпека програмного забезпечення комп’ютерних систем");
         this.user = user;
         this.workspaceUtil = new WorkspaceUtil(this, user);
-        this.controller = Controller.getInstance();
+        this.controller = SingleController.getInstance();
 
         FrameUtils.setLookAndFeel();
 

@@ -1,6 +1,6 @@
 package coder;
 
-import input_output.Message;
+import input_output.SingleMessage;
 
 import java.io.IOException;
 
@@ -20,7 +20,7 @@ public class CeasarCoder extends Coder {
             throw new IOException("Key length should be less than 1 symbol");
         }
         if (!checkForForbiddenSymbols(key)) {
-            throw new IOException(Message.FORBIDDEN_SYMBOLS_IN_KEY);
+            throw new IOException(SingleMessage.FORBIDDEN_SYMBOLS_IN_KEY);
         }
     }
 

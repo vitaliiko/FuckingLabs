@@ -1,6 +1,6 @@
 package coder;
 
-import input_output.Message;
+import input_output.SingleMessage;
 
 import java.io.IOException;
 
@@ -56,7 +56,7 @@ public class VerrnamCoder extends Coder {
     @Override
     public void validateKey(String key) throws IOException {
         if (!checkForForbiddenSymbols(key)) {
-            throw new IOException(Message.FORBIDDEN_SYMBOLS_IN_KEY);
+            throw new IOException(SingleMessage.FORBIDDEN_SYMBOLS_IN_KEY);
         }
     }
 

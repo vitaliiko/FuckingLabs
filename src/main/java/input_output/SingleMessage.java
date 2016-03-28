@@ -4,7 +4,7 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
-public class Message {
+public class SingleMessage extends JLabel {
 
     public static final ImageIcon WARNING_IMAGE = new ImageIcon("resources/warning.png");
 
@@ -36,13 +36,45 @@ public class Message {
     public static final String USER_INFO = "User information";
 
     public static final String FORBIDDEN_SYMBOLS_IN_KEY = "Key contain forbidden symbols";
-    public static final String FORBIDDEN_SYMBOLS_IN_MESSAGE = "Message contain forbidden symbols";
+    public static final String FORBIDDEN_SYMBOLS_IN_MESSAGE = "SingleMessage contain forbidden symbols";
 
-    public static JLabel prepareMessageLabel(String message) {
-        JLabel messageLabel = new JLabel(message);
-        messageLabel.setHorizontalAlignment(JLabel.CENTER);
-        messageLabel.setBorder(new EmptyBorder(8, 0, 8, 0));
-        messageLabel.setFont(new Font("times new roman", Font.PLAIN, 16));
-        return messageLabel;
+    public static final String SET_LAST_MODIFIED_TIME = "Set last modified time";
+    public static final String TIME_CHANGED = "Creation time changed successfully)";
+
+    private static SingleMessage instance = new SingleMessage();
+
+    private SingleMessage() {}
+
+    public static SingleMessage getMessageInstance(String message) {
+        instance.setText(message);
+        instance.setIcon(null);
+        instance.setHorizontalAlignment(JLabel.CENTER);
+        instance.setBorder(new EmptyBorder(8, 0, 8, 0));
+        instance.setFont(new Font("times new roman", Font.PLAIN, 16));
+        instance.setOpaque(false);
+        return instance;
+    }
+
+    public static SingleMessage getMessageInstance() {
+        return getMessageInstance(" ");
+    }
+
+    public static String getMessageText() {
+        return instance.getText();
+    }
+
+    public static void setDefaultMessage(String message) {
+        instance.setText(message);
+        instance.setIcon(null);
+    }
+
+    public static void setWarningMessage(String message) {
+        instance.setText(message);
+        instance.setIcon(WARNING_IMAGE);
+    }
+
+    public static void setEmptyMessage() {
+        instance.setText(" ");
+        instance.setIcon(null);
     }
 }

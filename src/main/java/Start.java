@@ -25,7 +25,7 @@ public class Start {
     }
 
     public static void startAuthGI() {
-        Controller.getInstance().setUserSet(IOFileHandling.loadUsers());
+        SingleController.getInstance().setUserSet(IOFileHandling.loadUsers());
         try {
             new AuthenticationGI();
         } catch (Exception e) {
@@ -34,7 +34,7 @@ public class Start {
     }
 
     public static void startWorkspaceGI() {
-        Controller.getInstance().setUserSet(IOFileHandling.loadUsers());
+        SingleController.getInstance().setUserSet(IOFileHandling.loadUsers());
         try {
             User user = new User("Admin", "Admin", "ADMIN", "111111", UsersRights.ADMIN);
             user.setAlphabet("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789/*-+=!?., ");
@@ -45,7 +45,7 @@ public class Start {
     }
 
     public static void initUserSet() {
-        Controller controller = Controller.getInstance();
+        SingleController controller = SingleController.getInstance();
         controller.addUser(new User("Admin", "Admin", "ADMIN", "111111", UsersRights.ADMIN));
         controller.addUser(new User("Vitaliy", "Kobrin", "vetal", "<f,tyrjDthf#01", UsersRights.ADMIN));
         controller.addUser(new User("Ivan", "Artemenko", "vanomas", "vanno2012", UsersRights.USER_WITH_SIMPLE_PASSWORD));

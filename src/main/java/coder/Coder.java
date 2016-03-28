@@ -1,6 +1,6 @@
 package coder;
 
-import input_output.Message;
+import input_output.SingleMessage;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -27,7 +27,7 @@ public abstract class Coder {
 
     public void validateMessage(String message) throws IOException {
         if (!checkForForbiddenSymbols(message)) {
-            throw new IOException(Message.FORBIDDEN_SYMBOLS_IN_MESSAGE);
+            throw new IOException(SingleMessage.FORBIDDEN_SYMBOLS_IN_MESSAGE);
         }
     }
 

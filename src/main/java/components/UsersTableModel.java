@@ -1,6 +1,6 @@
 package components;
 
-import model.Controller;
+import model.SingleController;
 import model.User;
 import model.UsersRights;
 
@@ -10,10 +10,10 @@ import java.util.ArrayList;
 
 public class UsersTableModel implements TableModel {
 
-    private Controller controller;
+    private SingleController controller;
     private ArrayList<User> usersList;
 
-    public UsersTableModel(Controller controller, ArrayList<User> usersList) {
+    public UsersTableModel(SingleController controller, ArrayList<User> usersList) {
         this.controller = controller;
         this.usersList = usersList;
     }

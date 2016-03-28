@@ -9,17 +9,24 @@
     <list default="true" id="1a224610-b307-43d0-9d75-289dee36800b" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/Start.java" afterPath="$PROJECT_DIR$/src/main/java/Start.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/coder/CeasarCoder.java" afterPath="$PROJECT_DIR$/src/main/java/coder/CeasarCoder.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/coder/Coder.java" afterPath="$PROJECT_DIR$/src/main/java/coder/Coder.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/coder/VerrnamCoder.java" afterPath="$PROJECT_DIR$/src/main/java/coder/VerrnamCoder.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/coder/VigenereCoder.java" afterPath="$PROJECT_DIR$/src/main/java/coder/VigenereCoder.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/components/BoxPanel.java" afterPath="$PROJECT_DIR$/src/main/java/components/BoxPanel.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/components/UsersTableModel.java" afterPath="$PROJECT_DIR$/src/main/java/components/UsersTableModel.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/input_output/IOFileHandling.java" afterPath="$PROJECT_DIR$/src/main/java/input_output/IOFileHandling.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/model/Controller.java" afterPath="$PROJECT_DIR$/src/main/java/model/Controller.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/model/RegisterManager.java" afterPath="$PROJECT_DIR$/src/main/java/model/RegisterManager.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/model/Validator.java" afterPath="$PROJECT_DIR$/src/main/java/model/Validator.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/user_gi/AddEmptyUserGI.java" afterPath="$PROJECT_DIR$/src/main/java/user_gi/AddEmptyUserGI.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/user_gi/AuthenticationGI.java" afterPath="$PROJECT_DIR$/src/main/java/user_gi/AuthenticationGI.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/user_gi/SetLastModifiedTimeGI.java" afterPath="$PROJECT_DIR$/src/main/java/user_gi/SetLastModifiedTimeGI.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/user_gi/SettingsGI.java" afterPath="$PROJECT_DIR$/src/main/java/user_gi/SettingsGI.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/user_gi/UsersInfoGI.java" afterPath="$PROJECT_DIR$/src/main/java/user_gi/UsersInfoGI.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/user_gi/WorkspaceGI.java" afterPath="$PROJECT_DIR$/src/main/java/user_gi/WorkspaceGI.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/utils/WorkspaceUtil.java" afterPath="$PROJECT_DIR$/src/main/java/utils/WorkspaceUtil.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/model/RegisterUtil.java" afterPath="$PROJECT_DIR$/src/main/java/model/RegisterManager.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/model/SystemProperties.java" afterPath="$PROJECT_DIR$/src/main/java/model/SystemPropertiesReader.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/user_gi/CreationTimeGI.java" afterPath="$PROJECT_DIR$/src/main/java/user_gi/SetLastModifiedTimeGI.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/input_output/Message.java" afterPath="$PROJECT_DIR$/src/main/java/input_output/SingleMessage.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/model/Controller.java" afterPath="$PROJECT_DIR$/src/main/java/model/SingleController.java" />
     </list>
     <list id="7315dd26-8ff5-40d2-aa21-c262fbd1f635" name="Failed commit: Default" comment="change rights politic, add UserInfoPanelsList" />
     <ignored path="NBKS-Lab.iws" />
@@ -44,11 +51,31 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="Start.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/Start.java">
+      <file leaf-file-name="SetLastModifiedTimeGI.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/user_gi/SetLastModifiedTimeGI.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="22" column="27" selection-start-line="22" selection-start-column="27" selection-end-line="22" selection-end-column="27" />
+              <caret line="53" column="65" selection-start-line="53" selection-start-column="65" selection-end-line="53" selection-end-column="65" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="BoxPanel.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/components/BoxPanel.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="72" column="5" selection-start-line="72" selection-start-column="5" selection-end-line="72" selection-end-column="5" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SingleMessage.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/input_output/SingleMessage.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="41" column="84" selection-start-line="41" selection-start-column="84" selection-end-line="41" selection-end-column="84" />
               <folding />
             </state>
           </provider>
@@ -58,17 +85,27 @@
         <entry file="file://$PROJECT_DIR$/src/main/java/user_gi/AuthenticationGI.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="298" column="45" selection-start-line="298" selection-start-column="45" selection-end-line="298" selection-end-column="45" />
+              <caret line="309" column="69" selection-start-line="309" selection-start-column="69" selection-end-line="309" selection-end-column="69" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Controller.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/java/model/Controller.java">
+      <file leaf-file-name="SettingsGI.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/user_gi/SettingsGI.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.4586331">
-              <caret line="15" column="46" selection-start-line="15" selection-start-column="46" selection-end-line="15" selection-end-column="46" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="181" column="9" selection-start-line="181" selection-start-column="9" selection-end-line="181" selection-end-column="9" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SingleController.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/model/SingleController.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="34" column="24" selection-start-line="34" selection-start-column="24" selection-end-line="34" selection-end-column="24" />
               <folding />
             </state>
           </provider>
@@ -78,7 +115,7 @@
         <entry file="file://$PROJECT_DIR$/src/main/java/user_gi/AddEmptyUserGI.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="92" column="41" selection-start-line="92" selection-start-column="41" selection-end-line="92" selection-end-column="41" />
+              <caret line="91" column="48" selection-start-line="91" selection-start-column="48" selection-end-line="91" selection-end-column="48" />
               <folding />
             </state>
           </provider>
@@ -98,47 +135,17 @@
         <entry file="file://$PROJECT_DIR$/src/main/java/model/RegisterManager.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="15" column="56" selection-start-line="15" selection-start-column="56" selection-end-line="15" selection-end-column="56" />
+              <caret line="12" column="56" selection-start-line="12" selection-start-column="56" selection-end-line="12" selection-end-column="56" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="UsersInfoGI.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="UsersInfoGI.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/user_gi/UsersInfoGI.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="122" column="37" selection-start-line="122" selection-start-column="37" selection-end-line="122" selection-end-column="37" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="SettingsGI.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/user_gi/SettingsGI.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="162" column="41" selection-start-line="162" selection-start-column="41" selection-end-line="162" selection-end-column="41" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="IOFileHandling.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/input_output/IOFileHandling.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="14" column="57" selection-start-line="14" selection-start-column="57" selection-end-line="14" selection-end-column="57" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="WorkspaceUtil.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/utils/WorkspaceUtil.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="44" column="90" selection-start-line="44" selection-start-column="90" selection-end-line="44" selection-end-column="90" />
+            <state vertical-scroll-proportion="0.83633095">
+              <caret line="160" column="44" selection-start-line="160" selection-start-column="44" selection-end-line="160" selection-end-column="44" />
               <folding />
             </state>
           </provider>
@@ -164,8 +171,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/main/java/support/PasswordDigest.java" />
-        <option value="$PROJECT_DIR$/src/main/java/support/User.java" />
         <option value="$PROJECT_DIR$/src/main/java/usersInfo/UsersTableModel.java" />
         <option value="$PROJECT_DIR$/src/main/java/support/Validator.java" />
         <option value="$PROJECT_DIR$/src/main/java/support/Controller.java" />
@@ -181,7 +186,6 @@
         <option value="$PROJECT_DIR$/src/main/java/GI/AddEmptyUserGI.java" />
         <option value="$PROJECT_DIR$/src/main/java/GI/WorkspaceGI.java" />
         <option value="$PROJECT_DIR$/src/main/java/utils/TextAreasListener.java" />
-        <option value="$PROJECT_DIR$/src/main/java/input_output/Message.java" />
         <option value="$PROJECT_DIR$/src/main/java/components/SteppedComboBox.java" />
         <option value="$PROJECT_DIR$/src/main/java/components/SteppedComboBoxUI.java" />
         <option value="$PROJECT_DIR$/src/main/java/utils/KeyFieldListener.java" />
@@ -204,17 +208,20 @@
         <option value="$PROJECT_DIR$/src/main/java/user_gi/CreationTimeGI.java" />
         <option value="$PROJECT_DIR$/src/main/java/user_gi/LastModifiedTimeGI.java" />
         <option value="$PROJECT_DIR$/src/main/java/model/SystemPropertiesReader.java" />
-        <option value="$PROJECT_DIR$/src/main/java/user_gi/SetLastModifiedTimeGI.java" />
-        <option value="$PROJECT_DIR$/src/main/java/user_gi/AuthenticationGI.java" />
         <option value="$PROJECT_DIR$/src/main/java/utils/WorkspaceUtil.java" />
         <option value="$PROJECT_DIR$/src/main/java/input_output/IOFileHandling.java" />
-        <option value="$PROJECT_DIR$/src/main/java/user_gi/SettingsGI.java" />
         <option value="$PROJECT_DIR$/src/main/java/Start.java" />
-        <option value="$PROJECT_DIR$/src/main/java/user_gi/UsersInfoGI.java" />
         <option value="$PROJECT_DIR$/src/main/java/user_gi/WorkspaceGI.java" />
-        <option value="$PROJECT_DIR$/src/main/java/user_gi/AddEmptyUserGI.java" />
         <option value="$PROJECT_DIR$/src/main/java/model/RegisterManager.java" />
         <option value="$PROJECT_DIR$/src/main/java/model/Controller.java" />
+        <option value="$PROJECT_DIR$/src/main/java/components/BoxPanel.java" />
+        <option value="$PROJECT_DIR$/src/main/java/input_output/Message.java" />
+        <option value="$PROJECT_DIR$/src/main/java/user_gi/AuthenticationGI.java" />
+        <option value="$PROJECT_DIR$/src/main/java/user_gi/SettingsGI.java" />
+        <option value="$PROJECT_DIR$/src/main/java/user_gi/AddEmptyUserGI.java" />
+        <option value="$PROJECT_DIR$/src/main/java/input_output/SingleMessage.java" />
+        <option value="$PROJECT_DIR$/src/main/java/user_gi/SetLastModifiedTimeGI.java" />
+        <option value="$PROJECT_DIR$/src/main/java/user_gi/UsersInfoGI.java" />
       </list>
     </option>
   </component>
@@ -760,7 +767,7 @@
       <workItem from="1458503905982" duration="3050000" />
       <workItem from="1458842180974" duration="6997000" />
       <workItem from="1459087664131" duration="98000" />
-      <workItem from="1459169273608" duration="2131000" />
+      <workItem from="1459169273608" duration="4167000" />
     </task>
     <task id="LOCAL-00001" summary="change validatePassword">
       <created>1443780378840</created>
@@ -772,7 +779,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="58651000" />
+    <option name="totallyTimeSpent" value="60687000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1296" height="936" extended-state="6" />
@@ -865,7 +872,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/model/Controller.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/model/SingleController.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="30" column="33" selection-start-line="30" selection-start-column="33" selection-end-line="30" selection-end-column="33" />
@@ -902,14 +909,14 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/input_output/Message.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/input_output/SingleMessage.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="17" column="70" selection-start-line="17" selection-start-column="70" selection-end-line="17" selection-end-column="70" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/model/Controller.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/model/SingleController.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="85" column="0" selection-start-line="85" selection-start-column="0" selection-end-line="85" selection-end-column="0" />
@@ -1009,22 +1016,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="12" column="0" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/components/BoxPanel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="14" column="11" selection-start-line="14" selection-start-column="11" selection-end-line="14" selection-end-column="11" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/input_output/Message.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="6" column="13" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
           <folding />
         </state>
       </provider>
@@ -1142,34 +1133,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/user_gi/SetLastModifiedTimeGI.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="30" column="0" selection-start-line="30" selection-start-column="0" selection-end-line="30" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/user_gi/AuthenticationGI.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="298" column="45" selection-start-line="298" selection-start-column="45" selection-end-line="298" selection-end-column="45" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/input_output/IOFileHandling.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="14" column="57" selection-start-line="14" selection-start-column="57" selection-end-line="14" selection-end-column="57" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/user_gi/SettingsGI.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="162" column="41" selection-start-line="162" selection-start-column="41" selection-end-line="162" selection-end-column="41" />
           <folding />
         </state>
       </provider>
@@ -1190,14 +1157,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/user_gi/UsersInfoGI.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="122" column="37" selection-start-line="122" selection-start-column="37" selection-end-line="122" selection-end-column="37" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/user_gi/WorkspaceGI.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1206,26 +1165,74 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/user_gi/AddEmptyUserGI.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="92" column="41" selection-start-line="92" selection-start-column="41" selection-end-line="92" selection-end-column="41" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/model/RegisterManager.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="15" column="56" selection-start-line="15" selection-start-column="56" selection-end-line="15" selection-end-column="56" />
+          <caret line="12" column="56" selection-start-line="12" selection-start-column="56" selection-end-line="12" selection-end-column="56" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/model/Controller.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/model/SingleController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.4586331">
-          <caret line="15" column="46" selection-start-line="15" selection-start-column="46" selection-end-line="15" selection-end-column="46" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="34" column="24" selection-start-line="34" selection-start-column="24" selection-end-line="34" selection-end-column="24" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/components/BoxPanel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="72" column="5" selection-start-line="72" selection-start-column="5" selection-end-line="72" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/user_gi/SettingsGI.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="181" column="9" selection-start-line="181" selection-start-column="9" selection-end-line="181" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/user_gi/AddEmptyUserGI.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="91" column="48" selection-start-line="91" selection-start-column="48" selection-end-line="91" selection-end-column="48" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/user_gi/AuthenticationGI.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="309" column="69" selection-start-line="309" selection-start-column="69" selection-end-line="309" selection-end-column="69" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/input_output/SingleMessage.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="41" column="84" selection-start-line="41" selection-start-column="84" selection-end-line="41" selection-end-column="84" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/user_gi/SetLastModifiedTimeGI.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="53" column="65" selection-start-line="53" selection-start-column="65" selection-end-line="53" selection-end-column="65" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/user_gi/UsersInfoGI.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.83633095">
+          <caret line="160" column="44" selection-start-line="160" selection-start-column="44" selection-end-line="160" selection-end-column="44" />
           <folding />
         </state>
       </provider>

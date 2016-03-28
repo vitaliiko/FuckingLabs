@@ -1,7 +1,7 @@
 package user_gi;
 
 import input_output.IOFileHandling;
-import input_output.Message;
+import input_output.SingleMessage;
 import components.BoxPanel;
 import model.*;
 import components.UserInfoPanel;
@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 
 public class UsersInfoGI extends JFrame {
 
-    private Controller controller;
+    private SingleController controller;
     private ArrayList<User> usersList;
     private ArrayList<JPanel> userInfoPanelsList;
     private int usersIndex;
@@ -34,20 +34,18 @@ public class UsersInfoGI extends JFrame {
     private JButton saveButton;
     private JButton showInfoButton;
     private JButton removeButton;
-    private JLabel messageLabel;
     private JTable usersTable;
 
     public UsersInfoGI() throws HeadlessException {
         super("Users");
-        this.controller = Controller.getInstance();
+        this.controller = SingleController.getInstance();
         usersList = new ArrayList<>(controller.getUserSet());
         userInfoPanelsList = new ArrayList<>();
         userInfoPanelsList.addAll(usersList.stream().map(UserInfoPanel::new).collect(Collectors.toList()));
 
         FrameUtils.setLookAndFeel();
 
-        messageLabel = Message.prepareMessageLabel(Message.USER_LIST);
-        getContentPane().add(messageLabel, BorderLayout.NORTH);
+        getContentPane().add(SingleMessage.getMessageInstance(SingleMessage.USER_LIST), BorderLayout.NORTH);
 
         prepareCenterPanel();
         getContentPane().add(centerPanel, BorderLayout.CENTER);
@@ -110,7 +108,7 @@ public class UsersInfoGI extends JFrame {
             usersIndex = usersTable.getSelectedRow();
             userInfoPanelsList.get(usersIndex).setVisible(true);
             checkButtonsEnabled();
-            messageLabel.setText(Message.USER_INFO);
+            SingleMessage.setDefaultMessage(SingleMessage.USER_INFO);
         });
     }
 
@@ -160,7 +158,7 @@ public class UsersInfoGI extends JFrame {
             viewUserInfoPanel.setVisible(false);
             userInfoPanelsList.get(usersIndex).setVisible(false);
             tablePanel.setVisible(true);
-            messageLabel.setText(Message.USER_LIST);
+            SingleMessage.setDefaultMessage(SingleMessage.USER_LIST);
             usersIndex = 0;
 
         });

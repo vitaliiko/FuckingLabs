@@ -1,6 +1,6 @@
 package input_output;
 
-import model.Controller;
+import model.SingleController;
 import model.User;
 
 import javax.swing.*;
@@ -12,7 +12,7 @@ public class IOFileHandling {
     public final static String USERS_SER = "IOFiles/users.ser";
 
     public static void saveUsers() {
-        Controller controller = Controller.getInstance();
+        SingleController controller = SingleController.getInstance();
         User admin = controller.getAdmin();
         try {
             ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(USERS_SER));

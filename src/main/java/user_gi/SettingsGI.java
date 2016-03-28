@@ -1,7 +1,7 @@
 package user_gi;
 
 import input_output.IOFileHandling;
-import input_output.Message;
+import input_output.SingleMessage;
 import components.BoxPanel;
 import components.LabelComponentPanel;
 import model.*;
@@ -20,7 +20,7 @@ public class SettingsGI extends JDialog {
     private static final int COLUMNS_COUNT = 24;
 
     private User user;
-    private Controller controller;
+    private SingleController controller;
     private JFrame frame;
 
     private JPanel fieldsPanel;
@@ -36,14 +36,13 @@ public class SettingsGI extends JDialog {
     private JButton saveButton;
     private JButton cancelButton;
     private JButton removeButton;
-    private JLabel messageLabel;
     private TypeListener typeListener;
 
     public SettingsGI(Frame frame, User user) {
         super(frame);
         this.frame = (JFrame) frame;
         this.user = user;
-        this.controller = Controller.getInstance();
+        this.controller = SingleController.getInstance();
         typeListener = new TypeListener();
 
         FrameUtils.setLookAndFeel();
@@ -52,8 +51,7 @@ public class SettingsGI extends JDialog {
     }
 
     private void prepareComponents() {
-        messageLabel = Message.prepareMessageLabel(Message.SETTINGS);
-        getContentPane().add(messageLabel, BorderLayout.NORTH);
+        getContentPane().add(SingleMessage.getMessageInstance(SingleMessage.SETTINGS), BorderLayout.NORTH);
         prepareFieldsPanel();
         getContentPane().add(fieldsPanel, BorderLayout.EAST);
 
@@ -158,16 +156,14 @@ public class SettingsGI extends JDialog {
                 if (isNotPasswordsFieldsEmpty()) {
                     passwordsChecker();
                 }
-                messageLabel.setIcon(null);
-                messageLabel.setText(Message.SAVED);
+                SingleMessage.setDefaultMessage(SingleMessage.SAVED);
                 IOFileHandling.saveUsers();
                 currentPasswordField.setText("");
                 newPasswordField.setText("");
                 repeatPasswordField.setText("");
                 saveButton.setEnabled(false);
             } catch (IOException e1) {
-                messageLabel.setIcon(Message.WARNING_IMAGE);
-                messageLabel.setText(e1.getMessage());
+                SingleMessage.setWarningMessage(e1.getMessage());
             }
         });
     }
@@ -178,7 +174,7 @@ public class SettingsGI extends JDialog {
             if (controller.validateUsername(username)) {
                 for (String s : controller.getUserNameMap().keySet()) {
                     if (s.equals(username)) {
-                        throw new IOException(Message.EXIST_USER);
+                        throw new IOException(SingleMessage.EXIST_USER);
                     }
                 }
                 user.setLogin(username);
@@ -188,10 +184,10 @@ public class SettingsGI extends JDialog {
 
     public void passwordsChecker() throws IOException {
         if (!user.isPasswordsMatches(currentPasswordField.getPassword())) {
-            throw new IOException(Message.INCORRECT_PASSWORD);
+            throw new IOException(SingleMessage.INCORRECT_PASSWORD);
         }
         if (!Arrays.equals(newPasswordField.getPassword(), repeatPasswordField.getPassword())) {
-            throw new IOException(Message.PASSWORDS_DOES_NOT_MATCH);
+            throw new IOException(SingleMessage.PASSWORDS_DOES_NOT_MATCH);
         }
         if (user.getRights() == UsersRights.USER_WITH_SIMPLE_PASSWORD ||
                 user.getRights() == UsersRights.LOCK_USERNAME_WITH_SIMPLE_PASSWORD) {
