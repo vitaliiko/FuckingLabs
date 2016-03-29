@@ -66,7 +66,7 @@ public class AuthenticationGI extends JFrame {
 
     private void checkAttempts() {
         if (!SingleController.getInstance().checkAttempts()) {
-            loginButton.setEnabled(false);
+            loginButton.setVisible(false);
             createNewButton.setEnabled(false);
         }
     }
