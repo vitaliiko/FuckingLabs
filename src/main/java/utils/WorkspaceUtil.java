@@ -2,7 +2,6 @@ package utils;
 
 import model.User;
 import model.UsersRights;
-import model.Virus;
 import user_gi.*;
 
 import javax.swing.*;
@@ -77,11 +76,7 @@ public class WorkspaceUtil {
 
     private JMenu prepareVirusMenu() {
         JMenu virusMenu = new JMenu("Virus");
-        createMenuItem(virusMenu, "Search .exe files", null, e -> {
-            Virus.getInstance().searchFiles();
-//            String output = String.join("\n\r", Virus.getInstance().searchFiles());
-//            FrameUtils.showErrorDialog(workspaceGI, output);
-        });
+        createMenuItem(virusMenu, "Search .exe files", null, e -> new VirusGI());
         return virusMenu;
     }
 
@@ -90,12 +85,10 @@ public class WorkspaceUtil {
 
         JMenuItem aboutItem = new JMenuItem("About           ");
         aboutItem.addActionListener(e -> JOptionPane.showConfirmDialog(null,
-                "<html>" +
-                        "Програму розробли студенти групи СПС-1466 <br>" +
-                        "Артеменко І.Ю.<br>" +
-                        "Кобрін В.О.<br>" +
-                        "Петров Д.В.<br>" +
-                        "</html>",
+                        "Програму розробли студенти групи СПС-1466\r\n" +
+                        "Артеменко І.Ю.\r\n" +
+                        "Кобрін В.О.\r\n" +
+                        "Петров Д.В.\r\n",
                 "About",
                 JOptionPane.DEFAULT_OPTION));
         helpMenu.add(aboutItem);

@@ -45,12 +45,8 @@ public class CardanGrilleCoder extends Coder {
                     charsGrille[i][j] = inputText.charAt(charNum[0]++);
                 }
             });
-
-            byte[][] turnedKey = new byte[ARR_SIZE][ARR_SIZE];
-            doCycle((i, j) -> turnedKey[j][ARR_SIZE - 1 - i] = this.key[i][j]);
-            this.key = turnedKey;
+            turnKey();
         }
-
         String[] output = {""};
         doCycle((i, j) -> output[0] += charsGrille[i][j]);
         return output[0];
@@ -68,10 +64,7 @@ public class CardanGrilleCoder extends Coder {
                     output[0] += charsGrille[i][j];
                 }
             });
-
-            byte[][] turnedKey = new byte[ARR_SIZE][ARR_SIZE];
-            doCycle((i, j) -> turnedKey[j][ARR_SIZE - 1 - i] = this.key[i][j]);
-            this.key = turnedKey;
+            turnKey();
         }
 
         return output[0];
@@ -80,6 +73,12 @@ public class CardanGrilleCoder extends Coder {
     @Override
     public void validateKey(String key) throws IOException {
 
+    }
+
+    private void turnKey() {
+        byte[][] turnedKey = new byte[ARR_SIZE][ARR_SIZE];
+        doCycle((i, j) -> turnedKey[j][ARR_SIZE - 1 - i] = this.key[i][j]);
+        this.key = turnedKey;
     }
 
     private void doCycle(BiConsumer<Integer, Integer> consumer) {

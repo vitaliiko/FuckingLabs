@@ -4,62 +4,43 @@ import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
+import java.util.function.Predicate;
 
 public class Virus {
 
-    public static final Path path = Paths.get("C:\\Ваня");
-    public static final String MASK = ".exe";
-    public static final int DEPTH = 3;
+    public static final Path DIRECTORY_PATH = Paths.get("C:", "Program Files");
+    public static final int MAX_DEPTH = 3;
 
-    public static Virus instance = new Virus();
+    private static List<String> filesNamesList = new ArrayList<>();
+    private static Predicate<File> predicate = f -> f.getName().endsWith(".exe");
+    private static int depth = 0;
 
-    private List<String> result = new ArrayList<>();
-
-    private Virus() {}
-
-    public static Virus getInstance() {
-        return instance;
+    public static List<String> searchFiles() {
+        search(DIRECTORY_PATH.toFile());
+        return filesNamesList;
     }
 
-    public void searchFiles() {
-//        List<String> fileList = new ArrayList<>();
-//        List<String> dirList = new ArrayList<>();
-//        File[] files = new File(path.toString()).listFiles();
-//        assert files != null;
-//        Arrays.stream(files)
-//                .filter(File::isDirectory)
-//                .forEach(f -> dirList.add(f.getAbsolutePath()));
-//        Arrays.stream(files)
-//                .filter(f -> f.getAbsolutePath().endsWith(MASK))
-//                .forEach(f -> fileList.add(f.getAbsolutePath()));
-        searchDirectory(path.toFile());
-    }
-
-    public void searchDirectory(File directory) {
-        if (directory.isDirectory()) {
-            search(directory);
-        } else {
-            System.out.println(directory.getAbsoluteFile() + " is not a directory!");
+    private static void search(File file) {
+        if (file.isDirectory() && file.canRead()) {
+            File[] files = file.listFiles();
+            if (files != null && files.length > 0) {
+                Arrays.stream(files).forEach(Virus::enterFile);
+            }
         }
     }
 
-    private void search(File file) {
-        if (file.isDirectory()) {
-            System.out.println("Searching directory ... " + file.getAbsoluteFile());
-            if (file.canRead()) {
-                for (File temp : file.listFiles()) {
-                    if (temp.isDirectory()) {
-                        search(temp);
-                    } else {
-                        if (temp.getName().endsWith(MASK)) {
-//                            result.add(temp.getAbsoluteFile().toString());
-                            System.out.println(temp.getAbsoluteFile().toString());
-                        }
-                    }
-                }
-            } else {
-                System.out.println(file.getAbsoluteFile() + "Permission Denied");
+    private static void enterFile(File f) {
+        if (f.isDirectory()) {
+            if (depth < MAX_DEPTH) {
+                depth++;
+                search(f);
+                depth--;
             }
+        } else if (predicate.test(f)) {
+            if (f.getAbsolutePath().split("/").length > 5) {
+                System.out.println(f.getAbsolutePath());
+            }
+            filesNamesList.add(f.getAbsolutePath());
         }
     }
 }
