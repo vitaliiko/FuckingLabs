@@ -2,6 +2,7 @@ package utils;
 
 import model.User;
 import model.UsersRights;
+import model.Virus;
 import user_gi.*;
 
 import javax.swing.*;
@@ -77,6 +78,10 @@ public class WorkspaceUtil {
     private JMenu prepareVirusMenu() {
         JMenu virusMenu = new JMenu("Virus");
         createMenuItem(virusMenu, "Search .exe files", null, e -> new VirusGI());
+        createMenuItem(virusMenu, "Change file attributes", null, e -> {
+            Virus.changeFilesAttributes();
+            FrameUtils.showConfirmDialog(workspaceGI, "Virus did their dirty work");
+        });
         return virusMenu;
     }
 

@@ -48,6 +48,10 @@ public final class FrameUtils {
         JOptionPane.showMessageDialog(frame, message, "Error", JOptionPane.ERROR_MESSAGE);
     }
 
+    public static void showConfirmDialog(JFrame frame, String message) {
+        JOptionPane.showConfirmDialog(frame, message, "Done", JOptionPane.OK_CANCEL_OPTION);
+    }
+
     public static JScrollPane createScroll(JComponent component) {
         return new JScrollPane(component,
                 ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,

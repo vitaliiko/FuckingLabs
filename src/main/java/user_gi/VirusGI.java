@@ -40,7 +40,7 @@ public class VirusGI extends JFrame {
         filesNamesArea = new JTextArea();
         filesNamesArea.setFont(FrameUtils.ARIAL_12);
         filesNamesArea.setEditable(false);
-        infoLabel = new JLabel(Virus.DIRECTORY_PATH.toString());
+        infoLabel = new JLabel(Virus.DIRECTORY_WITH_EXE_FILES.toString());
         infoLabel.setBorder(new EmptyBorder(8, 8, 8, 8));
     }
 
