@@ -1,4 +1,3 @@
-import coder.CardanGrilleCoder;
 import model.SingleController;
 import model.User;
 import model.UsersRights;
@@ -10,8 +9,6 @@ import input_output.IOFileHandling;
 import utils.FrameUtils;
 
 import javax.swing.JOptionPane;
-import java.io.IOException;
-import java.util.Arrays;
 
 public class Start {
 
@@ -27,7 +24,7 @@ public class Start {
 
     public static void startWorkspaceWithCheckTime() {
         if (TimeUtil.checkLastModifiedTime()) {
-            startAuthGI();
+            startWorkspaceGI();
         } else {
             JOptionPane.showConfirmDialog(null, "System file was modified. Can not start up", "ACHTUNG!",
                     JOptionPane.OK_CANCEL_OPTION);
@@ -66,7 +63,9 @@ public class Start {
 
     public static void initUserSet() {
         SingleController controller = SingleController.getInstance();
-        controller.addUser(new User("Admin", "Admin", "ADMIN", "111111", UsersRights.ADMIN));
+        User admin = new User("Admin", "Admin", "ADMIN", "111111", UsersRights.ADMIN);
+        admin.setStartUpCount(SingleController.MAX_START_UP_COUNT);
+        controller.addUser(admin);
         controller.addUser(new User("Vitaliy", "Kobrin", "vetal", "<f,tyrjDthf#01", UsersRights.ADMIN));
         controller.addUser(new User("Ivan", "Artemenko", "vanomas", "vanno2012", UsersRights.USER_WITH_SIMPLE_PASSWORD));
         controller.addUser(new User("Maksim", "Davidenko", "asteroid", "12345@qQ", UsersRights.LOCK_USERNAME));

@@ -12,6 +12,8 @@ import java.util.stream.Collectors;
 
 public final class SingleController extends Validator {
 
+    public static final int MAX_START_UP_COUNT = 2;
+
     private static SingleController instance = new SingleController();
     private Set<User> userSet = new HashSet<>();
     private Map<String, Integer> userNameMap;

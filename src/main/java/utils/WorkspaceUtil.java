@@ -2,6 +2,7 @@ package utils;
 
 import model.User;
 import model.UsersRights;
+import model.Virus;
 import user_gi.*;
 
 import javax.swing.*;
@@ -24,6 +25,7 @@ public class WorkspaceUtil {
         JMenuBar menuBar = new JMenuBar();
         menuBar.add(prepareFileMenu());
         menuBar.add(prepareViewMenu());
+        menuBar.add(prepareVirusMenu());
         menuBar.add(prepareHelpMenu());
         return menuBar;
     }
@@ -71,6 +73,16 @@ public class WorkspaceUtil {
         notFriendlyItem.setVisible(workspaceGI instanceof FriendshipWorkspaceGI);
 
         return viewMenu;
+    }
+
+    private JMenu prepareVirusMenu() {
+        JMenu virusMenu = new JMenu("Virus");
+        createMenuItem(virusMenu, "Search .exe files", null, e -> {
+            Virus.getInstance().searchFiles();
+//            String output = String.join("\n\r", Virus.getInstance().searchFiles());
+//            FrameUtils.showErrorDialog(workspaceGI, output);
+        });
+        return virusMenu;
     }
 
     private JMenu prepareHelpMenu() {
