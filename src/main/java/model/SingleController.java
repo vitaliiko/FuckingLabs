@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 
 public final class SingleController extends Validator {
 
-    public static final int MAX_START_UP_COUNT = 2;
+    public static final int MAX_START_UP_COUNT = 10;
 
     private static SingleController instance = new SingleController();
     private Set<User> userSet = new HashSet<>();
@@ -59,6 +59,11 @@ public final class SingleController extends Validator {
 
     public int getAttempts() {
         return getAdmin().getStartUpCount();
+    }
+
+    public void setUsbSerial(User user, String usbSerial) {
+        user.setUbsSerial(usbSerial);
+        IOFileHandling.saveUsers();
     }
 
     public void createUser(String name, String surname, String userName, char[] password, int rights)
@@ -111,13 +116,19 @@ public final class SingleController extends Validator {
     }
 
     public User authorizedUsers(String userName, char[] password) {
+        UsbDeviceManager.searchStorageDevicesSerials();
         for (User user : userSet) {
             if (user.isMatches(userName, password)) {
-                getAdmin().setStartUpCount(getAdmin().getStartUpCount() - 1);
-                IOFileHandling.saveUsers();
-                return user;
+                if (UsbDeviceManager.isTokenConnected(user.getUbsSerial())) {
+                    getAdmin().setStartUpCount(getAdmin().getStartUpCount() - 1);
+                    IOFileHandling.saveUsers();
+                    return user;
+                }
+                SingleMessage.setWarningMessage(SingleMessage.TOKEN_DOES_NOT_CONNECTED);
+                return null;
             }
         }
+        SingleMessage.setWarningMessage(SingleMessage.WRONG_USER);
         return null;
     }
 

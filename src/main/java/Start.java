@@ -1,4 +1,3 @@
-import input_output.CommandLineInterpreter;
 import model.*;
 import user_gi.FriendlyWorkspaceGI;
 import user_gi.AuthenticationGI;
@@ -17,26 +16,14 @@ public class Start {
 //        startAuthGI();
         startWorkspaceWithCheckTime();
 //        startFriendshipGI();
-
-
     }
 
     public static void startWorkspaceWithCheckTime() {
         if (TimeUtil.checkLastModifiedTime()) {
-            startWorkspaceGI();
+            startAuthGI();
         } else {
             JOptionPane.showConfirmDialog(null, "System file was modified. Can not start up", "ACHTUNG!",
                     JOptionPane.OK_CANCEL_OPTION);
-        }
-    }
-
-    public static void startFriendshipGI() {
-        SingleController.getInstance().setUserSet(IOFileHandling.loadUsers());
-        try {
-            User user = new User("Admin", "Admin", "ADMIN", "111111", UsersRights.ADMIN);
-            new FriendlyWorkspaceGI(user);
-        } catch (Exception e) {
-            e.printStackTrace();
         }
     }
 

@@ -40,6 +40,7 @@ public class WorkspaceUtil {
             }
         });
         createMenuItem(fileMenu, "Settings          ", "settings.png", e -> new SettingsGI(workspaceGI, user));
+        createMenuItem(fileMenu, "Attach USB-token", "usb_small.png", e -> new SetTokenGI(user));
         if (user.getRights() == UsersRights.ADMIN) {
             createMenuItem(fileMenu, "Change time", "clock.png", e -> new SetLastModifiedTimeGI(workspaceGI));
             createMenuItem(fileMenu, "Users info", "users.png", e -> usersInfoGI = new UsersInfoGI());

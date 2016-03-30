@@ -121,9 +121,7 @@ public class AuthenticationGI extends JFrame {
             User user = SingleController.getInstance().authorizedUsers(
                     ((JTextField) usernameBox.getEditor().getEditorComponent()).getText(),
                     passwordField.getPassword());
-            if (user == null) {
-                SingleMessage.setWarningMessage(SingleMessage.WRONG_USER);
-            } else {
+            if (user != null) {
                 setVisible(false);
                 clearFields();
                 rights = -1;

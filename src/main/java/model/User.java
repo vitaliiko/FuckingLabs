@@ -16,6 +16,7 @@ public class User implements Serializable {
     private Integer month = 1;
     private Integer year = 1990;
     private int startUpCount;
+    private String ubsSerial;
 
     public User(String firstName, String lastName, String login, String password, int rights) {
         this.firstName = firstName;
@@ -124,6 +125,14 @@ public class User implements Serializable {
 
     public void setStartUpCount(int startUpCount) {
         this.startUpCount = startUpCount;
+    }
+
+    public String getUbsSerial() {
+        return ubsSerial;
+    }
+
+    public void setUbsSerial(String ubsSerial) {
+        this.ubsSerial = ubsSerial;
     }
 
     public boolean isMatches(String userName, char[] password) {
