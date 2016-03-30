@@ -1,4 +1,4 @@
-package utils;
+package model;
 
 import components.SingleMessage;
 import input_output.IOFileHandling;

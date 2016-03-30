@@ -3,8 +3,8 @@ package user_gi;
 import coder.*;
 import components.BoxPanel;
 import model.User;
-import utils.FrameUtils;
-import utils.WorkspaceUtil;
+import frame_utils.FrameUtils;
+import frame_utils.WorkspaceUtil;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;

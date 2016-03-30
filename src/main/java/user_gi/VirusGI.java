@@ -1,7 +1,7 @@
 package user_gi;
 
 import model.Virus;
-import utils.FrameUtils;
+import frame_utils.FrameUtils;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;

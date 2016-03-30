@@ -1,4 +1,4 @@
-package utils;
+package frame_utils;
 
 import user_gi.WorkspaceGI;
 

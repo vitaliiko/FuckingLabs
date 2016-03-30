@@ -1,4 +1,4 @@
-package utils;
+package frame_utils;
 
 import input_output.TextFileFilter;
 
@@ -65,7 +65,7 @@ public final class FrameUtils {
     }
 
     public static JPanel createLabelGridPanel(int alignment, String... strings) {
-        JPanel panel = createPanel(strings.length, 6);
+        JPanel panel = createGridPanel(strings.length, 6);
         for (String s : strings) {
             JLabel label = new JLabel(s, alignment);
             panel.add(label);
@@ -74,14 +74,14 @@ public final class FrameUtils {
     }
 
     public static JPanel createComponentsGridPanel(Component... components) {
-        JPanel panel = createPanel(components.length, 6);
+        JPanel panel = createGridPanel(components.length, 6);
         for (Component component : components) {
             panel.add(component);
         }
         return panel;
     }
 
-    private static JPanel createPanel(int rowCount, int distance) {
+    private static JPanel createGridPanel(int rowCount, int distance) {
         JPanel panel = new JPanel(new GridLayout(rowCount, 1, 0, distance));
         panel.setOpaque(false);
         panel.setBorder(new EmptyBorder(0, 5, 8, 0));

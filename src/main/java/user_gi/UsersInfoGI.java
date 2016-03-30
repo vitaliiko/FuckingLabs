@@ -6,7 +6,7 @@ import components.BoxPanel;
 import model.*;
 import components.UserInfoPanel;
 import components.UsersTableModel;
-import utils.FrameUtils;
+import frame_utils.FrameUtils;
 
 import javax.swing.*;
 import javax.swing.table.TableModel;

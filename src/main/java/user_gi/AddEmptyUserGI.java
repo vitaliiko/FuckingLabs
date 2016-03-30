@@ -6,7 +6,7 @@ import components.SingleMessage;
 import model.SingleController;
 import input_output.IOFileHandling;
 import model.UsersRights;
-import utils.FrameUtils;
+import frame_utils.FrameUtils;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;

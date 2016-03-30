@@ -1,4 +1,4 @@
-package utils;
+package frame_utils;
 
 import coder.Coder;
 import user_gi.WorkspaceGI;

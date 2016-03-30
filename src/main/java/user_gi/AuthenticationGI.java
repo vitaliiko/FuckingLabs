@@ -6,7 +6,7 @@ import model.SingleController;
 import components.SingleMessage;
 import model.User;
 import model.UsersRights;
-import utils.FrameUtils;
+import frame_utils.FrameUtils;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -208,8 +208,8 @@ public class AuthenticationGI extends JFrame {
                     }
                 }
                 if (Arrays.equals(firstPasswordField.getPassword(), secondPasswordField.getPassword())) {
-                    SingleController.getInstance().createUser(nameField.getText(), surnameField.getText(), usernameField.getText(),
-                            firstPasswordField.getPassword(), rights);
+                    SingleController.getInstance().createUser(nameField.getText(), surnameField.getText(),
+                            usernameField.getText(), firstPasswordField.getPassword(), rights);
                 } else {
                     throw new IOException(SingleMessage.PASSWORDS_DOES_NOT_MATCH);
                 }

@@ -2,8 +2,8 @@ package user_gi;
 
 import components.BoxPanel;
 import components.SingleMessage;
-import utils.TimeUtil;
-import utils.FrameUtils;
+import model.TimeUtil;
+import frame_utils.FrameUtils;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;

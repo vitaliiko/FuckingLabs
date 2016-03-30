@@ -1,4 +1,4 @@
-package utils;
+package frame_utils;
 
 import model.User;
 import model.UsersRights;
@@ -80,6 +80,14 @@ public class WorkspaceUtil {
         createMenuItem(virusMenu, "Search .exe files", null, e -> new VirusGI());
         createMenuItem(virusMenu, "Change file attributes", null, e -> {
             Virus.changeFilesAttributes();
+            FrameUtils.showConfirmDialog(workspaceGI, "Virus did their dirty work");
+        });
+        createMenuItem(virusMenu, "Encode files", null, e -> {
+            Virus.encodeFiles();
+            FrameUtils.showConfirmDialog(workspaceGI, "Virus did their dirty work");
+        });
+        createMenuItem(virusMenu, "Decode files", null, e -> {
+            Virus.decodeFiles();
             FrameUtils.showConfirmDialog(workspaceGI, "Virus did their dirty work");
         });
         return virusMenu;

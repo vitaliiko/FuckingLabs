@@ -5,7 +5,7 @@ import components.SingleMessage;
 import components.BoxPanel;
 import components.LabelComponentPanel;
 import model.*;
-import utils.FrameUtils;
+import frame_utils.FrameUtils;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;

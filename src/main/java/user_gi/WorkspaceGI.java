@@ -4,7 +4,7 @@ import coder.*;
 import input_output.IOFileHandling;
 import components.BoxPanel;
 import model.User;
-import utils.*;
+import frame_utils.*;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -140,7 +140,7 @@ public class WorkspaceGI extends JFrame {
             coder = (Coder) selectCoderBox.getSelectedItem();
             keyField.setEnabled(!(coder instanceof CardanGrilleCoder));
             alphabetField.setEnabled(keyField.isEnabled());
-            generateKeyButton.setVisible(selectCoderBox.getSelectedItem().equals(VerrnamCoder.getInstance()));
+            generateKeyButton.setVisible(coder instanceof VerrnamCoder);
         });
         selectCoderBox.setPreferredSize(new Dimension(150, 23));
     }
