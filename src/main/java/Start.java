@@ -2,11 +2,11 @@ import model.SingleController;
 import model.User;
 import model.UsersRights;
 import user_gi.FriendshipWorkspaceGI;
-import utils.TimeUtil;
+import model.TimeUtil;
 import user_gi.AuthenticationGI;
 import user_gi.WorkspaceGI;
 import input_output.IOFileHandling;
-import utils.FrameUtils;
+import frame_utils.FrameUtils;
 
 import javax.swing.JOptionPane;
 

@@ -2,7 +2,9 @@ package input_output;
 
 import model.SingleController;
 import model.User;
-import utils.TimeUtil;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
+import model.TimeUtil;
 
 import javax.swing.*;
 import java.io.*;
@@ -65,6 +67,23 @@ public class IOFileHandling {
         } catch (IOException e) {
             JOptionPane.showConfirmDialog(null, "Error when writing text to a file", "ACHTUNG!",
                     JOptionPane.DEFAULT_OPTION);
+        }
+    }
+
+    public static byte[] getByteArray(String fileName) {
+        try {
+            return IOUtils.toByteArray(new FileInputStream(new File(fileName)));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static void byteArrToFile(String fileName, byte[] array) {
+        try {
+            FileUtils.writeByteArrayToFile(new File(fileName), array);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }
