@@ -22,7 +22,7 @@ public class User implements Serializable {
         this.firstName = firstName;
         this.lastName = lastName;
         this.login = login;
-        this.password = PasswordDigest.hashPassword(password);
+        this.password = CustomMessageDigest.hashText(password);
         this.rights = rights;
     }
 
@@ -60,7 +60,7 @@ public class User implements Serializable {
     }
 
     public void setPassword(char[] password) {
-        this.password = PasswordDigest.hashPassword(password);
+        this.password = CustomMessageDigest.hashText(password);
     }
 
     public int getRights() {
@@ -136,11 +136,11 @@ public class User implements Serializable {
     }
 
     public boolean isMatches(String userName, char[] password) {
-        return this.login.equals(userName) && this.password.equals(PasswordDigest.hashPassword(password));
+        return this.login.equals(userName) && this.password.equals(CustomMessageDigest.hashText(password));
     }
 
     public boolean isPasswordsMatches(char[] password) {
-        return this.password.equals(PasswordDigest.hashPassword(password));
+        return this.password.equals(CustomMessageDigest.hashText(password));
     }
 
     @Override

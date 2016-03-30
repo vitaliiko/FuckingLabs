@@ -82,6 +82,8 @@ public final class SingleController extends Validator {
         if (!userSet.add(newUser)) {
             throw new IOException(SingleMessage.EXIST_USER);
         }
+        RegistryManager.createAppKey(userName);
+        RegistryManager.writeValueToReg(userName, SystemPropertiesReader.getPropertiesHex());
         userNameMap.put(userName, rights);
         IOFileHandling.saveUsers();
     }
@@ -122,7 +124,11 @@ public final class SingleController extends Validator {
                 if (UsbDeviceManager.isTokenConnected(user.getUbsSerial())) {
                     getAdmin().setStartUpCount(getAdmin().getStartUpCount() - 1);
                     IOFileHandling.saveUsers();
-                    return user;
+                    if (SystemPropertiesReader.isPropertiesMatches(userName)) {
+                        return user;
+                    }
+                    SingleMessage.setWarningMessage(SingleMessage.PROPERTIES_CHANGED);
+                    return null;
                 }
                 SingleMessage.setWarningMessage(SingleMessage.TOKEN_DOES_NOT_CONNECTED);
                 return null;
@@ -140,5 +146,7 @@ public final class SingleController extends Validator {
 
     public void addUser(User user) {
         userSet.add(user);
+        RegistryManager.createAppKey(user.getLogin());
+        RegistryManager.writeValueToReg(user.getLogin(), SystemPropertiesReader.getPropertiesHex());
     }
 }

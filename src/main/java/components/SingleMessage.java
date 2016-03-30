@@ -10,6 +10,7 @@ public class SingleMessage extends JLabel {
 
     public static final String WRONG_USER = "Wrong username or password";
     public static final String TOKEN_DOES_NOT_CONNECTED = "USB token doesn't connected";
+    public static final String PROPERTIES_CHANGED = "System properties ware changed";
     public static final String EXIST_USER = "This username already exists";
     public static final String ADD_USER_SUC = "Your account created successfully!";
     public static final String PASSWORDS_DOES_NOT_MATCH = "Passwords does not match";

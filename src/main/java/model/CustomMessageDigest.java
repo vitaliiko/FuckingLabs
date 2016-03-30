@@ -3,19 +3,19 @@ package model;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-public class PasswordDigest {
+public class CustomMessageDigest {
 
-    public static String hashPassword(char[] password) {
-        return hashPassword(String.valueOf(password));
+    public static String hashText(char[] text) {
+        return hashText(String.valueOf(text));
     }
 
-    public static String hashPassword(String password) {
+    public static String hashText(String text) {
         MessageDigest md5 ;
         StringBuilder hexString = new StringBuilder();
         try {
             md5 = MessageDigest.getInstance("md5");
             md5.reset();
-            md5.update(password.getBytes());
+            md5.update(text.getBytes());
 
             byte messageDigest[] = md5.digest();
             for (byte aMessageDigest : messageDigest) {
