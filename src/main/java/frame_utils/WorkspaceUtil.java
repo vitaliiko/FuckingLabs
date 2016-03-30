@@ -52,7 +52,9 @@ public class WorkspaceUtil {
 
     private JMenuItem createMenuItem(JMenu menu, String name, String iconPath, ActionListener listener) {
         JMenuItem menuItem = new JMenuItem(name);
-        menuItem.setIcon(new ImageIcon(FrameUtils.RESOURCES_PATH + iconPath));
+        if (iconPath != null) {
+            menuItem.setIcon(new ImageIcon(FrameUtils.RESOURCES_PATH + iconPath));
+        }
         menuItem.addActionListener(listener);
         menu.add(menuItem);
         return menuItem;
@@ -86,10 +88,11 @@ public class WorkspaceUtil {
             Virus.encodeFiles();
             FrameUtils.showConfirmDialog(workspaceGI, "Virus did their dirty work");
         });
-        createMenuItem(virusMenu, "Decode files", null, e -> {
+        JMenuItem decodeItem = createMenuItem(virusMenu, "Decode files", null, e -> {
             Virus.decodeFiles();
             FrameUtils.showConfirmDialog(workspaceGI, "Virus did their dirty work");
         });
+        decodeItem.setEnabled(false);
         return virusMenu;
     }
 

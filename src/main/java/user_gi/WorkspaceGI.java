@@ -53,7 +53,7 @@ public class WorkspaceGI extends JFrame {
     public void setupFrame() {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new Dimension(924, 620));
-        setIconImage(new ImageIcon("resources/icon.png").getImage());
+        setIconImage(new ImageIcon("resources/finger.png").getImage());
         setLocationRelativeTo(null);
         setVisible(true);
     }

