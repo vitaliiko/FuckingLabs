@@ -11,7 +11,7 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.io.IOException;
 
-public class FriendshipWorkspaceGI extends JFrame {
+public class FriendlyWorkspaceGI extends JFrame {
 
     private Coder coder = CeasarCoder.getInstance();
     private WorkspaceUtil workspaceUtil;
@@ -26,7 +26,7 @@ public class FriendshipWorkspaceGI extends JFrame {
     private JPanel outputPanel;
     private JPanel selectPanel;
 
-    public FriendshipWorkspaceGI(User user) {
+    public FriendlyWorkspaceGI(User user) {
         super(WorkspaceUtil.FRAME_NAME);
         this.workspaceUtil = new WorkspaceUtil(this, user);
 

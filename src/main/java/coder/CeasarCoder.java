@@ -40,9 +40,6 @@ public class CeasarCoder extends Coder {
         int outputCharIndex;
 
         for (char c : inputText.toCharArray()) {
-            if ((int) c == 10) {
-                c = (char) 32;
-            }
             outputCharIndex = (getAlphabet().indexOf(c) + keyCharIndex) % alphabetPower;
             outputText += getAlphabet().charAt(outputCharIndex);
         }

@@ -24,9 +24,6 @@ public class VigenereCoder extends Coder {
         int outputCharIndex;
 
         for (char c : inputText.toCharArray()) {
-            if ((int) c == 10) {
-                c = (char) 32;
-            }
             int keyCharIndex = (i < key.length() ? i : 0);
             outputCharIndex = (getAlphabet().indexOf(c) + getAlphabet().indexOf(key.charAt(keyCharIndex))) % alphabetPower;
             outputText += getAlphabet().charAt(outputCharIndex);

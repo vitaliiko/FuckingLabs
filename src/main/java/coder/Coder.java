@@ -37,12 +37,23 @@ public abstract class Coder {
     }
 
     protected boolean checkForForbiddenSymbols(String message) {
-        for (char c : message.toCharArray()) {
-            if (alphabet.indexOf(c) < 0) {
+        message = removeUnprintableSymbols(message);
+        for (String c : message.split("")) {
+            int charIndex = c.charAt(0);
+            if (charIndex > 27 && !alphabet.contains(c)) {
                 return false;
             }
         }
         return true;
+    }
+
+    private String removeUnprintableSymbols(String text) {
+        String output = "";
+        for (String c : text.split("")) {
+            int charIndex = c.charAt(0);
+            output += charIndex < 27 ? " " : c;
+        }
+        return output;
     }
 
     public void createAlphabet(String inputAlphabet) {

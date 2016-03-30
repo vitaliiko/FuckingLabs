@@ -8,6 +8,9 @@ import model.TimeUtil;
 
 import javax.swing.*;
 import java.io.*;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Set;
 
 public class IOFileHandling {
@@ -42,19 +45,15 @@ public class IOFileHandling {
     }
 
     public static String readFromFile(String fileName) {
-        String interLine, finalLine = "";
-
+        String[] finalLine = {""};
         try {
-            BufferedReader reader = new BufferedReader(new FileReader(fileName));
-            while ((interLine = reader.readLine()) != null) {
-                finalLine = finalLine + " " + interLine;
-            }
-            reader.close();
+            Files.readAllLines(Paths.get(fileName), Charset.forName("UTF-8"))
+                    .forEach(line -> finalLine[0] += line + "\r\n");
         } catch (IOException e) {
             JOptionPane.showConfirmDialog(null, "File does not exist", "ACHTUNG!",
                     JOptionPane.DEFAULT_OPTION);
         }
-        return finalLine;
+        return finalLine[0];
     }
 
     public static void writeToFile(String outputLine, String fileName){

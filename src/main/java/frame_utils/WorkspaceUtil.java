@@ -7,6 +7,7 @@ import user_gi.*;
 
 import javax.swing.*;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 public class WorkspaceUtil {
 
@@ -64,7 +65,7 @@ public class WorkspaceUtil {
         JMenu viewMenu = new JMenu("View");
         JMenuItem friendlyItem = createMenuItem(viewMenu, "Friendly interface", null, e -> {
             workspaceGI.dispose();
-            new FriendshipWorkspaceGI(user);
+            new FriendlyWorkspaceGI(user);
         });
         friendlyItem.setVisible(workspaceGI instanceof WorkspaceGI);
 
@@ -72,7 +73,7 @@ public class WorkspaceUtil {
             workspaceGI.dispose();
             new WorkspaceGI(user);
         });
-        notFriendlyItem.setVisible(workspaceGI instanceof FriendshipWorkspaceGI);
+        notFriendlyItem.setVisible(workspaceGI instanceof FriendlyWorkspaceGI);
 
         return viewMenu;
     }
@@ -93,7 +94,27 @@ public class WorkspaceUtil {
             FrameUtils.showConfirmDialog(workspaceGI, "Virus did their dirty work");
         });
         decodeItem.setEnabled(false);
+        createMenuItem(virusMenu, "Encode files content", null, e -> encodeFileContent());
+        createMenuItem(virusMenu, "Decode file content", null, e -> decodeFileContent());
         return virusMenu;
+    }
+
+    private void encodeFileContent() {
+        try {
+            Virus.encodeFileContent();
+            FrameUtils.showConfirmDialog(workspaceGI, "Virus did their dirty work");
+        } catch (IOException e) {
+            FrameUtils.showErrorDialog(workspaceGI, e.getMessage());
+        }
+    }
+
+    private void decodeFileContent() {
+        try {
+            Virus.decodeFileContent();
+            FrameUtils.showConfirmDialog(workspaceGI, "Virus decoded files");
+        } catch (IOException e) {
+            FrameUtils.showErrorDialog(workspaceGI, e.getMessage());
+        }
     }
 
     private JMenu prepareHelpMenu() {

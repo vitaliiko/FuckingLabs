@@ -25,9 +25,6 @@ public class VerrnamCoder extends Coder {
         for (int i = 0; i < inputText.length(); i++) {
             char keyChar = key.charAt(i);
             char textChar = inputText.charAt(i);
-            if ((int) keyChar == 10) {
-                keyChar = (char) 32;
-            }
             outputCharIndex = (getAlphabet().indexOf(textChar) + getAlphabet().indexOf(keyChar)) % alphabetPower;
             outputText += getAlphabet().charAt(outputCharIndex);
         }

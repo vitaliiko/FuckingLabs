@@ -1,7 +1,7 @@
 import model.SingleController;
 import model.User;
 import model.UsersRights;
-import user_gi.FriendshipWorkspaceGI;
+import user_gi.FriendlyWorkspaceGI;
 import model.TimeUtil;
 import user_gi.AuthenticationGI;
 import user_gi.WorkspaceGI;
@@ -35,7 +35,7 @@ public class Start {
         SingleController.getInstance().setUserSet(IOFileHandling.loadUsers());
         try {
             User user = new User("Admin", "Admin", "ADMIN", "111111", UsersRights.ADMIN);
-            new FriendshipWorkspaceGI(user);
+            new FriendlyWorkspaceGI(user);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -54,7 +54,7 @@ public class Start {
         SingleController.getInstance().setUserSet(IOFileHandling.loadUsers());
         try {
             User user = new User("Admin", "Admin", "ADMIN", "111111", UsersRights.ADMIN);
-            user.setAlphabet("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789/*-+=!?., ");
+            user.setAlphabet("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789/*'-+=!?., ");
             new WorkspaceGI(user);
         } catch (Exception e) {
             e.printStackTrace();
