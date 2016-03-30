@@ -68,14 +68,17 @@ public class Mixer {
 
         generateSequence(textLine.length());
 
-        for (int i = 0; i < textLine.length(); i++){
-            if (sequence.get(i) <= textLine.length()){
-                encodedLine[sequence.get(i) - 1] = textLine.charAt(i);
-            } else {
-                encodedLine[sequence.get(sequence.get(i) - 1) - 1] = textLine.charAt(i);
+        try {
+            for (int i = 0; i < textLine.length(); i++) {
+                if (sequence.get(i) <= textLine.length()) {
+                    encodedLine[sequence.get(i) - 1] = textLine.charAt(i);
+                } else {
+                    encodedLine[sequence.get(sequence.get(i) - 1) - 1] = textLine.charAt(i);
+                }
             }
+        } catch (ArrayIndexOutOfBoundsException e) {
+            return textLine;
         }
-
         return String.valueOf(encodedLine);
     }
 
@@ -84,14 +87,17 @@ public class Mixer {
 
         generateSequence(encodedText.length());
 
-        for (int i = 0; i < encodedText.length(); i++){
-            if (sequence.get(i) <= encodedText.length()){
-                decodedText += encodedText.charAt(sequence.get(i) - 1);
-            } else {
-                decodedText += encodedText.charAt(sequence.get(sequence.get(i) - 1) - 1);
+        try {
+            for (int i = 0; i < encodedText.length(); i++) {
+                if (sequence.get(i) <= encodedText.length()) {
+                    decodedText += encodedText.charAt(sequence.get(i) - 1);
+                } else {
+                    decodedText += encodedText.charAt(sequence.get(sequence.get(i) - 1) - 1);
+                }
             }
+        } catch (ArrayIndexOutOfBoundsException e) {
+            return encodedText;
         }
-
         return decodedText;
     }
 }

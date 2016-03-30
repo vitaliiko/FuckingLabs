@@ -1,8 +1,6 @@
-import model.SingleController;
-import model.User;
-import model.UsersRights;
+import input_output.CommandLineInterpreter;
+import model.*;
 import user_gi.FriendlyWorkspaceGI;
-import model.TimeUtil;
 import user_gi.AuthenticationGI;
 import user_gi.WorkspaceGI;
 import input_output.IOFileHandling;
@@ -19,6 +17,7 @@ public class Start {
 //        startAuthGI();
         startWorkspaceWithCheckTime();
 //        startFriendshipGI();
+
 
     }
 

