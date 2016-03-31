@@ -13,7 +13,7 @@ import java.io.IOException;
 
 public class FriendlyWorkspaceGI extends JFrame {
 
-    private Coder coder = CeasarCoder.getInstance();
+    private Coder coder;
     private WorkspaceUtil workspaceUtil;
 
     private JFormattedTextField keyField;
@@ -29,6 +29,7 @@ public class FriendlyWorkspaceGI extends JFrame {
     public FriendlyWorkspaceGI(User user) {
         super(WorkspaceUtil.FRAME_NAME);
         this.workspaceUtil = new WorkspaceUtil(this, user);
+        this.coder = CeasarCoder.getInstance();
 
         FrameUtils.setLookAndFeel();
 
@@ -86,10 +87,10 @@ public class FriendlyWorkspaceGI extends JFrame {
 
     private void prepareSelectCoderBox() {
         selectCoderBox = new JComboBox<>(new Coder[] {
-                CeasarCoder.getInstance(),
-                VigenereCoder.getInstance(),
-                VerrnamCoder.getInstance(),
-                CardanGrilleCoder.getInstance()
+                CeasarCoder.getInstance().createRusoAlphabet(),
+                VigenereCoder.getInstance().createRusoAlphabet(),
+                VerrnamCoder.getInstance().createRusoAlphabet(),
+                CardanGrilleCoder.getInstance().createRusoAlphabet()
         });
         selectCoderBox.addActionListener(e -> {
             coder = (Coder) selectCoderBox.getSelectedItem();
@@ -108,7 +109,6 @@ public class FriendlyWorkspaceGI extends JFrame {
 
     private void doCrypt(JButton button) {
         try {
-            coder.createRusoAlphabet();
             String outputText;
             if (button.getText().equals("Зашифровать")) {
                 outputText = coder.encode(keyField.getText(), inputTextField.getText());

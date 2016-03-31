@@ -17,7 +17,7 @@ import java.io.IOException;
 public class WorkspaceGI extends JFrame {
 
     private User user;
-    private Coder coder = CeasarCoder.getInstance();
+    private Coder coder;
     private String outputFilePath;
     private WorkspaceUtil workspaceUtil;
 
@@ -43,6 +43,7 @@ public class WorkspaceGI extends JFrame {
         super(WorkspaceUtil.FRAME_NAME);
         this.user = user;
         this.workspaceUtil = new WorkspaceUtil(this, user);
+        this.coder = CeasarCoder.getInstance();
 
         FrameUtils.setLookAndFeel();
 

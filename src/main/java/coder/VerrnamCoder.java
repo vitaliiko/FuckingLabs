@@ -72,6 +72,6 @@ public class VerrnamCoder extends Coder {
 
     @Override
     public String toString() {
-        return "Verrnam";
+        return getAlphabet().equals(Coder.RUSO_ALPHABET) ? "Шифр Вернама" : "Verrnam cipher";
     }
 }

@@ -63,6 +63,6 @@ public class VigenereCoder extends Coder {
 
     @Override
     public String toString() {
-        return "Vigenere";
+        return getAlphabet().equals(Coder.RUSO_ALPHABET) ? "Шифр Виженера" : "Vigenere cipher";
     }
 }

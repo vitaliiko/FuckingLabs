@@ -91,6 +91,6 @@ public class CardanGrilleCoder extends Coder {
 
     @Override
     public String toString() {
-        return "Cardan Grille";
+        return getAlphabet().equals(Coder.RUSO_ALPHABET) ? "Решетка Кардано" : "Cardan Grille";
     }
 }

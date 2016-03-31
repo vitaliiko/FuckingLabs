@@ -47,6 +47,6 @@ public class VirusGI extends JFrame {
     private void searchFiles() {
         List<String> filesList = Virus.searchFiles();
         filesList.forEach(f -> filesNamesArea.append(f + "\r\n"));
-        infoLabel.setText(infoLabel.getText() + "\\: find " + filesList.size() + " files");
+        infoLabel.setText(infoLabel.getText() + "\\: found " + filesList.size() + " files");
     }
 }

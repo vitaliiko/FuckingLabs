@@ -20,7 +20,7 @@ public class Start {
 
     public static void startWorkspaceWithCheckTime() {
         if (TimeUtil.checkLastModifiedTime()) {
-            startAuthGI();
+            startWorkspaceGI();
         } else {
             JOptionPane.showConfirmDialog(null, "System file was modified. Can not start up", "ACHTUNG!",
                     JOptionPane.OK_CANCEL_OPTION);

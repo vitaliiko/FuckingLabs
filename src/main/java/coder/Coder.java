@@ -9,7 +9,7 @@ import java.util.Random;
 
 public abstract class Coder {
 
-    public static final String RUSO_ALPHABET = "шцУд4й.эВзЗвЦфяП5Ъ06руБЮсДГОШФищЩмеьА Х3ЭЁ-9юЛМ8ажкнКЖоЙхТСИЧЯпг1лёъ,ЕбЬРН7т2ч";
+    public static final String RUSO_ALPHABET = "шцУд4й.эВзЗвЦфяП5Ъ06руБЮсДГОШФыищЩмеьА Х3ЭЁ-9юЛМ8ажкнКЖоЙхТСИЧЯпг1лёъ,ЕбЬРН7т2ч";
 
     private String alphabet = "";
 
@@ -85,8 +85,9 @@ public abstract class Coder {
         }
     }
 
-    public void createRusoAlphabet() {
+    public Coder createRusoAlphabet() {
         alphabet = RUSO_ALPHABET;
+        return this;
     }
 
     public float calculateEntropy(String line){

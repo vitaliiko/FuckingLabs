@@ -65,6 +65,6 @@ public class CeasarCoder extends Coder {
 
     @Override
     public String toString() {
-        return "Ceasar";
+        return getAlphabet().equals(Coder.RUSO_ALPHABET) ? "Шифр Цезаря" : "Ceasar cipher";
     }
 }
