@@ -16,7 +16,7 @@ public class FriendlyWorkspaceGI extends JFrame {
     private Coder coder;
     private WorkspaceUtil workspaceUtil;
 
-    private JFormattedTextField keyField;
+    private JTextField keyTextField;
     private JTextField inputTextField;
     private JTextField outputTextField;
     private JComboBox<Coder> selectCoderBox;
@@ -25,6 +25,7 @@ public class FriendlyWorkspaceGI extends JFrame {
     private JPanel inputPanel;
     private JPanel outputPanel;
     private JPanel selectPanel;
+    private JPanel keyPanel;
 
     public FriendlyWorkspaceGI(User user) {
         super(WorkspaceUtil.FRAME_NAME);
@@ -39,7 +40,7 @@ public class FriendlyWorkspaceGI extends JFrame {
 
     public void setupFrame() {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        setMinimumSize(new Dimension(400, 255));
+        setMinimumSize(new Dimension(400, 310));
         setIconImage(new ImageIcon("resources/icon.png").getImage());
         setLocationRelativeTo(null);
         setResizable(false);
@@ -49,40 +50,34 @@ public class FriendlyWorkspaceGI extends JFrame {
     private void addComponents() {
         setJMenuBar(workspaceUtil.prepareMenuBar());
 
-        prepareInputPanel();
-        prepareSelectPanel();
-        prepareButtonsPanel();
-        prepareOutputPanel();
-        BoxPanel panel = new BoxPanel(BoxLayout.Y_AXIS, inputPanel, selectPanel,
+        prepareComponents();
+        prepareButtons();
+        BoxPanel panel = new BoxPanel(BoxLayout.Y_AXIS, inputPanel, selectPanel, keyPanel,
                 new BoxPanel(encryptButton, decryptButton), outputPanel);
         panel.setBorder(new EmptyBorder(8, 8, 8, 8));
         getContentPane().add(panel, BorderLayout.CENTER);
     }
 
-    private void prepareInputPanel() {
-        JLabel label = new JLabel("Введите открытое сообщение:");
-        label.setBorder(new EmptyBorder(0, 0, 4, 0));
+    private void prepareComponents() {
         inputTextField = new JTextField();
-        inputPanel = new BoxPanel(BoxLayout.Y_AXIS, label, inputTextField);
-        inputPanel.setBorder(new EmptyBorder(0, 0, 8, 0));
+        inputPanel = createPanelWithComponents("Введите сообщение:", inputTextField);
+
+        prepareSelectCoderBox();
+        selectPanel = createPanelWithComponents("Выберете способ шифрования:", selectCoderBox);
+
+        keyTextField = new JTextField("5");
+        keyPanel = createPanelWithComponents("Введите ключ:", keyTextField);
+
+        outputTextField = new JTextField();
+        outputPanel = createPanelWithComponents("Результат:", outputTextField);
     }
 
-    private void prepareSelectPanel() {
-        JLabel selectLabel = new JLabel("Выберете способ шифрования:");
-        selectLabel.setBorder(new EmptyBorder(0, 0, 4, 0));
-        
-        JLabel keyLabel = new JLabel("Ключ:");
-        keyLabel.setBorder(new EmptyBorder(0, 0, 4, 0));
-        
-        prepareSelectCoderBox();
-        BoxPanel boxPanel = new BoxPanel(BoxLayout.Y_AXIS, selectLabel, selectCoderBox);
-        boxPanel.setBorder(new EmptyBorder(0, 0, 0, 10));
-        keyField = new JFormattedTextField();
-        keyField.setText("5");
-        
-        selectPanel = new BoxPanel(BoxLayout.X_AXIS, boxPanel,
-                new BoxPanel(BoxLayout.Y_AXIS, keyLabel, keyField));
-        selectPanel.setBorder(new EmptyBorder(0, 0, 8, 0));
+    private JPanel createPanelWithComponents(String text, JComponent component) {
+        JLabel label = new JLabel(text);
+        label.setBorder(new EmptyBorder(4, 0, 4, 0));
+        JPanel panel = new BoxPanel(BoxLayout.Y_AXIS, label, component);
+        panel.setBorder(new EmptyBorder(0, 0, 6, 0));
+        return panel;
     }
 
     private void prepareSelectCoderBox() {
@@ -94,12 +89,12 @@ public class FriendlyWorkspaceGI extends JFrame {
         });
         selectCoderBox.addActionListener(e -> {
             coder = (Coder) selectCoderBox.getSelectedItem();
-            keyField.setEnabled(!(coder instanceof CardanGrilleCoder));
+            keyPanel.setVisible(!(coder instanceof CardanGrilleCoder));
         });
-        selectCoderBox.setPreferredSize(new Dimension(150, 23));
+        selectCoderBox.setPreferredSize(new Dimension(50, 26));
     }
 
-    private void prepareButtonsPanel() {
+    private void prepareButtons() {
         encryptButton = new JButton("Зашифровать");
         encryptButton.addActionListener(e -> doCrypt(encryptButton));
 
@@ -111,21 +106,13 @@ public class FriendlyWorkspaceGI extends JFrame {
         try {
             String outputText;
             if (button.getText().equals("Зашифровать")) {
-                outputText = coder.encode(keyField.getText(), inputTextField.getText());
+                outputText = coder.encode(keyTextField.getText(), inputTextField.getText());
             } else {
-                outputText = coder.decode(keyField.getText(), inputTextField.getText());
+                outputText = coder.decode(keyTextField.getText(), inputTextField.getText());
             }
             outputTextField.setText(outputText);
         } catch (IOException e1) {
             FrameUtils.showErrorDialog(this, e1.getMessage());
         }
-    }
-
-    private void prepareOutputPanel() {
-        JLabel label = new JLabel("Результат:");
-        label.setBorder(new EmptyBorder(0, 0, 4, 0));
-        outputTextField = new JTextField();
-        outputPanel = new BoxPanel(BoxLayout.Y_AXIS, label, outputTextField);
-        outputPanel.setBorder(new EmptyBorder(8, 0, 0, 0));
     }
 }

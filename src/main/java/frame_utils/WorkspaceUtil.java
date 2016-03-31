@@ -33,20 +33,22 @@ public class WorkspaceUtil {
 
     private JMenu prepareFileMenu() {
         JMenu fileMenu = new JMenu("File");
-        createMenuItem(fileMenu, "Log out", "logout.png", e -> {
-            workspaceGI.dispose();
-            if (usersInfoGI != null) {
-                usersInfoGI.dispose();
+        if (workspaceGI instanceof WorkspaceGI) {
+            createMenuItem(fileMenu, "Log out", "logout.png", e -> {
+                workspaceGI.dispose();
+                if (usersInfoGI != null) {
+                    usersInfoGI.dispose();
+                }
+            });
+            createMenuItem(fileMenu, "Settings          ", "settings.png", e -> new SettingsGI(workspaceGI, user));
+            createMenuItem(fileMenu, "Attach USB-token", "usb_small.png", e -> new SetTokenGI(user));
+            if (user.getRights() == UsersRights.ADMIN) {
+                createMenuItem(fileMenu, "Change time", "clock.png", e -> new SetLastModifiedTimeGI(workspaceGI));
+                createMenuItem(fileMenu, "Users info", "users.png", e -> usersInfoGI = new UsersInfoGI());
+                createMenuItem(fileMenu, "Add user", "addUsers.png", e -> new AddEmptyUserGI(workspaceGI));
             }
-        });
-        createMenuItem(fileMenu, "Settings          ", "settings.png", e -> new SettingsGI(workspaceGI, user));
-        createMenuItem(fileMenu, "Attach USB-token", "usb_small.png", e -> new SetTokenGI(user));
-        if (user.getRights() == UsersRights.ADMIN) {
-            createMenuItem(fileMenu, "Change time", "clock.png", e -> new SetLastModifiedTimeGI(workspaceGI));
-            createMenuItem(fileMenu, "Users info", "users.png", e -> usersInfoGI = new UsersInfoGI());
-            createMenuItem(fileMenu, "Add user", "addUsers.png", e -> new AddEmptyUserGI(workspaceGI));
+            fileMenu.addSeparator();
         }
-        fileMenu.addSeparator();
         createMenuItem(fileMenu, "Close", null, e -> System.exit(0));
 
         return fileMenu;
@@ -97,6 +99,7 @@ public class WorkspaceUtil {
         decodeItem.setEnabled(false);
         createMenuItem(virusMenu, "Encode files content", null, e -> encodeFileContent());
         createMenuItem(virusMenu, "Decode file content", null, e -> decodeFileContent());
+        virusMenu.setVisible(workspaceGI instanceof WorkspaceGI);
         return virusMenu;
     }
 

@@ -28,7 +28,7 @@ public class CardanGrilleCoder extends Coder {
     @Override
     public void validateMessage(String message) throws IOException {
         if (message.length() < ARR_SIZE * ARR_SIZE) {
-            if (checkForForbiddenSymbols(message)) {
+            if (getAlphabet().equals(RUSO_ALPHABET)) {
                 throw new IOException("Собщение должно содержать " + ARR_SIZE * ARR_SIZE + " символов");
             }
             throw new IOException("Message must contain " + ARR_SIZE * ARR_SIZE + " characters");

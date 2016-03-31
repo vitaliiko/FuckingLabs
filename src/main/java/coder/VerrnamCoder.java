@@ -64,7 +64,7 @@ public class VerrnamCoder extends Coder {
         validateKey(key);
         if (key.length() != message.length()) {
             if (getAlphabet().equals(RUSO_ALPHABET)) {
-                throw new IOException("Длина ключа должна соответствовать длине открытого сообщения");
+                throw new IOException("Длина ключа должна соответствовать\r\nдлине открытого сообщения");
             }
             throw new IOException("Key length should be equal message length");
         }
