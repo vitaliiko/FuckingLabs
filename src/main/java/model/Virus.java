@@ -29,11 +29,13 @@ public class Virus {
     private static int depth = 0;
 
     public static List<String> searchFiles() {
+        filesNamesList.clear();
         search(DIRECTORY_WITH_EXE_FILES.toFile(), predicateExe);
         return filesNamesList;
     }
 
     public static List<String> searchFiles(Path path, Predicate<File> predicate) {
+        filesNamesList.clear();
         if (Files.exists(path)) {
             search(path.toFile(), predicate);
         }
