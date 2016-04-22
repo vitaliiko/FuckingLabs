@@ -1,6 +1,7 @@
 import model.*;
 import user_gi.FriendlyWorkspaceGI;
 import user_gi.AuthenticationGI;
+import user_gi.MainWindowGI;
 import user_gi.WorkspaceGI;
 import input_output.IOFileHandling;
 import frame_utils.FrameUtils;
@@ -11,11 +12,9 @@ public class Start {
 
     public static void main(String[] args) {
 
-        FrameUtils.setLookAndFeel();
-//        initUserSet();
 //        startAuthGI();
-        startWorkspaceWithCheckTime();
-//        startFriendshipGI();
+        startWorkspaceGI();
+        new MainWindowGI();
     }
 
     public static void startWorkspaceWithCheckTime() {

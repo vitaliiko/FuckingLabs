@@ -2,35 +2,33 @@ package user_gi;
 
 import coder.*;
 import components.BoxPanel;
-import model.User;
 import frame_utils.FrameUtils;
-import frame_utils.WorkspaceUtil;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.io.IOException;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 public class FriendlyWorkspaceGI extends JFrame {
 
     private Coder coder;
-    private WorkspaceUtil workspaceUtil;
+    private String subject;
 
     private JTextField keyTextField;
     private JTextField inputTextField;
     private JTextField outputTextField;
-    private JComboBox<Coder> selectCoderBox;
     private JButton encryptButton;
     private JButton decryptButton;
     private JPanel inputPanel;
     private JPanel outputPanel;
-    private JPanel selectPanel;
     private JPanel keyPanel;
 
-    public FriendlyWorkspaceGI(User user) {
-        super(WorkspaceUtil.FRAME_NAME);
-        this.workspaceUtil = new WorkspaceUtil(this, user);
-        this.coder = CeasarCoder.getInstance();
+    public FriendlyWorkspaceGI(String frameTitle, String subject, Coder coder) {
+        super(frameTitle);
+        this.coder = coder;
+        this.subject = subject;
 
         FrameUtils.setLookAndFeel();
 
@@ -38,7 +36,7 @@ public class FriendlyWorkspaceGI extends JFrame {
         setupFrame();
     }
 
-    public void setupFrame() {
+    private void setupFrame() {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new Dimension(400, 310));
         setIconImage(new ImageIcon("resources/icon.png").getImage());
@@ -48,11 +46,9 @@ public class FriendlyWorkspaceGI extends JFrame {
     }
 
     private void addComponents() {
-        setJMenuBar(workspaceUtil.prepareMenuBar());
-
         prepareComponents();
         prepareButtons();
-        BoxPanel panel = new BoxPanel(BoxLayout.Y_AXIS, inputPanel, selectPanel, keyPanel,
+        BoxPanel panel = new BoxPanel(BoxLayout.Y_AXIS, new JLabel(subject), inputPanel, keyPanel,
                 new BoxPanel(encryptButton, decryptButton), outputPanel);
         panel.setBorder(new EmptyBorder(8, 8, 8, 8));
         getContentPane().add(panel, BorderLayout.CENTER);
@@ -60,12 +56,11 @@ public class FriendlyWorkspaceGI extends JFrame {
 
     private void prepareComponents() {
         inputTextField = new JTextField();
+        inputTextField.getDocument().addDocumentListener(new InputTextListener());
         inputPanel = createPanelWithComponents("Введите сообщение:", inputTextField);
 
-        prepareSelectCoderBox();
-        selectPanel = createPanelWithComponents("Выберете способ шифрования:", selectCoderBox);
-
         keyTextField = new JTextField("5");
+        keyTextField.getDocument().addDocumentListener(new InputTextListener());
         keyPanel = createPanelWithComponents("Введите ключ:", keyTextField);
 
         outputTextField = new JTextField();
@@ -80,26 +75,14 @@ public class FriendlyWorkspaceGI extends JFrame {
         return panel;
     }
 
-    private void prepareSelectCoderBox() {
-        selectCoderBox = new JComboBox<>(new Coder[] {
-                CeasarCoder.getInstance().createRusoAlphabet(),
-                VigenereCoder.getInstance().createRusoAlphabet(),
-                VerrnamCoder.getInstance().createRusoAlphabet(),
-                CardanGrilleCoder.getInstance().createRusoAlphabet()
-        });
-        selectCoderBox.addActionListener(e -> {
-            coder = (Coder) selectCoderBox.getSelectedItem();
-            keyPanel.setVisible(!(coder instanceof CardanGrilleCoder));
-        });
-        selectCoderBox.setPreferredSize(new Dimension(50, 26));
-    }
-
     private void prepareButtons() {
         encryptButton = new JButton("Зашифровать");
         encryptButton.addActionListener(e -> doCrypt(encryptButton));
+        encryptButton.setEnabled(false);
 
         decryptButton = new JButton("Расшифровать");
         decryptButton.addActionListener(e -> doCrypt(decryptButton));
+        decryptButton.setEnabled(false);
     }
 
     private void doCrypt(JButton button) {
@@ -113,6 +96,25 @@ public class FriendlyWorkspaceGI extends JFrame {
             outputTextField.setText(outputText);
         } catch (IOException e1) {
             FrameUtils.showErrorDialog(this, e1.getMessage());
+        }
+    }
+
+    private class InputTextListener implements DocumentListener {
+
+        @Override
+        public void insertUpdate(DocumentEvent e) {
+            encryptButton.setEnabled(!inputTextField.getText().isEmpty() && !keyTextField.getText().isEmpty());
+            decryptButton.setEnabled(encryptButton.isEnabled());
+        }
+
+        @Override
+        public void removeUpdate(DocumentEvent e) {
+            insertUpdate(e);
+        }
+
+        @Override
+        public void changedUpdate(DocumentEvent e) {
+            insertUpdate(e);
         }
     }
 }

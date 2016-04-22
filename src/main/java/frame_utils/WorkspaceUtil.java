@@ -11,7 +11,7 @@ import java.io.IOException;
 
 public class WorkspaceUtil {
 
-    public static final String FRAME_NAME = "Безпека програмного забезпечення комп’ютерних систем";
+    public static final String FRAME_NAME = "Проектування систем комплексного захисту інформації";
 
     private JFrame workspaceGI;
     private JFrame usersInfoGI;
@@ -25,7 +25,7 @@ public class WorkspaceUtil {
     public JMenuBar prepareMenuBar() {
         JMenuBar menuBar = new JMenuBar();
         menuBar.add(prepareFileMenu());
-        menuBar.add(prepareViewMenu());
+        //menuBar.add(prepareViewMenu());
         menuBar.add(prepareVirusMenu());
         menuBar.add(prepareHelpMenu());
         return menuBar;
@@ -68,7 +68,7 @@ public class WorkspaceUtil {
         JMenu viewMenu = new JMenu("View");
         JMenuItem friendlyItem = createMenuItem(viewMenu, "Friendly interface", null, e -> {
             workspaceGI.dispose();
-            new FriendlyWorkspaceGI(user);
+            //new FriendlyWorkspaceGI(user);
         });
         friendlyItem.setVisible(workspaceGI instanceof WorkspaceGI);
 
