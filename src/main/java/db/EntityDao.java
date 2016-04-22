@@ -12,12 +12,12 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-public class DatabaseStorage implements Storage {
+public class EntityDao implements Storage {
 
     private Connection connection;
     private Map<String, Object> dataMap;
 
-    public DatabaseStorage(Connection connection) {
+    public EntityDao(Connection connection) {
         this.connection = connection;
     }
 

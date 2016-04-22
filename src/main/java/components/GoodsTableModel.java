@@ -1,28 +1,23 @@
 package components;
 
+import db.Goods;
 import java.util.List;
-import model.SingleController;
-import model.User;
-import model.UsersRights;
-
 import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
-import java.util.ArrayList;
 
-public class UsersTableModel implements TableModel {
+public class GoodsTableModel implements TableModel {
 
-    private SingleController controller;
-    private List<User> usersList;
-    private String[] items = {"Name", "Surname", "Username", "Account type"};
+    private List<Goods> goodsList;
 
-    public UsersTableModel(SingleController controller, ArrayList<User> usersList) {
-        this.controller = controller;
-        this.usersList = usersList;
+    private String[] items = {"Тип", "Производитель", "Модель", "Цена", "Описание"};
+
+    public GoodsTableModel(List<Goods> goodsList) {
+        this.goodsList = goodsList;
     }
 
     @Override
     public int getRowCount() {
-        return controller.getUserSet().size();
+        return goodsList.size();
     }
 
     @Override
@@ -47,16 +42,18 @@ public class UsersTableModel implements TableModel {
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        User user = usersList.get(rowIndex);
+        Goods goods = goodsList.get(rowIndex);
         switch (columnIndex) {
-            case 0:
-                return user.getFirstName();
             case 1:
-                return user.getLastName();
+                return goods.getType();
             case 2:
-                return user.getLogin();
+                return goods.getProducer();
             case 3:
-                return UsersRights.accountType(user.getRights());
+                return goods.getModel();
+            case 4:
+                return goods.getPrice();
+            case 5:
+                return goods.getDescription();
             default:
                 return null;
         }
