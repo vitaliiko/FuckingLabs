@@ -18,6 +18,18 @@ public class User implements Serializable {
     private int startUpCount;
     private String ubsSerial;
 
+    public User(String firstName, String lastName, String login, char[] password,
+                String telephoneNum, String mailAddress, int rights) {
+
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.login = login;
+        this.password = String.valueOf(password);
+        this.rights = rights;
+        this.telephoneNum = telephoneNum;
+        this.mailAddress = mailAddress;
+    }
+
     public User(String firstName, String lastName, String login, String password, int rights) {
         this.firstName = firstName;
         this.lastName = lastName;

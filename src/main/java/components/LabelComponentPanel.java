@@ -9,9 +9,22 @@ public class LabelComponentPanel extends JPanel {
     JLabel label;
 
     public LabelComponentPanel(String labelText, JComponent component) {
-        this.setLayout(new GridLayout(1, 2));
-        this.setBorder(new EmptyBorder(8, 1, 1, 8));
+        setLayout(new GridLayout(1, 2));
+        setBorder(new EmptyBorder(8, 1, 1, 8));
+        setOpaque(false);
         label = new JLabel(labelText);
+        label.setHorizontalAlignment(JLabel.RIGHT);
+        if (component instanceof JLabel) {
+            label.setFont(component.getFont());
+        }
+        add(label);
+        add(component);
+    }
+
+    public LabelComponentPanel(JLabel label, JComponent component) {
+        setLayout(new GridLayout(1, 2));
+        setBorder(new EmptyBorder(8, 1, 1, 8));
+        setOpaque(false);
         label.setHorizontalAlignment(JLabel.RIGHT);
         add(label);
         add(component);

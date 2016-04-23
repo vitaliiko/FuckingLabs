@@ -1,10 +1,10 @@
-import model.*;
-import user_gi.FriendlyWorkspaceGI;
-import user_gi.AuthenticationGI;
-import user_gi.MainWindowGI;
-import user_gi.WorkspaceGI;
 import input_output.IOFileHandling;
-import frame_utils.FrameUtils;
+import model.SingleController;
+import model.TimeUtil;
+import model.User;
+import model.UsersRights;
+import user_gi.AuthenticationGI;
+import user_gi.WorkspaceGI;
 
 import javax.swing.*;
 
@@ -12,9 +12,11 @@ public class Start {
 
     public static void main(String[] args) {
 
-//        startAuthGI();
-        startWorkspaceGI();
-        new MainWindowGI();
+        initUserSet();
+        startAuthGI();
+//        startWorkspaceGI();
+//        new MainWindowGI();
+//        new BrowseDbContentGI();
     }
 
     public static void startWorkspaceWithCheckTime() {

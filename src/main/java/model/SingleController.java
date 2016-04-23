@@ -88,6 +88,21 @@ public final class SingleController extends Validator {
         IOFileHandling.saveUsers();
     }
 
+    public void createUser(String name, String surname, String userName, String telephone, String email,
+                           char[] password, int rights) throws IOException {
+
+        validateName(name, surname);
+        validatePassword(password);
+        validateMail(email);
+        validateTelephone(telephone);
+        User user = new User(name, surname, userName, password, telephone, email, rights);
+        if (!userSet.add(user)) {
+            throw new IOException(SingleMessage.EXIST_USER);
+        }
+        userNameMap.put(userName, rights);
+        IOFileHandling.saveUsers();
+    }
+
     public void updateUsersInfo(User user, String name, String surname, String telephone, String mail)
             throws IOException {
         validateName(name, surname);
@@ -117,7 +132,16 @@ public final class SingleController extends Validator {
         userNameMap.remove(user.getLogin());
     }
 
-    public User authorizedUsers(String userName, char[] password) {
+    public User simpleAuthorizeUser(String userName, char[] password) {
+        for (User user : userSet) {
+            if (user.isMatches(userName, password)) {
+                return user;
+            }
+        }
+        return null;
+    }
+
+    public User authorizeUser(String userName, char[] password) {
         UsbDeviceManager.searchStorageDevicesSerials();
         for (User user : userSet) {
             if (user.isMatches(userName, password)) {
@@ -146,7 +170,7 @@ public final class SingleController extends Validator {
 
     public void addUser(User user) {
         userSet.add(user);
-        RegistryManager.createAppKey(user.getLogin());
-        RegistryManager.writeValueToReg(user.getLogin(), SystemPropertiesReader.getPropertiesHex());
+//        RegistryManager.createAppKey(user.getLogin());
+//        RegistryManager.writeValueToReg(user.getLogin(), SystemPropertiesReader.getPropertiesHex());
     }
 }

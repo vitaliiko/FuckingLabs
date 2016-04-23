@@ -12,14 +12,14 @@ public class UsersRights {
     public static final int EMPTY_SIMPLE_PASSWORD = 7;
 
     private static String[] items = {
-            "Administrator",
-            "Simple user with complex password",
-            "Simple user with simple password",
-            "Blocked user",
-            "Simple user with locked username",
-            "Empty user",
-            "Locked username, simple password",
-            "Empty user with simple password"
+            "Администратор",
+            "Пользователь со сложным паролем",
+            "Пользователь с простым паролем",
+            "Заблокированный пользователь",
+            "Пользователь с заблокированным логином",
+            "Пустой пользователь",
+            "Заблокированный логин и простой пароль",
+            "Пустой пользователь с простым паролем"
         };
 
     public static String[] getItems() {

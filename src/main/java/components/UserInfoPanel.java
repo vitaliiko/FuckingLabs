@@ -30,23 +30,23 @@ public class UserInfoPanel extends JPanel {
             }
         });
 
-        add(new JLabel("Account type: "));
+        add(new JLabel("Тип учетной записи: "));
         prepareRightsBox();
         add(rightsBox);
 
-        add(new JLabel("Name: "));
+        add(new JLabel("Имя: "));
         add(new JLabel(user.getFirstName()));
 
-        add(new JLabel("Surname: "));
+        add(new JLabel("Фамилия: "));
         add(new JLabel(user.getLastName()));
 
-        add(new JLabel("Username: "));
+        add(new JLabel("Логин: "));
         add(new JLabel(user.getLogin()));
 
-        add(new JLabel("Telephone: "));
+        add(new JLabel("Телефон: "));
         add(new JLabel(user.getTelephoneNum()));
 
-        add(new JLabel("E-mail address: "));
+        add(new JLabel("E-mail: "));
         add(new JLabel(user.getMailAddress()));
     }
 

@@ -22,7 +22,7 @@ public class BrowseDbContentGI extends JFrame {
         super("Лабораторна робота №2");
         FrameUtils.setLookAndFeel();
 
-        prepateTabbedPane();
+        prepareTabbedPane();
         getContentPane().add(tabbedPane, BorderLayout.CENTER);
 
         setupFrame();
@@ -35,7 +35,7 @@ public class BrowseDbContentGI extends JFrame {
         setVisible(true);
     }
 
-    private void prepateTabbedPane() {
+    private void prepareTabbedPane() {
         tabbedPane = new JTabbedPane();
         tabbedPane.setBorder(new EmptyBorder(5, 5, 0, 5));
         tabbedPane.setBackground(Color.WHITE);

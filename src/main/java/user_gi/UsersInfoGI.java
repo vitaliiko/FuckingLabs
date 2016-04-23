@@ -37,7 +37,7 @@ public class UsersInfoGI extends JFrame {
     private JTable usersTable;
 
     public UsersInfoGI() throws HeadlessException {
-        super("Users");
+        super("Пользователи");
         this.controller = SingleController.getInstance();
         usersList = new ArrayList<>(controller.getUserSet());
         userInfoPanelsList = new ArrayList<>();
@@ -45,7 +45,7 @@ public class UsersInfoGI extends JFrame {
 
         FrameUtils.setLookAndFeel();
 
-        getContentPane().add(SingleMessage.getMessageInstance(SingleMessage.USER_LIST), BorderLayout.NORTH);
+//        getContentPane().add(SingleMessage.getMessageInstance(SingleMessage.USER_LIST), BorderLayout.NORTH);
 
         prepareCenterPanel();
         getContentPane().add(centerPanel, BorderLayout.CENTER);
@@ -54,7 +54,7 @@ public class UsersInfoGI extends JFrame {
         getContentPane().add(saveCancelPanel, BorderLayout.SOUTH);
 
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        setSize(new Dimension(500, 350));
+        setSize(new Dimension(500, 320));
         setIconImage(new ImageIcon("resources/users.png").getImage());
         setResizable(false);
         setLocationRelativeTo(null);
@@ -99,7 +99,7 @@ public class UsersInfoGI extends JFrame {
     }
 
     private void prepareShowButton() {
-        showInfoButton = new JButton("Show info");
+        showInfoButton = new JButton("Показать");
         showInfoButton.setEnabled(false);
         showInfoButton.setHorizontalAlignment(JButton.CENTER);
         showInfoButton.addActionListener(e -> {
@@ -115,14 +115,14 @@ public class UsersInfoGI extends JFrame {
     private void prepareSaveCancelPanel() {
         saveCancelPanel = new JPanel();
 
-        saveButton = new JButton("Save");
+        saveButton = new JButton("Сохранить");
         saveButton.addActionListener(e -> {
             saveButton.setEnabled(false);
             IOFileHandling.saveUsers();
         });
         saveCancelPanel.add(saveButton);
 
-        JButton cancelButton = new JButton("Cancel");
+        JButton cancelButton = new JButton("Отмена");
         cancelButton.addActionListener(e -> dispose());
         saveCancelPanel.add(cancelButton);
     }
@@ -143,7 +143,7 @@ public class UsersInfoGI extends JFrame {
     }
 
     private void prepareNavigationPanel() {
-        prevButton = new JButton("Prev");
+        prevButton = new JButton("Пред.");
         prevButton.setIcon(new ImageIcon("resources/prev.png"));
         prevButton.setHorizontalAlignment(JButton.LEFT);
         prevButton.addActionListener(e -> {
@@ -152,7 +152,7 @@ public class UsersInfoGI extends JFrame {
             checkButtonsEnabled();
         });
 
-        JButton backButton = new JButton("Back");
+        JButton backButton = new JButton("Назад");
         backButton.setHorizontalAlignment(JButton.CENTER);
         backButton.addActionListener(e -> {
             viewUserInfoPanel.setVisible(false);
@@ -163,7 +163,7 @@ public class UsersInfoGI extends JFrame {
 
         });
 
-        nextButton = new JButton("Next");
+        nextButton = new JButton("Слуд.");
         nextButton.setIcon(new ImageIcon("resources/next.png"));
         nextButton.setHorizontalTextPosition(SwingConstants.LEFT);
         nextButton.setHorizontalAlignment(JButton.RIGHT);
@@ -177,11 +177,11 @@ public class UsersInfoGI extends JFrame {
     }
 
     private void prepareAddRemovePanel() {
-        JButton addButton = new JButton("Add user");
+        JButton addButton = new JButton("Добавить пользователя");
         addButton.setIcon(new ImageIcon("resources/addUsers.png"));
         addButton.addActionListener(e -> new AddEmptyUserGI(this));
 
-        removeButton = new JButton("Remove user");
+        removeButton = new JButton("Удалить пользователя");
         removeButton.setIcon(new ImageIcon("resources/remove.png"));
         removeButton.addActionListener(e -> {
             controller.removeUser(usersList.get(usersIndex));

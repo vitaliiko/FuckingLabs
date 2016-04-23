@@ -29,6 +29,8 @@ public class AuthenticationGI extends JFrame {
     private JTextField nameField;
     private JTextField surnameField;
     private JTextField usernameField;
+    private JTextField telephoneField;
+    private JTextField emailFiled;
     private JPasswordField firstPasswordField;
     private JPasswordField secondPasswordField;
     private JButton loginButton;
@@ -36,23 +38,20 @@ public class AuthenticationGI extends JFrame {
     private JButton cancelButton;
     private JButton createNewButton;
 
-    private Dimension loginDimension = new Dimension(400, 180);
-    private Dimension signUpDimension = new Dimension(400, 275);
+    private Dimension loginDimension = new Dimension(400, 140);
+    private Dimension signUpDimension = new Dimension(400, 285);
     private int rights;
 
     public AuthenticationGI() throws Exception {
-        super("Login");
+        super("Авторизация");
 
         FrameUtils.setLookAndFeel();
 
         prepareCenterPanel();
         getContentPane().add(centerPanel, BorderLayout.CENTER);
-        getContentPane().add(SingleMessage.getMessageInstance(SingleMessage.LOGIN), BorderLayout.NORTH);
-        getContentPane().add(new JLabel("Trial version. Start up attempts left: " +
-                SingleController.getInstance().getAttempts()),BorderLayout.SOUTH);
+//        getContentPane().add(SingleMessage.getMessageInstance(SingleMessage.LOGIN), BorderLayout.NORTH);
 
         frameSetup();
-        checkAttempts();
     }
 
     private void frameSetup() {
@@ -86,11 +85,11 @@ public class AuthenticationGI extends JFrame {
         JPanel fieldsPanel = new BoxPanel(BoxLayout.Y_AXIS);
 
         prepareUsernameBox();
-        fieldsPanel.add(new LabelComponentPanel("Username: ", usernameBox), BorderLayout.EAST);
+        fieldsPanel.add(new LabelComponentPanel("Логин: ", usernameBox), BorderLayout.EAST);
 
         passwordField = new JPasswordField(COLUMNS_COUNT);
         passwordField.getDocument().addDocumentListener(new LoginTypeListener());
-        fieldsPanel.add(new LabelComponentPanel("Password: ", passwordField));
+        fieldsPanel.add(new LabelComponentPanel("Пароль: ", passwordField));
 
         loginPanel.add(fieldsPanel, BorderLayout.EAST);
 
@@ -115,10 +114,10 @@ public class AuthenticationGI extends JFrame {
     }
 
     private void prepareLoginButton() {
-        loginButton = new JButton("Login");
+        loginButton = new JButton("Войти");
         loginButton.setEnabled(false);
         loginButton.addActionListener(e -> {
-            User user = SingleController.getInstance().authorizedUsers(
+            User user = SingleController.getInstance().simpleAuthorizeUser(
                     ((JTextField) usernameBox.getEditor().getEditorComponent()).getText(),
                     passwordField.getPassword());
             if (user != null) {
@@ -137,14 +136,14 @@ public class AuthenticationGI extends JFrame {
     }
 
     private void prepareCreateNewButton() {
-        createNewButton = new JButton("New Account");
+        createNewButton = new JButton("Регистрация");
         createNewButton.addActionListener(e -> {
             loginPanel.setVisible(false);
             signUpPanel.setVisible(true);
             clearFields();
             SingleMessage.setDefaultMessage(SingleMessage.CREATE);
             setSize(signUpDimension);
-            setTitle("Sign up");
+            setTitle("Регистрация");
         });
     }
 
@@ -171,27 +170,35 @@ public class AuthenticationGI extends JFrame {
 
         nameField = new JTextField(COLUMNS_COUNT);
         nameField.getDocument().addDocumentListener(signUpTypeListener);
-        fieldsPanel.add(new LabelComponentPanel("Your name: ", nameField));
+        fieldsPanel.add(new LabelComponentPanel("Имя: ", nameField));
 
         surnameField = new JTextField(COLUMNS_COUNT);
         surnameField.getDocument().addDocumentListener(signUpTypeListener);
-        fieldsPanel.add(new LabelComponentPanel("Your surname: ", surnameField));
+        fieldsPanel.add(new LabelComponentPanel("Фамилия: ", surnameField));
 
         usernameField = new JTextField(COLUMNS_COUNT);
         usernameField.getDocument().addDocumentListener(signUpTypeListener);
-        fieldsPanel.add(new LabelComponentPanel("Username: ", usernameField));
+        fieldsPanel.add(new LabelComponentPanel("Логин: ", usernameField));
+
+        telephoneField = new JTextField(COLUMNS_COUNT);
+        telephoneField.getDocument().addDocumentListener(signUpTypeListener);
+        fieldsPanel.add(new LabelComponentPanel("Телефон: ", telephoneField));
+
+        emailFiled = new JTextField(COLUMNS_COUNT);
+        emailFiled.getDocument().addDocumentListener(signUpTypeListener);
+        fieldsPanel.add(new LabelComponentPanel("E-mail: ", emailFiled));
 
         firstPasswordField = new JPasswordField(COLUMNS_COUNT);
         firstPasswordField.getDocument().addDocumentListener(signUpTypeListener);
-        fieldsPanel.add(new LabelComponentPanel("Password: ", firstPasswordField));
+        fieldsPanel.add(new LabelComponentPanel("Пароль: ", firstPasswordField));
 
         secondPasswordField = new JPasswordField(COLUMNS_COUNT);
         secondPasswordField.getDocument().addDocumentListener(signUpTypeListener);
-        fieldsPanel.add(new LabelComponentPanel("Repeat password: ", secondPasswordField));
+        fieldsPanel.add(new LabelComponentPanel("Пароль еще раз: ", secondPasswordField));
     }
 
     private void prepareSignUpButton() {
-        signUpButton = new JButton("Sign Up");
+        signUpButton = new JButton("Регистрация");
         signUpButton.setEnabled(false);
         signUpButton.addActionListener(e -> {
             try {
@@ -207,7 +214,8 @@ public class AuthenticationGI extends JFrame {
                 }
                 if (Arrays.equals(firstPasswordField.getPassword(), secondPasswordField.getPassword())) {
                     SingleController.getInstance().createUser(nameField.getText(), surnameField.getText(),
-                            usernameField.getText(), firstPasswordField.getPassword(), rights);
+                            usernameField.getText(), telephoneField.getText(), emailFiled.getText(),
+                            firstPasswordField.getPassword(), rights);
                 } else {
                     throw new IOException(SingleMessage.PASSWORDS_DOES_NOT_MATCH);
                 }
@@ -226,14 +234,14 @@ public class AuthenticationGI extends JFrame {
     }
 
     private void prepareCancelButton() {
-        cancelButton = new JButton("Cancel");
+        cancelButton = new JButton("Отмена");
         cancelButton.addActionListener(e -> {
             signUpPanel.setVisible(false);
             loginPanel.setVisible(true);
             clearFields();
             SingleMessage.setDefaultMessage(SingleMessage.LOGIN);
             setSize(loginDimension);
-            setTitle("Log in");
+            setTitle("Авторизация");
         });
     }
 
@@ -261,6 +269,8 @@ public class AuthenticationGI extends JFrame {
             signUpButton.setEnabled(!nameField.getText().isEmpty() &&
                     !surnameField.getText().isEmpty() &&
                     !usernameField.getText().isEmpty() &&
+                    !telephoneField.getText().isEmpty() &&
+                    !emailFiled.getText().isEmpty() &&
                     firstPasswordField.getPassword().length != 0 &&
                     secondPasswordField.getPassword().length != 0);
         }
