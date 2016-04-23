@@ -21,6 +21,16 @@ public class LabelComponentPanel extends JPanel {
         add(component);
     }
 
+    public LabelComponentPanel(String labelText, String text) {
+        setLayout(new GridLayout(1, 2));
+        setBorder(new EmptyBorder(8, 1, 1, 8));
+        setOpaque(false);
+        label = new JLabel(labelText);
+        label.setHorizontalAlignment(JLabel.RIGHT);
+        add(label);
+        add(new JLabel(text));
+    }
+
     public LabelComponentPanel(JLabel label, JComponent component) {
         setLayout(new GridLayout(1, 2));
         setBorder(new EmptyBorder(8, 1, 1, 8));
