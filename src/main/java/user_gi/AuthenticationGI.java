@@ -2,17 +2,21 @@ package user_gi;
 
 import components.BoxPanel;
 import components.LabelComponentPanel;
-import model.SingleController;
 import components.SingleMessage;
+import frame_utils.FrameUtils;
+import input_output.IOFileHandling;
+import model.SingleController;
 import model.User;
 import model.UsersRights;
-import frame_utils.FrameUtils;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.util.Arrays;
 
@@ -21,6 +25,7 @@ public class AuthenticationGI extends JFrame {
     private static final int COLUMNS_COUNT = 35;
 
     private JPanel loginPanel;
+    private JPanel extendedLoginPanel;
     private JPanel signUpPanel;
     private JPanel fieldsPanel;
     private JPanel centerPanel;
@@ -30,33 +35,41 @@ public class AuthenticationGI extends JFrame {
     private JTextField surnameField;
     private JTextField usernameField;
     private JTextField telephoneField;
+    private JTextField loginTelephoneField;
     private JTextField emailFiled;
+    private JTextField loginEmailField;
     private JPasswordField firstPasswordField;
     private JPasswordField secondPasswordField;
     private JButton loginButton;
     private JButton signUpButton;
     private JButton cancelButton;
     private JButton createNewButton;
+    private JLabel timerLabel;
 
     private Dimension loginDimension = new Dimension(400, 140);
     private Dimension signUpDimension = new Dimension(400, 285);
+    private Dimension extendedLoginDimension = new Dimension(400, 200);
     private int rights;
+    private int attemptsLeft;
+    private Timer timer;
 
     public AuthenticationGI() throws Exception {
         super("Авторизация");
-
+        attemptsLeft = IOFileHandling.loadAttmpts();
         FrameUtils.setLookAndFeel();
 
         prepareCenterPanel();
         getContentPane().add(centerPanel, BorderLayout.CENTER);
-//        getContentPane().add(SingleMessage.getMessageInstance(SingleMessage.LOGIN), BorderLayout.NORTH);
+
+        prepareTimerLabel();
+        getContentPane().add(timerLabel, BorderLayout.SOUTH);
 
         frameSetup();
     }
 
     private void frameSetup() {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        setSize(loginDimension);
+        setSize(attemptsLeft <= 0 ? extendedLoginDimension : loginDimension);
         setIconImage(new ImageIcon("resources/icon.png").getImage());
         setResizable(false);
         setLocationRelativeTo(null);
@@ -68,6 +81,11 @@ public class AuthenticationGI extends JFrame {
             loginButton.setVisible(false);
             createNewButton.setEnabled(false);
         }
+    }
+
+    private void prepareTimerLabel() {
+        timerLabel = new JLabel();
+        timerLabel.setVisible(false);
     }
 
     private void prepareCenterPanel() {
@@ -82,6 +100,8 @@ public class AuthenticationGI extends JFrame {
     private void prepareLoginPanel() {
         loginPanel = new JPanel();
         loginPanel.setLayout(new BorderLayout());
+        extendedLoginPanel = new BoxPanel(BoxLayout.Y_AXIS);
+        extendedLoginPanel.setVisible(attemptsLeft == 0);
         JPanel fieldsPanel = new BoxPanel(BoxLayout.Y_AXIS);
 
         prepareUsernameBox();
@@ -91,7 +111,15 @@ public class AuthenticationGI extends JFrame {
         passwordField.getDocument().addDocumentListener(new LoginTypeListener());
         fieldsPanel.add(new LabelComponentPanel("Пароль: ", passwordField));
 
-        loginPanel.add(fieldsPanel, BorderLayout.EAST);
+        loginTelephoneField = new JTextField(COLUMNS_COUNT);
+        loginTelephoneField.getDocument().addDocumentListener(new LoginTypeListener());
+        extendedLoginPanel.add(new LabelComponentPanel("Телефон: ", loginTelephoneField));
+
+        loginEmailField = new JTextField(COLUMNS_COUNT);
+        loginEmailField.getDocument().addDocumentListener(new LoginTypeListener());
+        extendedLoginPanel.add(new LabelComponentPanel("E-mail: ", loginEmailField));
+
+        loginPanel.add(new BoxPanel(BoxLayout.Y_AXIS, fieldsPanel, extendedLoginPanel), BorderLayout.EAST);
 
         prepareLoginButton();
         prepareCreateNewButton();
@@ -117,22 +145,83 @@ public class AuthenticationGI extends JFrame {
         loginButton = new JButton("Войти");
         loginButton.setEnabled(false);
         loginButton.addActionListener(e -> {
-            User user = SingleController.getInstance().simpleAuthorizeUser(
-                    ((JTextField) usernameBox.getEditor().getEditorComponent()).getText(),
-                    passwordField.getPassword());
+            User user;
+            String login = ((JTextField) usernameBox.getEditor().getEditorComponent()).getText();
+            char[] password = passwordField.getPassword();
+            if (extendedLoginPanel.isVisible()) {
+                user = SingleController.getInstance().extendedUserAuthorization(login, password,
+                        loginTelephoneField.getText(), loginEmailField.getText());
+            } else {
+                user = SingleController.getInstance().simpleUserAuthorization(login, password);
+            }
             if (user != null) {
-                setVisible(false);
-                clearFields();
-                rights = -1;
-                WorkspaceGI workspaceGI = new WorkspaceGI(user);
-                workspaceGI.addWindowListener(new WindowAdapter() {
-                    @Override
-                    public void windowClosed(WindowEvent e) {
-                        setVisible(true);
-                    }
-                });
+                IOFileHandling.saveAttempts(3);
+                startWorkspace(user);
+            } else {
+                showErrorMessage();
+                showExtendedLoginPanel();
+                if (attemptsLeft < 0) {
+                    startTimer();
+                }
             }
         });
+    }
+
+    private void startWorkspace(User user) {
+        setVisible(false);
+        clearFields();
+        rights = -1;
+        WorkspaceGI workspaceGI = new WorkspaceGI(user);
+        workspaceGI.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosed(WindowEvent e) {
+                setVisible(true);
+            }
+        });
+    }
+
+    private void showErrorMessage() {
+        attemptsLeft--;
+        IOFileHandling.saveAttempts(attemptsLeft);
+        if (attemptsLeft == 0) {
+            FrameUtils.showErrorDialog(this, "Неправильный логин или пароль.\n" +
+                    "Для авторизации необходимо ввести\n" +
+                    "номер телефона и адресс электронной почты");
+        } else if (attemptsLeft > 0) {
+            FrameUtils.showErrorDialog(this, "Неправильный логин или пароль.\nПопыток осталось: " + attemptsLeft);
+        } else {
+            FrameUtils.showErrorDialog(this, "Введены неверные данные.\nСледующая попытка через 1 мин.");
+        }
+    }
+
+    private void showExtendedLoginPanel() {
+        if (attemptsLeft == 0) {
+            setSize(extendedLoginDimension);
+            extendedLoginPanel.setVisible(true);
+            loginButton.setEnabled(false);
+        }
+    }
+
+    private void startTimer() {
+        passwordField.setText("");
+        passwordField.setEnabled(false);
+        timerLabel.setText("01:00");
+        timerLabel.setVisible(true);
+        final int[] seconds = {60};
+        timer = new Timer(1000, e -> {
+            seconds[0]--;
+            timerLabel.setText("00:" + (seconds[0] < 10 ? "0" + seconds[0] : seconds[0]));
+            if (seconds[0] == 0) {
+                stopTimer();
+            }
+        });
+        timer.start();
+    }
+
+    private void stopTimer() {
+        timer.stop();
+        timerLabel.setVisible(false);
+        passwordField.setEnabled(true);
     }
 
     private void prepareCreateNewButton() {
@@ -240,7 +329,12 @@ public class AuthenticationGI extends JFrame {
             loginPanel.setVisible(true);
             clearFields();
             SingleMessage.setDefaultMessage(SingleMessage.LOGIN);
-            setSize(loginDimension);
+            if (attemptsLeft <= 0) {
+                setSize(extendedLoginDimension);
+                passwordField.setEnabled(attemptsLeft >= 0);
+            } else {
+                setSize(loginDimension);
+            }
             setTitle("Авторизация");
         });
     }
@@ -290,8 +384,15 @@ public class AuthenticationGI extends JFrame {
 
         @Override
         public void insertUpdate(DocumentEvent e) {
-            loginButton.setEnabled(passwordField.getPassword().length != 0 &&
-                    usernameBox.getSelectedItem() != null);
+            if (extendedLoginPanel.isVisible()) {
+                loginButton.setEnabled(passwordField.getPassword().length != 0
+                        && usernameBox.getSelectedItem() != null
+                        && !loginTelephoneField.getText().isEmpty()
+                        && !loginEmailField.getText().isEmpty());
+            } else {
+                loginButton.setEnabled(passwordField.getPassword().length != 0
+                        && usernameBox.getSelectedItem() != null);
+            }
         }
 
         @Override

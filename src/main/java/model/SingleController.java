@@ -132,10 +132,21 @@ public final class SingleController extends Validator {
         userNameMap.remove(user.getLogin());
     }
 
-    public User simpleAuthorizeUser(String userName, char[] password) {
+    public User simpleUserAuthorization(String userName, char[] password) {
         for (User user : userSet) {
             if (user.isMatches(userName, password)) {
                 return user;
+            }
+        }
+        return null;
+    }
+
+    public User extendedUserAuthorization(String userName, char[] password, String telephone, String email) {
+        for (User user : userSet) {
+            if (user.getLogin().equals(userName)) {
+                if (user.isMatches(userName, password, telephone, email)) {
+                    return user;
+                }
             }
         }
         return null;

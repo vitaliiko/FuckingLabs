@@ -16,6 +16,7 @@ import java.util.Set;
 public class IOFileHandling {
 
     public final static String USERS_SER = "IOFiles/users.ser";
+    public static final String ATTEMPTS_SER = "IOFiles/attempts.ser";
 
     public static void saveUsers() {
         SingleController controller = SingleController.getInstance();
@@ -42,6 +43,30 @@ public class IOFileHandling {
                     JOptionPane.DEFAULT_OPTION);
         }
         return usersSet;
+    }
+
+    public static void saveAttempts(Integer attempts) {
+        try {
+            ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(ATTEMPTS_SER));
+            os.writeObject(attempts);
+            os.close();
+        } catch (IOException e) {
+            JOptionPane.showConfirmDialog(null, "Error when saving data base file", "ACHTUNG!",
+                    JOptionPane.DEFAULT_OPTION);
+        }
+    }
+
+    public static Integer loadAttmpts() {
+        Integer attempts = null;
+        ObjectInputStream is;
+        try {
+            is = new ObjectInputStream(new FileInputStream(ATTEMPTS_SER));
+            attempts = (Integer) is.readObject();
+        } catch (IOException | ClassNotFoundException e) {
+            JOptionPane.showConfirmDialog(null, "Error when reading data base file", "ACHTUNG!",
+                    JOptionPane.DEFAULT_OPTION);
+        }
+        return attempts;
     }
 
     public static String readFromFile(String fileName) {

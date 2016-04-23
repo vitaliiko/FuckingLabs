@@ -4,7 +4,6 @@ import model.TimeUtil;
 import model.User;
 import model.UsersRights;
 import user_gi.AuthenticationGI;
-import user_gi.BrowseDbContentGI;
 import user_gi.WorkspaceGI;
 
 import javax.swing.*;
@@ -13,11 +12,12 @@ public class Start {
 
     public static void main(String[] args) {
 
+        initAttempts();
         initUserSet();
-//        startAuthGI();
+        startAuthGI();
 //        startWorkspaceGI();
 //        new MainWindowGI();
-        new BrowseDbContentGI(new User("Petrov", "Denis", "petromas", "petro123@", UsersRights.ADMIN));
+//        new BrowseDbContentGI(new User("Petrov", "Denis", "petromas", "petro123@", UsersRights.ADMIN));
     }
 
     public static void startWorkspaceWithCheckTime() {
@@ -61,5 +61,9 @@ public class Start {
         controller.addUser(new User("Empty1", UsersRights.EMPTY));
         controller.addUser(new User("Empty2", UsersRights.EMPTY_SIMPLE_PASSWORD));
         IOFileHandling.saveUsers();
+    }
+
+    private static void initAttempts() {
+        IOFileHandling.saveAttempts(3);
     }
 }

@@ -151,6 +151,13 @@ public class User implements Serializable {
         return this.login.equals(userName) && this.password.equals(CustomMessageDigest.hashText(password));
     }
 
+    public boolean isMatches(String userName, char[] password, String telephoneNum, String mailAddress) {
+        return this.login.equals(userName)
+                && this.password.equals(CustomMessageDigest.hashText(password))
+                && this.telephoneNum.equals(telephoneNum)
+                && this.mailAddress.equals(mailAddress);
+    }
+
     public boolean isPasswordsMatches(char[] password) {
         return this.password.equals(CustomMessageDigest.hashText(password));
     }
