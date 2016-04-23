@@ -1,19 +1,20 @@
 package user_gi;
 
-import coder.CardanGrilleCoder;
-import coder.CeasarCoder;
-import coder.Coder;
-import coder.VerrnamCoder;
-import coder.VigenereCoder;
+import coder.*;
 import components.BoxPanel;
 import frame_utils.FrameUtils;
 import frame_utils.WorkspaceUtil;
-import java.awt.*;
+import input_output.IOFileHandling;
+import model.SingleController;
+
 import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionListener;
 
 public class MainWindowGI extends JFrame {
 
     private JPanel buttonPanel;
+    private Dimension buttonDimension = new Dimension(300, 40);
 
     public MainWindowGI() throws HeadlessException {
         super(WorkspaceUtil.FRAME_NAME);
@@ -39,6 +40,11 @@ public class MainWindowGI extends JFrame {
         buttonPanel.add(createButton("Лабораторна робота №1",
                 "Шифрування методом \"Код Цезаря\"",
                 CeasarCoder.getInstance()));
+        buttonPanel.add(createButton("Лабораторна робота №2", e -> {
+            SingleController.getInstance().setUserSet(IOFileHandling.loadUsers());
+            new AuthenticationGI();
+            this.dispose();
+        }));
         buttonPanel.add(createButton("Лабораторна робота №3",
                 "Шифрування за допомогою таблиці Віженера",
                 VigenereCoder.getInstance()));
@@ -56,7 +62,14 @@ public class MainWindowGI extends JFrame {
             new FriendlyWorkspaceGI(title, subject, coder);
             this.dispose();
         });
-        button.setMaximumSize(new Dimension(300, 40));
+        button.setMaximumSize(buttonDimension);
+        return button;
+    }
+
+    private JButton createButton(String title, ActionListener listener) {
+        JButton button = new JButton(title);
+        button.addActionListener(listener);
+        button.setMaximumSize(buttonDimension);
         return button;
     }
 }

@@ -4,6 +4,7 @@ import model.TimeUtil;
 import model.User;
 import model.UsersRights;
 import user_gi.AuthenticationGI;
+import user_gi.MainWindowGI;
 import user_gi.WorkspaceGI;
 
 import javax.swing.*;
@@ -12,11 +13,11 @@ public class Start {
 
     public static void main(String[] args) {
 
-        initAttempts();
-        initUserSet();
-        startAuthGI();
+//        initAttempts();
+//        initUserSet();
+//        startAuthGI();
 //        startWorkspaceGI();
-//        new MainWindowGI();
+        new MainWindowGI();
 //        new BrowseDbContentGI(new User("Petrov", "Denis", "petromas", "petro123@", UsersRights.ADMIN));
     }
 

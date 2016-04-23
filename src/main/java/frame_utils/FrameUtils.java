@@ -45,7 +45,7 @@ public final class FrameUtils {
     }
 
     public static void showErrorDialog(JFrame frame, String message) {
-        JOptionPane.showMessageDialog(frame, message, "Error", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(frame, message, "Ошибка", JOptionPane.ERROR_MESSAGE);
     }
 
     public static void showConfirmDialog(JFrame frame, String message) {

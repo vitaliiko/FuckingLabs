@@ -29,6 +29,7 @@ public class AuthenticationGI extends JFrame {
     private JPanel signUpPanel;
     private JPanel fieldsPanel;
     private JPanel centerPanel;
+    private JPanel timerPanel;
     private JComboBox<Object> usernameBox;
     private JPasswordField passwordField;
     private JTextField nameField;
@@ -47,23 +48,28 @@ public class AuthenticationGI extends JFrame {
     private JLabel timerLabel;
 
     private Dimension loginDimension = new Dimension(400, 140);
-    private Dimension signUpDimension = new Dimension(400, 285);
-    private Dimension extendedLoginDimension = new Dimension(400, 200);
+    private Dimension signUpDimension = new Dimension(400, 290);
+    private Dimension extendedLoginDimension = new Dimension(400, 205);
     private int rights;
     private int attemptsLeft;
     private Timer timer;
 
-    public AuthenticationGI() throws Exception {
+    public AuthenticationGI() {
         super("Авторизация");
         attemptsLeft = IOFileHandling.loadAttmpts();
         FrameUtils.setLookAndFeel();
 
         prepareCenterPanel();
         getContentPane().add(centerPanel, BorderLayout.CENTER);
+        prepareTimerPanel();
+        getContentPane().add(timerPanel, BorderLayout.SOUTH);
 
-        prepareTimerLabel();
-        getContentPane().add(timerLabel, BorderLayout.SOUTH);
-
+        if (attemptsLeft <= 0) {
+            extendedLoginPanel.setVisible(true);
+        }
+        if (attemptsLeft < 0) {
+            startTimer();
+        }
         frameSetup();
     }
 
@@ -83,9 +89,10 @@ public class AuthenticationGI extends JFrame {
         }
     }
 
-    private void prepareTimerLabel() {
+    private void prepareTimerPanel() {
         timerLabel = new JLabel();
-        timerLabel.setVisible(false);
+        timerPanel = new BoxPanel(new JLabel("До следующей попытки сталось: "), timerLabel);
+        timerPanel.setVisible(false);
     }
 
     private void prepareCenterPanel() {
@@ -206,7 +213,7 @@ public class AuthenticationGI extends JFrame {
         passwordField.setText("");
         passwordField.setEnabled(false);
         timerLabel.setText("01:00");
-        timerLabel.setVisible(true);
+        timerPanel.setVisible(true);
         final int[] seconds = {60};
         timer = new Timer(1000, e -> {
             seconds[0]--;
@@ -220,7 +227,7 @@ public class AuthenticationGI extends JFrame {
 
     private void stopTimer() {
         timer.stop();
-        timerLabel.setVisible(false);
+        timerPanel.setVisible(false);
         passwordField.setEnabled(true);
     }
 
@@ -317,7 +324,7 @@ public class AuthenticationGI extends JFrame {
                 loginButton.setEnabled(true);
                 setSize(loginDimension);
             } catch (IOException exception) {
-                SingleMessage.setWarningMessage(exception.getMessage());
+                FrameUtils.showErrorDialog(this, exception.getMessage());
             }
         });
     }
