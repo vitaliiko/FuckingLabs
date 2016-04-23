@@ -4,11 +4,11 @@ import java.util.List;
 
 public interface GoodsService {
 
-    Goods get(Class<Goods> clazz, Integer id) throws Exception;
+    Goods get(Integer id);
 
-    List<Goods> list(Class<Goods> clazz) throws Exception;
+    List<Goods> list();
 
-    void save(Goods goods) throws Exception;
+    void save(Goods goods);
 
-    boolean delete(Goods goods) throws Exception;
+    boolean delete(Goods goods);
 }

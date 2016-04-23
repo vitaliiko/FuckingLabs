@@ -5,12 +5,12 @@ public class Goods extends Entity {
     private String type;
     private String producer;
     private String model;
-    private String price;
+    private int price;
     private String description;
 
     public Goods() {}
 
-    public Goods(String type, String producer, String model, String price, String description) {
+    public Goods(String type, String producer, String model, int price, String description) {
         this.type = type;
         this.producer = producer;
         this.model = model;
@@ -42,11 +42,11 @@ public class Goods extends Entity {
         this.model = model;
     }
 
-    public String getPrice() {
+    public int getPrice() {
         return price;
     }
 
-    public void setPrice(String price) {
+    public void setPrice(int price) {
         this.price = price;
     }
 

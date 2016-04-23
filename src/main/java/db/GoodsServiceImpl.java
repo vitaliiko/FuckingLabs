@@ -5,29 +5,48 @@ import java.util.List;
 
 public class GoodsServiceImpl implements GoodsService {
 
-    private EntityDao dao;
+    private Class<Goods> clazz = Goods.class;
 
-    public GoodsServiceImpl(Connection connection) {
-        dao = new EntityDao(connection);
+    @Override
+    public Goods get(Integer id) {
+        try (Connection connection = ConnectionUtil.createConnection()) {
+            EntityDao dao = new EntityDao(connection);
+            return dao.get(clazz, id);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     @Override
-    public Goods get(Class<Goods> clazz, Integer id) throws Exception {
-        return dao.get(clazz, id);
+    public List<Goods> list() {
+        try (Connection connection = ConnectionUtil.createConnection()) {
+            EntityDao dao = new EntityDao(connection);
+            return dao.list(clazz);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     @Override
-    public List<Goods> list(Class<Goods> clazz) throws Exception {
-        return dao.list(clazz);
+    public void save(Goods goods) {
+        try (Connection connection = ConnectionUtil.createConnection()) {
+            EntityDao dao = new EntityDao(connection);
+            dao.save(goods);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
-    public void save(Goods goods) throws Exception {
-        dao.save(goods);
-    }
-
-    @Override
-    public boolean delete(Goods goods) throws Exception {
-        return dao.delete(goods);
+    public boolean delete(Goods goods) {
+        try (Connection connection = ConnectionUtil.createConnection()) {
+            EntityDao dao = new EntityDao(connection);
+            return dao.delete(goods);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 }
