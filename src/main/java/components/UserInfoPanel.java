@@ -1,7 +1,7 @@
 package components;
 
 import model.User;
-import model.UsersRights;
+import model.UserRights;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -51,24 +51,24 @@ public class UserInfoPanel extends JPanel {
     }
 
     private void prepareRightsBox() {
-        String[] items = UsersRights.getItems();
+        String[] items = UserRights.getItems();
         rightsBox = new JComboBox<>(items);
         rightsBox.setSelectedIndex(user.getRights());
-        rightsBox.setEnabled(user.getRights() != UsersRights.ADMIN);
+        rightsBox.setEnabled(user.getRights() != UserRights.ADMIN);
         rightsBox.addItemListener(e -> {
             int selectedRights = rightsBox.getSelectedIndex();
-            if (selectedRights == UsersRights.ADMIN) {
+            if (selectedRights == UserRights.ADMIN) {
                 rightsBox.setSelectedIndex(user.getRights());
             }
-            if (user.getRights() != UsersRights.EMPTY && user.getRights() != UsersRights.EMPTY_SIMPLE_PASSWORD) {
-                if (selectedRights == UsersRights.EMPTY ||
-                        rightsBox.getSelectedIndex() == UsersRights.EMPTY_SIMPLE_PASSWORD) {
+            if (user.getRights() != UserRights.EMPTY && user.getRights() != UserRights.EMPTY_SIMPLE_PASSWORD) {
+                if (selectedRights == UserRights.EMPTY ||
+                        rightsBox.getSelectedIndex() == UserRights.EMPTY_SIMPLE_PASSWORD) {
                     rightsBox.setSelectedIndex(user.getRights());
                 }
             }
-            if (user.getRights() == UsersRights.EMPTY || user.getRights() == UsersRights.EMPTY_SIMPLE_PASSWORD) {
-                if (selectedRights != UsersRights.EMPTY &&
-                        rightsBox.getSelectedIndex() != UsersRights.EMPTY_SIMPLE_PASSWORD) {
+            if (user.getRights() == UserRights.EMPTY || user.getRights() == UserRights.EMPTY_SIMPLE_PASSWORD) {
+                if (selectedRights != UserRights.EMPTY &&
+                        rightsBox.getSelectedIndex() != UserRights.EMPTY_SIMPLE_PASSWORD) {
                     rightsBox.setSelectedIndex(user.getRights());
                 }
             }

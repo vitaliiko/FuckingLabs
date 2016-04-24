@@ -3,7 +3,7 @@ package model;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-public class CustomMessageDigest {
+public class PasswordDigest {
 
     public static String hashText(char[] text) {
         return hashText(String.valueOf(text));

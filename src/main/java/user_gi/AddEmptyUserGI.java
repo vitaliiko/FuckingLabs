@@ -5,7 +5,7 @@ import components.LabelComponentPanel;
 import components.SingleMessage;
 import model.SingleController;
 import input_output.IOFileHandling;
-import model.UsersRights;
+import model.UserRights;
 import frame_utils.FrameUtil;
 
 import javax.swing.*;
@@ -81,9 +81,9 @@ public class AddEmptyUserGI extends JDialog {
         addButton.addActionListener(e -> {
             try {
                 if (checkBox.isSelected()) {
-                    controller.addEmptyUser(usernameField.getText(), UsersRights.EMPTY_SIMPLE_PASSWORD);
+                    controller.addEmptyUser(usernameField.getText(), UserRights.EMPTY_SIMPLE_PASSWORD);
                 } else {
-                    controller.addEmptyUser(usernameField.getText(), UsersRights.EMPTY);
+                    controller.addEmptyUser(usernameField.getText(), UserRights.EMPTY);
                 }
                 SingleMessage.setDefaultMessage(SingleMessage.ADD_USER_SUC);
                 addButton.setEnabled(false);

@@ -64,6 +64,12 @@ public final class FrameUtil {
                 ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
     }
 
+    public static JScrollPane createVerticalScroll(JComponent component) {
+        return new JScrollPane(component,
+                ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
+                ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+    }
+
     public static JPanel createLabelGridPanel(int alignment, String... strings) {
         JPanel panel = createGridPanel(strings.length, 6);
         for (String s : strings) {
@@ -87,5 +93,6 @@ public final class FrameUtil {
         panel.setBorder(new EmptyBorder(0, 5, 8, 0));
         return panel;
     }
+
 
 }

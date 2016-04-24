@@ -78,7 +78,7 @@ public class SettingsGI extends JDialog {
         fieldsPanel = new BoxPanel(BoxLayout.Y_AXIS);
 
         fieldsPanel.add(
-                new LabelComponentPanel("Account type: ", new JLabel(UsersRights.accountType(user.getRights())))
+                new LabelComponentPanel("Account type: ", new JLabel(UserRights.accountType(user.getRights())))
         );
 
         nameField = new JTextField(user.getFirstName(), COLUMNS_COUNT);
@@ -91,9 +91,9 @@ public class SettingsGI extends JDialog {
 
         usernameField = new JTextField(user.getLogin(), COLUMNS_COUNT);
         usernameField.getDocument().addDocumentListener(typeListener);
-        usernameField.setEnabled(user.getRights() != UsersRights.LOCK_USERNAME &&
-                user.getRights() != UsersRights.ADMIN &&
-                user.getRights() != UsersRights.LOCK_USERNAME_WITH_SIMPLE_PASSWORD);
+        usernameField.setEnabled(user.getRights() != UserRights.LOCK_USERNAME &&
+                user.getRights() != UserRights.ADMIN &&
+                user.getRights() != UserRights.LOCK_USERNAME_WITH_SIMPLE_PASSWORD);
         fieldsPanel.add(new LabelComponentPanel("Username: ", usernameField));
 
         telephoneField = new JTextField(user.getTelephoneNum(), COLUMNS_COUNT);
@@ -113,7 +113,7 @@ public class SettingsGI extends JDialog {
 
     private void prepareRemoveButton(){
         removeButton = new JButton("Remove account");
-        removeButton.setEnabled(user.getRights() != UsersRights.ADMIN);
+        removeButton.setEnabled(user.getRights() != UserRights.ADMIN);
         removeButton.addActionListener(e -> {
             controller.removeUser(user);
             IOFileHandling.saveUsers();
@@ -189,8 +189,8 @@ public class SettingsGI extends JDialog {
         if (!Arrays.equals(newPasswordField.getPassword(), repeatPasswordField.getPassword())) {
             throw new IOException(SingleMessage.PASSWORDS_DOES_NOT_MATCH);
         }
-        if (user.getRights() == UsersRights.USER_WITH_SIMPLE_PASSWORD ||
-                user.getRights() == UsersRights.LOCK_USERNAME_WITH_SIMPLE_PASSWORD) {
+        if (user.getRights() == UserRights.USER_WITH_SIMPLE_PASSWORD ||
+                user.getRights() == UserRights.LOCK_USERNAME_WITH_SIMPLE_PASSWORD) {
             user.setPassword(newPasswordField.getPassword());
         } else {
             if (controller.validatePassword(newPasswordField.getPassword())) {

@@ -34,7 +34,7 @@ public class UsersInfoGI extends JFrame {
     private JButton saveButton;
     private JButton showInfoButton;
     private JButton removeButton;
-    private JTable usersTable;
+    private JTable userTable;
 
     public UsersInfoGI() throws HeadlessException {
         super("Пользователи");
@@ -76,19 +76,18 @@ public class UsersInfoGI extends JFrame {
         tablePanel.add(new BoxPanel(showInfoButton));
 
         prepareUsersTable();
-        tablePanel.add(new JScrollPane(usersTable, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
-                ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER));
+        tablePanel.add(FrameUtil.createVerticalScroll(userTable));
     }
 
     private void prepareUsersTable() {
         TableModel tableModel = new UsersTableModel(controller, usersList);
-        usersTable = new JTable(tableModel);
-        usersTable.getTableHeader().setReorderingAllowed(false);
-        usersTable.setShowHorizontalLines(false);
-        usersTable.setShowVerticalLines(false);
-        usersTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        usersTable.getSelectionModel().addListSelectionListener(e -> showInfoButton.setEnabled(true));
-        usersTable.addMouseListener(new MouseAdapter() {
+        userTable = new JTable(tableModel);
+        userTable.getTableHeader().setReorderingAllowed(false);
+        userTable.setShowHorizontalLines(false);
+        userTable.setShowVerticalLines(false);
+        userTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        userTable.getSelectionModel().addListSelectionListener(e -> showInfoButton.setEnabled(true));
+        userTable.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 if (e.getClickCount() == 2) {
@@ -105,7 +104,7 @@ public class UsersInfoGI extends JFrame {
         showInfoButton.addActionListener(e -> {
             tablePanel.setVisible(false);
             viewUserInfoPanel.setVisible(true);
-            usersIndex = usersTable.getSelectedRow();
+            usersIndex = userTable.getSelectedRow();
             userInfoPanelsList.get(usersIndex).setVisible(true);
             checkButtonsEnabled();
             SingleMessage.setDefaultMessage(SingleMessage.USER_INFO);
@@ -163,7 +162,7 @@ public class UsersInfoGI extends JFrame {
 
         });
 
-        nextButton = new JButton("Слуд.");
+        nextButton = new JButton("След.");
         nextButton.setIcon(new ImageIcon("resources/next.png"));
         nextButton.setHorizontalTextPosition(SwingConstants.LEFT);
         nextButton.setHorizontalAlignment(JButton.RIGHT);
@@ -198,6 +197,6 @@ public class UsersInfoGI extends JFrame {
     private void checkButtonsEnabled() {
         nextButton.setEnabled(usersIndex != userInfoPanelsList.size() - 1);
         prevButton.setEnabled(usersIndex != 0);
-        removeButton.setEnabled(usersList.get(usersIndex).getRights() != UsersRights.ADMIN);
+        removeButton.setEnabled(usersList.get(usersIndex).getRights() != UserRights.ADMIN);
     }
 }

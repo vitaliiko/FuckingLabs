@@ -1,8 +1,5 @@
 import input_output.IOFileHandling;
-import model.SingleController;
-import model.TimeUtil;
-import model.User;
-import model.UsersRights;
+import model.*;
 import user_gi.AuthenticationGI;
 import user_gi.MainWindowGI;
 import user_gi.WorkspaceGI;
@@ -14,10 +11,10 @@ public class Start {
     public static void main(String[] args) {
 
         initAttempts();
-//        initUserSet();
+        initUserSet();
 //        startAuthGI();
         new MainWindowGI();
-//        new BrowseDbContentGI(new User("Petrov", "Denis", "petromas", "petro123@", UsersRights.ADMIN));
+//        new GoodsGI(new User("Petrov", "Denis", "petromas", "petro123@", UsersRights.ADMIN));
     }
 
     public static void startWorkspaceWithCheckTime() {
@@ -41,7 +38,7 @@ public class Start {
     public static void startWorkspaceGI() {
         SingleController.getInstance().setUserSet(IOFileHandling.loadUsers());
         try {
-            User user = new User("Admin", "Admin", "ADMIN", "111111", UsersRights.ADMIN);
+            User user = new User("Admin", "Admin", "ADMIN", "111111", UserRights.ADMIN);
             user.setAlphabet("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789/*'-+=!?., ");
             new WorkspaceGI(user);
         } catch (Exception e) {
@@ -51,15 +48,14 @@ public class Start {
 
     public static void initUserSet() {
         SingleController controller = SingleController.getInstance();
-        User admin = new User("Admin", "Admin", "ADMIN", "111111", UsersRights.ADMIN);
+        User admin = new User("Admin", "Admin", "ADMIN", PasswordDigest.hashText("111111"), "02598745896", "superadmin@gmail.com", UserRights.ADMIN);
         admin.setStartUpCount(SingleController.MAX_START_UP_COUNT);
         controller.addUser(admin);
-        controller.addUser(new User("Vitaliy", "Kobrin", "vetal", "<f,tyrjDthf#01", UsersRights.ADMIN));
-        controller.addUser(new User("Ivan", "Artemenko", "vanomas", "vanno2012", UsersRights.USER_WITH_SIMPLE_PASSWORD));
-        controller.addUser(new User("Maksim", "Davidenko", "asteroid", "12345@qQ", UsersRights.LOCK_USERNAME));
-        controller.addUser(new User("Petrov", "Denis", "petromas", "petro123@", UsersRights.BLOCKED_USER));
-        controller.addUser(new User("Empty1", UsersRights.EMPTY));
-        controller.addUser(new User("Empty2", UsersRights.EMPTY_SIMPLE_PASSWORD));
+        controller.addUser(new User("Виталий", "Кобрин", "vitaliykobrin", PasswordDigest.hashText("111111"), "066532578589", "vitaliykobrin@mail.ru", UserRights.BLOCKED_USER));
+        controller.addUser(new User("Иван", "Артеменко", "vanomas", PasswordDigest.hashText("111111"), "023258745878", "vanomas@gmail.com", UserRights.SIMPLE_USER));
+        controller.addUser(new User("Петров", "Денис", "petromas", PasswordDigest.hashText("111111"), "032526969696", "petromas@gmail.com", UserRights.SIMPLE_USER));
+        controller.addUser(new User("Иванов", "Денис", "ivanov", PasswordDigest.hashText("111111"), "02578741478", "ivanov@gmail.com", UserRights.BLOCKED_USER));
+        controller.addUser(new User("Иванов", "Иван", "vanno", PasswordDigest.hashText("111111"), "00235987412", "vanno@gmail.com", UserRights.BLOCKED_USER));
         IOFileHandling.saveUsers();
     }
 

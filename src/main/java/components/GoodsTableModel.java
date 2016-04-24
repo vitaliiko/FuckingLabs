@@ -1,15 +1,16 @@
 package components;
 
 import db.Goods;
-import java.util.List;
+
 import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
+import java.util.List;
 
 public class GoodsTableModel implements TableModel {
 
     private List<Goods> goodsList;
 
-    private String[] items = {"Тип", "Производитель", "Модель", "Цена", "Описание"};
+    private String[] items = {"№", "Тип", "Производитель", "Модель", "Цена", "Описание"};
 
     public GoodsTableModel(List<Goods> goodsList) {
         this.goodsList = goodsList;
@@ -44,6 +45,8 @@ public class GoodsTableModel implements TableModel {
     public Object getValueAt(int rowIndex, int columnIndex) {
         Goods goods = goodsList.get(rowIndex);
         switch (columnIndex) {
+            case 0:
+                return rowIndex + 1;
             case 1:
                 return goods.getType();
             case 2:

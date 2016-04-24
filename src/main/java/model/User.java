@@ -20,11 +20,16 @@ public class User implements Serializable {
 
     public User(String firstName, String lastName, String login, char[] password,
                 String telephoneNum, String mailAddress, int rights) {
+        this(firstName, lastName, login, String.valueOf(password), telephoneNum, mailAddress, rights);
+    }
+
+    public User(String firstName, String lastName, String login, String password,
+                String telephoneNum, String mailAddress, int rights) {
 
         this.firstName = firstName;
         this.lastName = lastName;
         this.login = login;
-        this.password = String.valueOf(password);
+        this.password = password;
         this.rights = rights;
         this.telephoneNum = telephoneNum;
         this.mailAddress = mailAddress;
@@ -34,7 +39,7 @@ public class User implements Serializable {
         this.firstName = firstName;
         this.lastName = lastName;
         this.login = login;
-        this.password = CustomMessageDigest.hashText(password);
+        this.password = PasswordDigest.hashText(password);
         this.rights = rights;
     }
 
@@ -72,7 +77,7 @@ public class User implements Serializable {
     }
 
     public void setPassword(char[] password) {
-        this.password = CustomMessageDigest.hashText(password);
+        this.password = PasswordDigest.hashText(password);
     }
 
     public int getRights() {
@@ -148,18 +153,18 @@ public class User implements Serializable {
     }
 
     public boolean isMatches(String userName, char[] password) {
-        return this.login.equals(userName) && this.password.equals(CustomMessageDigest.hashText(password));
+        return this.login.equals(userName) && this.password.equals(PasswordDigest.hashText(password));
     }
 
     public boolean isMatches(String userName, char[] password, String telephoneNum, String mailAddress) {
         return this.login.equals(userName)
-                && this.password.equals(CustomMessageDigest.hashText(password))
+                && this.password.equals(PasswordDigest.hashText(password))
                 && this.telephoneNum.equals(telephoneNum)
                 && this.mailAddress.equals(mailAddress);
     }
 
     public boolean isPasswordsMatches(char[] password) {
-        return this.password.equals(CustomMessageDigest.hashText(password));
+        return this.password.equals(PasswordDigest.hashText(password));
     }
 
     @Override

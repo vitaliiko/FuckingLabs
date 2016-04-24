@@ -8,7 +8,7 @@ import db.GoodsService;
 import db.GoodsServiceImpl;
 import frame_utils.FrameUtil;
 import model.User;
-import model.UsersRights;
+import model.UserRights;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -18,7 +18,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.List;
 
-public class BrowseDbContentGI extends JFrame {
+public class GoodsGI extends JFrame {
 
     private GoodsService goodsService = new GoodsServiceImpl();
     private User user;
@@ -28,8 +28,8 @@ public class BrowseDbContentGI extends JFrame {
     private JButton infoButton;
     private JButton mainMenuButton;
 
-    public BrowseDbContentGI(User user) throws HeadlessException {
-        super("Лабораторна робота №2");
+    public GoodsGI(User user) throws HeadlessException {
+        super("Лабораторная работа №2");
         this.user = user;
         FrameUtil.setLookAndFeel();
 
@@ -41,7 +41,8 @@ public class BrowseDbContentGI extends JFrame {
 
     private void setupFrame() {
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        setMinimumSize(new Dimension(424, 200));
+        setIconImage(new ImageIcon("resources/icon.png").getImage());
+        setMinimumSize(new Dimension(500, 300));
         setLocationRelativeTo(null);
         setVisible(true);
         addWindowListener(new WindowAdapter() {
@@ -62,13 +63,13 @@ public class BrowseDbContentGI extends JFrame {
         tabbedPane.addTab("Информация", userInfoPanel);
 
         List<Goods> goodsList = goodsService.list();
-        tabbedPane.addTab("Табл. 1", createGoodsTable(goodsList));
-        if (user.getRights() == UsersRights.SIMPLE_USER) {
-            tabbedPane.addTab("Табл. 2", createGoodsTable(goodsList));
+        tabbedPane.addTab("Табл. 1", FrameUtil.createVerticalScroll(createGoodsTable(goodsList)));
+        if (user.getRights() == UserRights.SIMPLE_USER) {
+            tabbedPane.addTab("Табл. 2", FrameUtil.createVerticalScroll(createGoodsTable(goodsList)));
         }
-        if (user.getRights() == UsersRights.ADMIN) {
+        if (user.getRights() == UserRights.ADMIN) {
             for (int i = 3; i < 8; i++) {
-                tabbedPane.addTab("Табл. " + i, createGoodsTable(goodsList));
+                tabbedPane.addTab("Табл. " + i, FrameUtil.createVerticalScroll(createGoodsTable(goodsList)));
             }
         }
     }
@@ -87,13 +88,13 @@ public class BrowseDbContentGI extends JFrame {
         JPanel panel = new BoxPanel(BoxLayout.Y_AXIS);
 
         panel.add(new LabelComponentPanel("Логин: ", user.getLogin()));
-        panel.add(new LabelComponentPanel("Тип учетной записи: ", UsersRights.accountType(user.getRights())));
+        panel.add(new LabelComponentPanel("Тип учетной записи: ", UserRights.accountType(user.getRights())));
         panel.add(new LabelComponentPanel("Телефон: ", user.getTelephoneNum()));
         panel.add(new LabelComponentPanel("E-mail: ", user.getMailAddress()));
 
         BoxPanel buttonsPanel = new BoxPanel();
         userInfoPanel.add(panel, BorderLayout.NORTH);
-        if (user.getRights() == UsersRights.ADMIN) {
+        if (user.getRights() == UserRights.ADMIN) {
             prepareInfoButton();
             buttonsPanel.add(infoButton);
         }

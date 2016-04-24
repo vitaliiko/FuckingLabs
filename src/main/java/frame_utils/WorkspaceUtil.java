@@ -1,7 +1,7 @@
 package frame_utils;
 
 import model.User;
-import model.UsersRights;
+import model.UserRights;
 import model.Virus;
 import user_gi.*;
 
@@ -42,7 +42,7 @@ public class WorkspaceUtil {
             });
             createMenuItem(fileMenu, "Settings          ", "settings.png", e -> new SettingsGI(workspaceGI, user));
             createMenuItem(fileMenu, "Attach USB-token", "usb_small.png", e -> new SetTokenGI(user));
-            if (user.getRights() == UsersRights.ADMIN) {
+            if (user.getRights() == UserRights.ADMIN) {
                 createMenuItem(fileMenu, "Change time", "clock.png", e -> new SetLastModifiedTimeGI(workspaceGI));
                 createMenuItem(fileMenu, "Users info", "users.png", e -> usersInfoGI = new UsersInfoGI());
                 createMenuItem(fileMenu, "Add user", "addUsers.png", e -> new AddEmptyUserGI(workspaceGI));

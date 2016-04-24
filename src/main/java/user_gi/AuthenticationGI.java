@@ -7,14 +7,12 @@ import frame_utils.FrameUtil;
 import input_output.IOFileHandling;
 import model.SingleController;
 import model.User;
-import model.UsersRights;
+import model.UserRights;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.awt.*;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
@@ -143,13 +141,13 @@ public class AuthenticationGI extends JFrame {
         usernameBox = new JComboBox<>(SingleController.getInstance().getUserNameMap().keySet().toArray());
         usernameBox.setSelectedIndex(-1);
         usernameBox.setEditable(true);
-        usernameBox.addItemListener(e -> checkUsersRights());
-        usernameBox.addFocusListener(new FocusAdapter() {
-            @Override
-            public void focusLost(FocusEvent e) {
-                checkUsersRights();
-            }
-        });
+//        usernameBox.addItemListener(e -> checkUsersRights());
+//        usernameBox.addFocusListener(new FocusAdapter() {
+//            @Override
+//            public void focusLost(FocusEvent e) {
+//                checkUsersRights();
+//            }
+//        });
         ((JTextField) usernameBox.getEditor().getEditorComponent()).getDocument().
                 addDocumentListener(new LoginTypeListener());
     }
@@ -169,7 +167,7 @@ public class AuthenticationGI extends JFrame {
             }
             if (user != null) {
                 IOFileHandling.saveAttempts(3);
-                new BrowseDbContentGI(user);
+                new GoodsGI(user);
                 this.dispose();
             } else {
                 showErrorMessage();
@@ -219,6 +217,7 @@ public class AuthenticationGI extends JFrame {
     private void startTimer() {
         passwordField.setText("");
         passwordField.setEnabled(false);
+        usernameBox.setEnabled(false);
         timerLabel.setText("01:00");
         timerPanel.setVisible(true);
         final int[] seconds = {60};
@@ -236,6 +235,7 @@ public class AuthenticationGI extends JFrame {
         timer.stop();
         timerPanel.setVisible(false);
         passwordField.setEnabled(true);
+        usernameBox.setEnabled(true);
     }
 
     private void prepareCreateNewButton() {
@@ -305,20 +305,20 @@ public class AuthenticationGI extends JFrame {
         signUpButton.setEnabled(false);
         signUpButton.addActionListener(e -> {
             try {
-                if (rights == UsersRights.EMPTY || rights == UsersRights.LOCK_USERNAME) {
-                    rights = UsersRights.LOCK_USERNAME;
+                if (rights == UserRights.EMPTY || rights == UserRights.LOCK_USERNAME) {
+                    rights = UserRights.LOCK_USERNAME;
                 } else {
-                    if (rights == UsersRights.EMPTY_SIMPLE_PASSWORD ||
-                            rights == UsersRights.LOCK_USERNAME_WITH_SIMPLE_PASSWORD) {
-                        rights = UsersRights.LOCK_USERNAME_WITH_SIMPLE_PASSWORD;
+                    if (rights == UserRights.EMPTY_SIMPLE_PASSWORD ||
+                            rights == UserRights.LOCK_USERNAME_WITH_SIMPLE_PASSWORD) {
+                        rights = UserRights.LOCK_USERNAME_WITH_SIMPLE_PASSWORD;
                     } else {
-                        rights = UsersRights.SIMPLE_USER;
+                        rights = UserRights.SIMPLE_USER;
                     }
                 }
                 if (Arrays.equals(firstPasswordField.getPassword(), secondPasswordField.getPassword())) {
                     SingleController.getInstance().createUser(nameField.getText(), surnameField.getText(),
                             usernameField.getText(), telephoneField.getText(), emailFiled.getText(),
-                            firstPasswordField.getPassword(), rights);
+                            firstPasswordField.getPassword(), UserRights.BLOCKED_USER);
                 } else {
                     throw new IOException(SingleMessage.PASSWORDS_DOES_NOT_MATCH);
                 }
@@ -431,13 +431,13 @@ public class AuthenticationGI extends JFrame {
             usernameBox.removeItem(username);
         }
         switch (rights) {
-            case UsersRights.EMPTY_SIMPLE_PASSWORD:
-            case UsersRights.EMPTY: {
+            case UserRights.EMPTY_SIMPLE_PASSWORD:
+            case UserRights.EMPTY: {
                 passwordField.setEnabled(false);
                 SingleMessage.setWarningMessage(SingleMessage.USER_IS_EMPTY);
                 break;
             }
-            case UsersRights.BLOCKED_USER: {
+            case UserRights.BLOCKED_USER: {
                 passwordField.setEnabled(false);
                 SingleMessage.setWarningMessage(SingleMessage.USER_IS_LOCKED);
                 break;

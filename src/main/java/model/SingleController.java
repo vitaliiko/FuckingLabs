@@ -69,13 +69,13 @@ public final class SingleController extends Validator {
     public void createUser(String name, String surname, String userName, char[] password, int rights)
             throws IOException {
         validateName(name, surname);
-        if (rights != UsersRights.LOCK_USERNAME && rights != UsersRights.LOCK_USERNAME_WITH_SIMPLE_PASSWORD) {
+        if (rights != UserRights.LOCK_USERNAME && rights != UserRights.LOCK_USERNAME_WITH_SIMPLE_PASSWORD) {
             validateUsername(userName);
         }
-        if (rights != UsersRights.LOCK_USERNAME_WITH_SIMPLE_PASSWORD) {
+        if (rights != UserRights.LOCK_USERNAME_WITH_SIMPLE_PASSWORD) {
             validatePassword(password);
         }
-        if (rights == UsersRights.LOCK_USERNAME || rights == UsersRights.LOCK_USERNAME_WITH_SIMPLE_PASSWORD) {
+        if (rights == UserRights.LOCK_USERNAME || rights == UserRights.LOCK_USERNAME_WITH_SIMPLE_PASSWORD) {
             removeUser(new User(userName, rights));
         }
         User newUser = new User(name, surname, userName, password, rights);

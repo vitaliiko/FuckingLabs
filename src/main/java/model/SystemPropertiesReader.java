@@ -39,7 +39,7 @@ public class SystemPropertiesReader {
     }
 
     public static String getPropertiesHex() {
-        return CustomMessageDigest.hashText(getSystemProperties());
+        return PasswordDigest.hashText(getSystemProperties());
     }
 
     public static boolean isPropertiesMatches(String userName) {

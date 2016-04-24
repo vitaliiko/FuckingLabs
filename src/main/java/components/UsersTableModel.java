@@ -1,19 +1,19 @@
 package components;
 
-import java.util.List;
 import model.SingleController;
 import model.User;
-import model.UsersRights;
+import model.UserRights;
 
 import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
 import java.util.ArrayList;
+import java.util.List;
 
 public class UsersTableModel implements TableModel {
 
     private SingleController controller;
     private List<User> usersList;
-    private String[] items = {"Name", "Surname", "Username", "Account type"};
+    private String[] items = {"Имя", "Фамилия", "Логин", "Тип учетной записи"};
 
     public UsersTableModel(SingleController controller, ArrayList<User> usersList) {
         this.controller = controller;
@@ -56,7 +56,7 @@ public class UsersTableModel implements TableModel {
             case 2:
                 return user.getLogin();
             case 3:
-                return UsersRights.accountType(user.getRights());
+                return UserRights.accountType(user.getRights());
             default:
                 return null;
         }
