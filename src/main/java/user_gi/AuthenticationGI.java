@@ -74,12 +74,18 @@ public class AuthenticationGI extends JFrame {
     }
 
     private void frameSetup() {
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         setSize(attemptsLeft <= 0 ? extendedLoginDimension : loginDimension);
         setIconImage(new ImageIcon("resources/icon.png").getImage());
         setResizable(false);
         setLocationRelativeTo(null);
         setVisible(true);
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                new MainWindowGI();
+            }
+        });
     }
 
     private void checkAttempts() {
@@ -163,7 +169,8 @@ public class AuthenticationGI extends JFrame {
             }
             if (user != null) {
                 IOFileHandling.saveAttempts(3);
-                startWorkspace(user);
+                new BrowseDbContentGI(user);
+                this.dispose();
             } else {
                 showErrorMessage();
                 showExtendedLoginPanel();

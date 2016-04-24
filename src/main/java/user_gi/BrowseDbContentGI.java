@@ -14,6 +14,8 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.TableModel;
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.List;
 
 public class BrowseDbContentGI extends JFrame {
@@ -24,6 +26,7 @@ public class BrowseDbContentGI extends JFrame {
     private JTabbedPane tabbedPane;
     private JPanel userInfoPanel;
     private JButton infoButton;
+    private JButton mainMenuButton;
 
     public BrowseDbContentGI(User user) throws HeadlessException {
         super("Лабораторна робота №2");
@@ -37,10 +40,16 @@ public class BrowseDbContentGI extends JFrame {
     }
 
     private void setupFrame() {
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         setMinimumSize(new Dimension(424, 200));
         setLocationRelativeTo(null);
         setVisible(true);
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                new MainWindowGI();
+            }
+        });
     }
 
     private void prepareTabbedPane() {
@@ -82,16 +91,27 @@ public class BrowseDbContentGI extends JFrame {
         panel.add(new LabelComponentPanel("Телефон: ", user.getTelephoneNum()));
         panel.add(new LabelComponentPanel("E-mail: ", user.getMailAddress()));
 
+        BoxPanel buttonsPanel = new BoxPanel();
         userInfoPanel.add(panel, BorderLayout.NORTH);
         if (user.getRights() == UsersRights.ADMIN) {
             prepareInfoButton();
-            userInfoPanel.add(new BoxPanel(infoButton), BorderLayout.SOUTH);
-
+            buttonsPanel.add(infoButton);
         }
+        prepareMainMenuButton();
+        buttonsPanel.add(mainMenuButton);
+        userInfoPanel.add(buttonsPanel, BorderLayout.SOUTH);
     }
 
     private void prepareInfoButton() {
         infoButton = new JButton("Пользователи");
-        infoButton.addActionListener(e -> new UsersInfoGI());}
+        infoButton.addActionListener(e -> new UsersInfoGI());
+    }
 
+    private void prepareMainMenuButton() {
+        mainMenuButton = new JButton("Меню", new ImageIcon("resources/menu.png"));
+        mainMenuButton.addActionListener(e -> {
+            new MainWindowGI();
+            this.dispose();
+        });
+    }
 }

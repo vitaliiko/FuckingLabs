@@ -1,15 +1,17 @@
 package user_gi;
 
-import coder.*;
+import coder.Coder;
 import components.BoxPanel;
 import frame_utils.FrameUtils;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import java.awt.*;
-import java.io.IOException;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.io.IOException;
 
 public class FriendlyWorkspaceGI extends JFrame {
 
@@ -21,6 +23,7 @@ public class FriendlyWorkspaceGI extends JFrame {
     private JTextField outputTextField;
     private JButton encryptButton;
     private JButton decryptButton;
+    private JButton mainMenuButton;
     private JPanel inputPanel;
     private JPanel outputPanel;
     private JPanel keyPanel;
@@ -37,21 +40,30 @@ public class FriendlyWorkspaceGI extends JFrame {
     }
 
     private void setupFrame() {
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         setMinimumSize(new Dimension(400, 310));
         setIconImage(new ImageIcon("resources/icon.png").getImage());
         setLocationRelativeTo(null);
         setResizable(false);
         setVisible(true);
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                new MainWindowGI();
+            }
+        });
     }
 
     private void addComponents() {
         prepareComponents();
-        prepareButtons();
+        prepareCryptButtons();
         BoxPanel panel = new BoxPanel(BoxLayout.Y_AXIS, new JLabel(subject), inputPanel, keyPanel,
                 new BoxPanel(encryptButton, decryptButton), outputPanel);
         panel.setBorder(new EmptyBorder(8, 8, 8, 8));
         getContentPane().add(panel, BorderLayout.CENTER);
+
+        prepareMainMenuButton();
+        getContentPane().add(new BoxPanel(mainMenuButton), BorderLayout.SOUTH);
     }
 
     private void prepareComponents() {
@@ -75,7 +87,7 @@ public class FriendlyWorkspaceGI extends JFrame {
         return panel;
     }
 
-    private void prepareButtons() {
+    private void prepareCryptButtons() {
         encryptButton = new JButton("Зашифровать");
         encryptButton.addActionListener(e -> doCrypt(encryptButton));
         encryptButton.setEnabled(false);
@@ -83,6 +95,14 @@ public class FriendlyWorkspaceGI extends JFrame {
         decryptButton = new JButton("Расшифровать");
         decryptButton.addActionListener(e -> doCrypt(decryptButton));
         decryptButton.setEnabled(false);
+    }
+
+    private void prepareMainMenuButton() {
+        mainMenuButton = new JButton("Меню", new ImageIcon("resources/menu.png"));
+        mainMenuButton.addActionListener(e -> {
+            new MainWindowGI();
+            this.dispose();
+        });
     }
 
     private void doCrypt(JButton button) {

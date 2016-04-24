@@ -29,6 +29,7 @@ public class MainWindowGI extends JFrame {
 
     private void setupFrame() {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setIconImage(new ImageIcon("resources/icon.png").getImage());
         setMinimumSize(new Dimension(300, 310));
         setLocationRelativeTo(null);
         setResizable(false);
@@ -39,7 +40,7 @@ public class MainWindowGI extends JFrame {
         buttonPanel = new BoxPanel(BoxLayout.Y_AXIS);
         buttonPanel.add(createButton("Лабораторна робота №1",
                 "Шифрування методом \"Код Цезаря\"",
-                CeasarCoder.getInstance()));
+                CeasarCoder.getInstance().createRusoAlphabet()));
         buttonPanel.add(createButton("Лабораторна робота №2", e -> {
             SingleController.getInstance().setUserSet(IOFileHandling.loadUsers());
             new AuthenticationGI();
@@ -47,13 +48,13 @@ public class MainWindowGI extends JFrame {
         }));
         buttonPanel.add(createButton("Лабораторна робота №3",
                 "Шифрування за допомогою таблиці Віженера",
-                VigenereCoder.getInstance()));
+                VigenereCoder.getInstance().createRusoAlphabet()));
         buttonPanel.add(createButton("Лабораторна робота №4",
                 "Шифрування методом \"Решітка кардано\"",
-                CardanGrilleCoder.getInstance()));
+                CardanGrilleCoder.getInstance().createRusoAlphabet()));
         buttonPanel.add(createButton("Лабораторна робота №5",
                 "Шифрування з використанням шифру Вернама",
-                VerrnamCoder.getInstance()));
+                VerrnamCoder.getInstance().createRusoAlphabet()));
     }
 
     private JButton createButton(String title, String subject, Coder coder) {

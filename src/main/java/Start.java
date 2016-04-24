@@ -13,10 +13,9 @@ public class Start {
 
     public static void main(String[] args) {
 
-//        initAttempts();
+        initAttempts();
 //        initUserSet();
 //        startAuthGI();
-//        startWorkspaceGI();
         new MainWindowGI();
 //        new BrowseDbContentGI(new User("Petrov", "Denis", "petromas", "petro123@", UsersRights.ADMIN));
     }
