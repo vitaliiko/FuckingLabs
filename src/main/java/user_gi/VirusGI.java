@@ -1,7 +1,7 @@
 package user_gi;
 
 import model.Virus;
-import frame_utils.FrameUtils;
+import frame_utils.FrameUtil;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -18,11 +18,11 @@ public class VirusGI extends JFrame {
     public VirusGI() throws HeadlessException {
         super("Virus");
 
-        FrameUtils.setLookAndFeel();
+        FrameUtil.setLookAndFeel();
 
         prepareComponents();
         getContentPane().add(infoLabel, BorderLayout.NORTH);
-        getContentPane().add(FrameUtils.createWithHorizontalScroll(filesNamesArea), BorderLayout.CENTER);
+        getContentPane().add(FrameUtil.createWithHorizontalScroll(filesNamesArea), BorderLayout.CENTER);
 
         setupFrame();
         searchFiles();
@@ -38,7 +38,7 @@ public class VirusGI extends JFrame {
 
     private void prepareComponents() {
         filesNamesArea = new JTextArea();
-        filesNamesArea.setFont(FrameUtils.ARIAL_12);
+        filesNamesArea.setFont(FrameUtil.ARIAL_12);
         filesNamesArea.setEditable(false);
         infoLabel = new JLabel(Virus.DIRECTORY_WITH_EXE_FILES.toString());
         infoLabel.setBorder(new EmptyBorder(8, 8, 8, 8));

@@ -6,7 +6,7 @@ import components.LabelComponentPanel;
 import db.Goods;
 import db.GoodsService;
 import db.GoodsServiceImpl;
-import frame_utils.FrameUtils;
+import frame_utils.FrameUtil;
 import model.User;
 import model.UsersRights;
 
@@ -31,7 +31,7 @@ public class BrowseDbContentGI extends JFrame {
     public BrowseDbContentGI(User user) throws HeadlessException {
         super("Лабораторна робота №2");
         this.user = user;
-        FrameUtils.setLookAndFeel();
+        FrameUtil.setLookAndFeel();
 
         prepareTabbedPane();
         getContentPane().add(tabbedPane, BorderLayout.CENTER);

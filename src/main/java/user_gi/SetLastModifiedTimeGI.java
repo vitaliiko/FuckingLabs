@@ -3,7 +3,7 @@ package user_gi;
 import components.BoxPanel;
 import components.SingleMessage;
 import model.TimeUtil;
-import frame_utils.FrameUtils;
+import frame_utils.FrameUtil;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -21,7 +21,7 @@ public class SetLastModifiedTimeGI extends JDialog {
 
     public SetLastModifiedTimeGI(Frame frame) {
         super(frame);
-        FrameUtils.setLookAndFeel();
+        FrameUtil.setLookAndFeel();
 
         getContentPane().add(SingleMessage.getMessageInstance(SingleMessage.SET_LAST_MODIFIED_TIME), BorderLayout.NORTH);
         prepareMainPanel();
@@ -44,7 +44,7 @@ public class SetLastModifiedTimeGI extends JDialog {
 
     private void prepareSpinnersPanel() {
         spinnersPanel = new JPanel(new BorderLayout());
-        spinnersPanel.add(FrameUtils.createLabelGridPanel(JLabel.RIGHT, "Day:", "Month:", "Year:"), BorderLayout.WEST);
+        spinnersPanel.add(FrameUtil.createLabelGridPanel(JLabel.RIGHT, "Day:", "Month:", "Year:"), BorderLayout.WEST);
         spinnersPanel.add(createSpinners(), BorderLayout.CENTER);
     }
 
@@ -55,7 +55,7 @@ public class SetLastModifiedTimeGI extends JDialog {
         setSpinnerSize(monthSpinner);
         yearSpinner = new JSpinner(new SpinnerNumberModel(1995, 1990, TimeUtil.MAX_YEAR, 5));
         setSpinnerSize(yearSpinner);
-        return FrameUtils.createComponentsGridPanel(daySpinner, monthSpinner, yearSpinner);
+        return FrameUtil.createComponentsGridPanel(daySpinner, monthSpinner, yearSpinner);
     }
 
     private void setSpinnerSize(JSpinner spinner) {

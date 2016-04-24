@@ -45,7 +45,7 @@ public class WorkspaceGI extends JFrame {
         this.workspaceUtil = new WorkspaceUtil(this, user);
         this.coder = CeasarCoder.getInstance();
 
-        FrameUtils.setLookAndFeel();
+        FrameUtil.setLookAndFeel();
 
         addComponents();
         setupFrame();
@@ -96,13 +96,13 @@ public class WorkspaceGI extends JFrame {
 
     private void prepareKeyField() {
         keyField = new JPasswordField(50);
-        keyField.setFont(FrameUtils.ARIAL_12);
+        keyField.setFont(FrameUtil.ARIAL_12);
         keyField.getDocument().addDocumentListener(new KeyFieldListener(this));
     }
 
     private void prepareAlphabetField() {
         alphabetField = new JTextField(user.getAlphabet() == null ? "" : user.getAlphabet(), 50);
-        alphabetField.setFont(FrameUtils.ARIAL_12);
+        alphabetField.setFont(FrameUtil.ARIAL_12);
         alphabetField.getDocument().addDocumentListener(new AlphabetFieldListener(this));
     }
 
@@ -151,10 +151,10 @@ public class WorkspaceGI extends JFrame {
         selectFilesPanel.setLayout(new GridLayout(1, 2));
 
         inputFilePathField = new JTextField(27);
-        inputFilePathField.setFont(FrameUtils.ARIAL_12);
+        inputFilePathField.setFont(FrameUtil.ARIAL_12);
         JButton selectInputFileButton = new JButton(new ImageIcon("resources/folder.png"));
         selectInputFileButton.addActionListener(e -> {
-            String filePath = FrameUtils.callFileChooser();
+            String filePath = FrameUtil.callFileChooser();
             if (filePath != null) {
                 inputFilePathField.setText(filePath);
                 inputTextArea.setText(IOFileHandling.readFromFile(filePath));
@@ -163,10 +163,10 @@ public class WorkspaceGI extends JFrame {
         selectFilesPanel.add(new BoxPanel(new JLabel("Input file: "), inputFilePathField, selectInputFileButton));
 
         outputFilePathField = new JTextField(24);
-        outputFilePathField.setFont(FrameUtils.ARIAL_12);
+        outputFilePathField.setFont(FrameUtil.ARIAL_12);
         JButton selectOutputFileButton = new JButton(new ImageIcon("resources/folder.png"));
         selectOutputFileButton.addActionListener(e -> {
-            outputFilePath = FrameUtils.callFileChooser();
+            outputFilePath = FrameUtil.callFileChooser();
             outputFilePathField.setText(outputFilePath);
         });
         JButton clearButton = new JButton(new ImageIcon("resources/clear.png"));
@@ -184,22 +184,22 @@ public class WorkspaceGI extends JFrame {
         inputTextArea = new JTextArea();
         JLabel inputTextEntropyLabel = new JLabel("Entropy = 0");
         DocumentListener inputListener = new TextAreasListener(this, inputTextArea, inputTextEntropyLabel, coder);
-        FrameUtils.textAreaFactory(inputTextArea, "input", inputListener);
+        FrameUtil.textAreaFactory(inputTextArea, "input", inputListener);
 
         JPanel inputTextPanel = new BoxPanel(BoxLayout.Y_AXIS,
                 inputTextEntropyLabel,
-                FrameUtils.createScroll(inputTextArea));
+                FrameUtil.createScroll(inputTextArea));
         inputTextPanel.setBorder(new EmptyBorder(10, 10, 10, 5));
         textAreasPanel.add(inputTextPanel);
 
         outputTextArea = new JTextArea();
         JLabel outputTextEntropyLabel = new JLabel("Entropy = 0");
         DocumentListener outputListener = new TextAreasListener(this, inputTextArea, outputTextEntropyLabel, coder);
-        FrameUtils.textAreaFactory(outputTextArea, "output", outputListener);
+        FrameUtil.textAreaFactory(outputTextArea, "output", outputListener);
 
         JPanel outputTextPanel = new BoxPanel(BoxLayout.Y_AXIS,
                 outputTextEntropyLabel,
-                FrameUtils.createScroll(outputTextArea));
+                FrameUtil.createScroll(outputTextArea));
         outputTextPanel.setBorder(new EmptyBorder(10, 5, 10, 10));
         textAreasPanel.add(outputTextPanel);
     }
@@ -229,7 +229,7 @@ public class WorkspaceGI extends JFrame {
             outputTextArea.setText(outputText);
             IOFileHandling.writeToFile(outputText, outputFilePath);
         } catch (IOException e1) {
-            FrameUtils.showErrorDialog(this, e1.getMessage());
+            FrameUtil.showErrorDialog(this, e1.getMessage());
         }
     }
 

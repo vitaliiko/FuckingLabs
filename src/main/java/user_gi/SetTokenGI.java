@@ -1,7 +1,7 @@
 package user_gi;
 
 import components.BoxPanel;
-import frame_utils.FrameUtils;
+import frame_utils.FrameUtil;
 import model.SingleController;
 import model.UsbDeviceManager;
 import model.User;
@@ -22,11 +22,11 @@ public class SetTokenGI extends JFrame {
         super("Set token");
         this.user = user;
 
-        FrameUtils.setLookAndFeel();
+        FrameUtil.setLookAndFeel();
 
         prepareComponents();
         getContentPane().add(infoLabel, BorderLayout.NORTH);
-        getContentPane().add(FrameUtils.createScroll(devicesList), BorderLayout.CENTER);
+        getContentPane().add(FrameUtil.createScroll(devicesList), BorderLayout.CENTER);
         getContentPane().add(new BoxPanel(confirmButton, cancelButton), BorderLayout.SOUTH);
 
         setupFrame();
@@ -43,7 +43,7 @@ public class SetTokenGI extends JFrame {
 
     private void prepareComponents() {
         devicesList = new JList<>(UsbDeviceManager.getDevices());
-        devicesList.setFont(FrameUtils.ARIAL_12);
+        devicesList.setFont(FrameUtil.ARIAL_12);
         devicesList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         devicesList.addListSelectionListener(e -> confirmButton.setEnabled(true));
         infoLabel = new JLabel("Select your USB device: ");

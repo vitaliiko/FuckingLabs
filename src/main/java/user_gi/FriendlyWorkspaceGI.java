@@ -2,7 +2,7 @@ package user_gi;
 
 import coder.Coder;
 import components.BoxPanel;
-import frame_utils.FrameUtils;
+import frame_utils.FrameUtil;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -33,7 +33,7 @@ public class FriendlyWorkspaceGI extends JFrame {
         this.coder = coder;
         this.subject = subject;
 
-        FrameUtils.setLookAndFeel();
+        FrameUtil.setLookAndFeel();
 
         addComponents();
         setupFrame();
@@ -41,7 +41,7 @@ public class FriendlyWorkspaceGI extends JFrame {
 
     private void setupFrame() {
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        setMinimumSize(new Dimension(400, 310));
+        setMinimumSize(new Dimension(400, 300));
         setIconImage(new ImageIcon("resources/icon.png").getImage());
         setLocationRelativeTo(null);
         setResizable(false);
@@ -57,7 +57,13 @@ public class FriendlyWorkspaceGI extends JFrame {
     private void addComponents() {
         prepareComponents();
         prepareCryptButtons();
-        BoxPanel panel = new BoxPanel(BoxLayout.Y_AXIS, new JLabel(subject), inputPanel, keyPanel,
+        JLabel subjectLabel = new JLabel(subject);
+        subjectLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        subjectLabel.setFont(FrameUtil.ARIAL_12);
+        subjectLabel.setBorder(new EmptyBorder(8, 0, 0, 0));
+        getContentPane().add(subjectLabel, BorderLayout.NORTH);
+
+        BoxPanel panel = new BoxPanel(BoxLayout.Y_AXIS, inputPanel, keyPanel,
                 new BoxPanel(encryptButton, decryptButton), outputPanel);
         panel.setBorder(new EmptyBorder(8, 8, 8, 8));
         getContentPane().add(panel, BorderLayout.CENTER);
@@ -115,7 +121,7 @@ public class FriendlyWorkspaceGI extends JFrame {
             }
             outputTextField.setText(outputText);
         } catch (IOException e1) {
-            FrameUtils.showErrorDialog(this, e1.getMessage());
+            FrameUtil.showErrorDialog(this, e1.getMessage());
         }
     }
 

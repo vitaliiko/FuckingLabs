@@ -3,7 +3,7 @@ package user_gi;
 import components.BoxPanel;
 import components.LabelComponentPanel;
 import components.SingleMessage;
-import frame_utils.FrameUtils;
+import frame_utils.FrameUtil;
 import input_output.IOFileHandling;
 import model.SingleController;
 import model.User;
@@ -57,7 +57,7 @@ public class AuthenticationGI extends JFrame {
     public AuthenticationGI() {
         super("Авторизация");
         attemptsLeft = IOFileHandling.loadAttmpts();
-        FrameUtils.setLookAndFeel();
+        FrameUtil.setLookAndFeel();
 
         prepareCenterPanel();
         getContentPane().add(centerPanel, BorderLayout.CENTER);
@@ -198,13 +198,13 @@ public class AuthenticationGI extends JFrame {
         attemptsLeft--;
         IOFileHandling.saveAttempts(attemptsLeft);
         if (attemptsLeft == 0) {
-            FrameUtils.showErrorDialog(this, "Неправильный логин или пароль.\n" +
+            FrameUtil.showErrorDialog(this, "Неправильный логин или пароль.\n" +
                     "Для авторизации необходимо ввести\n" +
                     "номер телефона и адресс электронной почты");
         } else if (attemptsLeft > 0) {
-            FrameUtils.showErrorDialog(this, "Неправильный логин или пароль.\nПопыток осталось: " + attemptsLeft);
+            FrameUtil.showErrorDialog(this, "Неправильный логин или пароль.\nПопыток осталось: " + attemptsLeft);
         } else {
-            FrameUtils.showErrorDialog(this, "Введены неверные данные.\nСледующая попытка через 1 мин.");
+            FrameUtil.showErrorDialog(this, "Введены неверные данные.\nСледующая попытка через 1 мин.");
         }
     }
 
@@ -331,7 +331,7 @@ public class AuthenticationGI extends JFrame {
                 loginButton.setEnabled(true);
                 setSize(loginDimension);
             } catch (IOException exception) {
-                FrameUtils.showErrorDialog(this, exception.getMessage());
+                FrameUtil.showErrorDialog(this, exception.getMessage());
             }
         });
     }

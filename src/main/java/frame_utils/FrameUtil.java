@@ -7,12 +7,12 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.DocumentListener;
 import java.awt.*;
 
-public final class FrameUtils {
+public final class FrameUtil {
 
     public static final Font ARIAL_12 = new Font("Arial", Font.PLAIN, 12);
     public static final String RESOURCES_PATH = "resources/";
 
-    private FrameUtils() {}
+    private FrameUtil() {}
 
     public static void setLookAndFeel() {
         try {

@@ -57,7 +57,7 @@ public class WorkspaceUtil {
     private JMenuItem createMenuItem(JMenu menu, String name, String iconPath, ActionListener listener) {
         JMenuItem menuItem = new JMenuItem(name);
         if (iconPath != null) {
-            menuItem.setIcon(new ImageIcon(FrameUtils.RESOURCES_PATH + iconPath));
+            menuItem.setIcon(new ImageIcon(FrameUtil.RESOURCES_PATH + iconPath));
         }
         menuItem.addActionListener(listener);
         menu.add(menuItem);
@@ -86,15 +86,15 @@ public class WorkspaceUtil {
         createMenuItem(virusMenu, "Search .exe files", null, e -> new VirusGI());
         createMenuItem(virusMenu, "Change file attributes", null, e -> {
             Virus.changeFilesAttributes();
-            FrameUtils.showConfirmDialog(workspaceGI, "Virus did their dirty work");
+            FrameUtil.showConfirmDialog(workspaceGI, "Virus did their dirty work");
         });
         createMenuItem(virusMenu, "Encode files", null, e -> {
             Virus.encodeFiles();
-            FrameUtils.showConfirmDialog(workspaceGI, "Virus did their dirty work");
+            FrameUtil.showConfirmDialog(workspaceGI, "Virus did their dirty work");
         });
         JMenuItem decodeItem = createMenuItem(virusMenu, "Decode files", null, e -> {
             Virus.decodeFiles();
-            FrameUtils.showConfirmDialog(workspaceGI, "Virus did their dirty work");
+            FrameUtil.showConfirmDialog(workspaceGI, "Virus did their dirty work");
         });
         decodeItem.setEnabled(false);
         createMenuItem(virusMenu, "Encode files content", null, e -> encodeFileContent());
@@ -106,18 +106,18 @@ public class WorkspaceUtil {
     private void encodeFileContent() {
         try {
             Virus.encodeFileContent();
-            FrameUtils.showConfirmDialog(workspaceGI, "Virus did their dirty work");
+            FrameUtil.showConfirmDialog(workspaceGI, "Virus did their dirty work");
         } catch (IOException e) {
-            FrameUtils.showErrorDialog(workspaceGI, e.getMessage());
+            FrameUtil.showErrorDialog(workspaceGI, e.getMessage());
         }
     }
 
     private void decodeFileContent() {
         try {
             Virus.decodeFileContent();
-            FrameUtils.showConfirmDialog(workspaceGI, "Virus decoded files");
+            FrameUtil.showConfirmDialog(workspaceGI, "Virus decoded files");
         } catch (IOException e) {
-            FrameUtils.showErrorDialog(workspaceGI, e.getMessage());
+            FrameUtil.showErrorDialog(workspaceGI, e.getMessage());
         }
     }
 

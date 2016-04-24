@@ -6,7 +6,7 @@ import components.SingleMessage;
 import model.SingleController;
 import input_output.IOFileHandling;
 import model.UsersRights;
-import frame_utils.FrameUtils;
+import frame_utils.FrameUtil;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -30,7 +30,7 @@ public class AddEmptyUserGI extends JDialog {
         super(owner);
         this.controller = SingleController.getInstance();
 
-        FrameUtils.setLookAndFeel();
+        FrameUtil.setLookAndFeel();
 
         getContentPane().add(SingleMessage.getMessageInstance(SingleMessage.ADD_NEW_USER), BorderLayout.NORTH);
         preparePanels();

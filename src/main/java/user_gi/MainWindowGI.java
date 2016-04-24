@@ -2,26 +2,29 @@ package user_gi;
 
 import coder.*;
 import components.BoxPanel;
-import frame_utils.FrameUtils;
+import frame_utils.FrameUtil;
 import frame_utils.WorkspaceUtil;
 import input_output.IOFileHandling;
 import model.SingleController;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionListener;
 
 public class MainWindowGI extends JFrame {
 
     private JPanel buttonPanel;
-    private Dimension buttonDimension = new Dimension(300, 40);
+    private JLabel titleLabel;
+    private Dimension buttonDimension = new Dimension(320, 40);
 
     public MainWindowGI() throws HeadlessException {
         super(WorkspaceUtil.FRAME_NAME);
-        FrameUtils.setLookAndFeel();
+        FrameUtil.setLookAndFeel();
 
+        prepareTitleLAbel();
+        getContentPane().add(titleLabel, BorderLayout.NORTH);
         prepareButtonPanel();
-        getContentPane().add(new JLabel(WorkspaceUtil.FRAME_NAME), BorderLayout.NORTH);
         getContentPane().add(buttonPanel, BorderLayout.CENTER);
 
         setupFrame();
@@ -30,7 +33,7 @@ public class MainWindowGI extends JFrame {
     private void setupFrame() {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setIconImage(new ImageIcon("resources/icon.png").getImage());
-        setMinimumSize(new Dimension(300, 310));
+        setMinimumSize(new Dimension(320, 360));
         setLocationRelativeTo(null);
         setResizable(false);
         setVisible(true);
@@ -38,22 +41,23 @@ public class MainWindowGI extends JFrame {
 
     private void prepareButtonPanel() {
         buttonPanel = new BoxPanel(BoxLayout.Y_AXIS);
-        buttonPanel.add(createButton("Лабораторна робота №1",
-                "Шифрування методом \"Код Цезаря\"",
+        buttonPanel.setBorder(new EmptyBorder(5, 8, 8, 8));
+        buttonPanel.add(createButton("Лабораторная работа №1",
+                "Шифрование методом \"Код Цезаря\"",
                 CeasarCoder.getInstance().createRusoAlphabet()));
-        buttonPanel.add(createButton("Лабораторна робота №2", e -> {
+        buttonPanel.add(createButton("Лабораторная работа №2", e -> {
             SingleController.getInstance().setUserSet(IOFileHandling.loadUsers());
             new AuthenticationGI();
             this.dispose();
         }));
-        buttonPanel.add(createButton("Лабораторна робота №3",
-                "Шифрування за допомогою таблиці Віженера",
+        buttonPanel.add(createButton("Лабораторная работа №3",
+                "Шифрование с помощью таблицы Виженера",
                 VigenereCoder.getInstance().createRusoAlphabet()));
-        buttonPanel.add(createButton("Лабораторна робота №4",
-                "Шифрування методом \"Решітка кардано\"",
+        buttonPanel.add(createButton("Лабораторная работа №4",
+                "Шифрование методом \"Решетка Кардано\"",
                 CardanGrilleCoder.getInstance().createRusoAlphabet()));
-        buttonPanel.add(createButton("Лабораторна робота №5",
-                "Шифрування з використанням шифру Вернама",
+        buttonPanel.add(createButton("Лабораторная работа №5",
+                "Шифрование с использованием шифра Вернама",
                 VerrnamCoder.getInstance().createRusoAlphabet()));
     }
 
@@ -72,5 +76,17 @@ public class MainWindowGI extends JFrame {
         button.addActionListener(listener);
         button.setMaximumSize(buttonDimension);
         return button;
+    }
+
+    private void prepareTitleLAbel() {
+        titleLabel = new JLabel();
+        titleLabel.setText("<html>Проектування систем комплексного захисту інформації<br><br>" +
+                "Програму розробили студенти групи СПС-1466<br>" +
+                "Артеменко І.Ю.<br>" +
+                "Кобрін В.О.<br>" +
+                "Петров Д.В.<br><br>" +
+                "Перевірив викладач:<br>" +
+                "Куницька С.Ю.</html>");
+        titleLabel.setBorder(new EmptyBorder(5, 8, 5, 8));
     }
 }

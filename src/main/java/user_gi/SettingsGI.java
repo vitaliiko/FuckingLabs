@@ -5,7 +5,7 @@ import components.SingleMessage;
 import components.BoxPanel;
 import components.LabelComponentPanel;
 import model.*;
-import frame_utils.FrameUtils;
+import frame_utils.FrameUtil;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -45,7 +45,7 @@ public class SettingsGI extends JDialog {
         this.controller = SingleController.getInstance();
         typeListener = new TypeListener();
 
-        FrameUtils.setLookAndFeel();
+        FrameUtil.setLookAndFeel();
         prepareComponents();
         setup();
     }

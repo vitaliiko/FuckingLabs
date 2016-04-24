@@ -6,7 +6,7 @@ import components.BoxPanel;
 import model.*;
 import components.UserInfoPanel;
 import components.UsersTableModel;
-import frame_utils.FrameUtils;
+import frame_utils.FrameUtil;
 
 import javax.swing.*;
 import javax.swing.table.TableModel;
@@ -43,7 +43,7 @@ public class UsersInfoGI extends JFrame {
         userInfoPanelsList = new ArrayList<>();
         userInfoPanelsList.addAll(usersList.stream().map(UserInfoPanel::new).collect(Collectors.toList()));
 
-        FrameUtils.setLookAndFeel();
+        FrameUtil.setLookAndFeel();
 
 //        getContentPane().add(SingleMessage.getMessageInstance(SingleMessage.USER_LIST), BorderLayout.NORTH);
 
