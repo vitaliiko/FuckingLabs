@@ -7,7 +7,7 @@ public class ConnectionUtil {
 
     public static final String DB_LOGIN = "root";
     public static final String DB_PASSWORD = "1111";
-    public static final String DB_NAME = "lab4";
+    public static final String DB_NAME = "lab2";
 
     public static Connection createConnection(String login, String password, String dbName) throws Exception {
         return DriverManager.getConnection("jdbc:mysql://localhost:3306/" + dbName, login, password);
