@@ -33,7 +33,7 @@ public class MainWindowGI extends JFrame {
     private void setupFrame() {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setIconImage(new ImageIcon("resources/icon.png").getImage());
-        setMinimumSize(new Dimension(320, 360));
+        setMinimumSize(new Dimension(320, 400));
         setLocationRelativeTo(null);
         setResizable(false);
         setVisible(true);
@@ -59,6 +59,9 @@ public class MainWindowGI extends JFrame {
         buttonPanel.add(createButton("Лабораторная работа №5",
                 "Шифрование с использованием шифра Вернама",
                 VerrnamCoder.getInstance().createRusoAlphabet()));
+        buttonPanel.add(createButton("РГР",
+                "Шифрование методом гаммирования",
+                XorCoder.getInstance().createRusoAlphabet()));
     }
 
     private JButton createButton(String title, String subject, Coder coder) {

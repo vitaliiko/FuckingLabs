@@ -1,3 +1,4 @@
+import coder.Mixer;
 import input_output.IOFileHandling;
 import model.*;
 import user_gi.AuthenticationGI;

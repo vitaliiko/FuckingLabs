@@ -1,6 +1,7 @@
 package user_gi;
 
 import coder.Coder;
+import coder.XorCoder;
 import components.BoxPanel;
 import frame_utils.FrameUtil;
 
@@ -75,11 +76,11 @@ public class FriendlyWorkspaceGI extends JFrame {
     private void prepareComponents() {
         inputTextField = new JTextField();
         inputTextField.getDocument().addDocumentListener(new InputTextListener());
-        inputPanel = createPanelWithComponents("Введите сообщение:", inputTextField);
+        inputPanel = createPanelWithComponents(coder instanceof XorCoder ? "Введите инициалы:" : "Введите сообщение:", inputTextField);
 
         keyTextField = new JTextField("5");
         keyTextField.getDocument().addDocumentListener(new InputTextListener());
-        keyPanel = createPanelWithComponents("Введите ключ:", keyTextField);
+        keyPanel = createPanelWithComponents(coder instanceof XorCoder ? "Введите гамму:" : "Введите ключ:", keyTextField);
 
         outputTextField = new JTextField();
         outputPanel = createPanelWithComponents("Результат:", outputTextField);

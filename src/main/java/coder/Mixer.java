@@ -28,7 +28,7 @@ public class Mixer {
         return primeNumbers.get(primeNumbers.size() - 1);
     }
 
-    private static int getNextPrimeNumber(){
+    private static int getNextPrimeNumber() {
         int nextPrime = primeNumbers.get(primeNumbers.size() - 1);
 
         int i = 1;
@@ -45,7 +45,7 @@ public class Mixer {
         return nextPrime;
     }
 
-    private static void generateSequence(int mesLength){
+    private static void generateSequence(int mesLength) {
         getPrimeNumber(mesLength);
 
         int primeNumber = getNextPrimeNumber();
@@ -63,7 +63,7 @@ public class Mixer {
         } while (sequence.lastIndexOf(1) != 0);
     }
 
-    public static String encode(String textLine){
+    public static String encode(String textLine) {
         char[] encodedLine = new char[textLine.length()];
 
         generateSequence(textLine.length());
@@ -82,7 +82,7 @@ public class Mixer {
         return String.valueOf(encodedLine);
     }
 
-    public static String decode(String encodedText){
+    public static String decode(String encodedText) {
         String decodedText = "";
 
         generateSequence(encodedText.length());
